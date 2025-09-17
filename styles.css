@@ -1,0 +1,770 @@
+/* Monmouth University Brand Colors */
+:root {
+    /* Primary Colors */
+    --shadow-blue: #002855;
+    --white: #ffffff;
+
+    /* Secondary Colors */
+    --pantone-2945: #004C97;
+    --pantone-292: #69B3E7;
+    --pantone-431: #5B6770;
+    --cool-gray-10: #63666A;
+    --cool-gray-7: #97999B;
+    --cool-gray-3: #C8C9C7;
+}
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Proxima Nova', -webkit-system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--shadow-blue);
+    background-color: var(--white);
+}
+
+/* Grid-Based Container System */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+/* Responsive Grid Utilities */
+.grid {
+    display: grid;
+    gap: 2rem;
+}
+
+.grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.grid-auto-fit {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.grid-auto-fill {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+/* Header Styles */
+.header {
+    background-color: var(--shadow-blue);
+    color: var(--white);
+    padding: 2rem 0;
+    text-align: center;
+}
+
+.header .container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    align-items: center;
+    justify-items: center;
+}
+
+.logo-section {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo {
+    height: 80px;
+    width: auto;
+    background-color: var(--white);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.main-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    font-weight: 300;
+    opacity: 0.9;
+}
+
+/* Main Content Styles */
+.main-content {
+    padding: 3rem 0;
+}
+
+.main-content .container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4rem;
+}
+
+section {
+    display: grid;
+    gap: 2rem;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--shadow-blue);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--pantone-2945);
+    margin-bottom: 1rem;
+}
+
+h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--shadow-blue);
+    margin-bottom: 0.75rem;
+}
+
+p {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+
+/* Intro Section */
+.intro-section {
+    text-align: center;
+    background: linear-gradient(135deg, var(--pantone-292) 0%, var(--pantone-2945) 100%);
+    color: var(--white);
+    padding: 3rem 2rem;
+    border-radius: 12px;
+    margin-bottom: 4rem;
+}
+
+.intro-text {
+    font-size: 1.25rem;
+    font-weight: 300;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Content Grid */
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+@supports (display: subgrid) {
+    .content-grid {
+        display: subgrid;
+        grid-template-rows: subgrid;
+    }
+}
+
+.card {
+    background-color: var(--white);
+    border: 2px solid var(--cool-gray-3);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 40, 85, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 40, 85, 0.15);
+    border-color: var(--pantone-292);
+}
+
+/* Activities Grid */
+.activities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.activity-item {
+    background-color: var(--cool-gray-3);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--pantone-2945);
+    transition: background-color 0.3s ease;
+}
+
+.activity-item:hover {
+    background-color: var(--pantone-292);
+    color: var(--white);
+}
+
+.activity-item:hover h4 {
+    color: var(--white);
+}
+
+/* Executive Board Section */
+.executive-board-section {
+    background-color: var(--white);
+    padding: 4rem 0;
+    margin: 3rem 0;
+}
+
+.board-intro {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--cool-gray-10);
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    font-weight: 300;
+}
+
+.board-page-link {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.view-full-board-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--pantone-292) 0%, var(--pantone-2945) 100%);
+    color: var(--white);
+    text-decoration: none;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(0, 76, 151, 0.3);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.view-full-board-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 76, 151, 0.4);
+    background: linear-gradient(135deg, var(--pantone-2945) 0%, var(--shadow-blue) 100%);
+}
+
+.board-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+    margin-top: 3rem;
+}
+
+.board-member {
+    background-color: var(--white);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 40, 85, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid var(--cool-gray-3);
+}
+
+.board-member:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 40, 85, 0.15);
+    border-color: var(--pantone-292);
+}
+
+.member-photo {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.member-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--pantone-292);
+    transition: border-color 0.3s ease;
+    background-color: var(--cool-gray-3);
+}
+
+.board-member:hover .member-img {
+    border-color: var(--pantone-2945);
+}
+
+.member-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--shadow-blue);
+    margin-bottom: 0.5rem;
+}
+
+.member-role {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--pantone-2945);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.member-email {
+    font-size: 0.9rem;
+    color: var(--cool-gray-7);
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
+.member-description {
+    font-size: 0.95rem;
+    color: var(--cool-gray-10);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Benefits Section */
+.benefits-section {
+    background-color: var(--cool-gray-3);
+    padding: 3rem 2rem;
+    border-radius: 12px;
+}
+
+.benefits-list {
+    list-style: none;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.benefits-list li {
+    font-size: 1.1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--cool-gray-7);
+    position: relative;
+    padding-left: 2rem;
+}
+
+.benefits-list li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--pantone-2945);
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.benefits-list li:last-child {
+    border-bottom: none;
+}
+
+/* Membership Section */
+.membership-section {
+    background: linear-gradient(135deg, var(--shadow-blue) 0%, var(--pantone-2945) 100%);
+    color: var(--white);
+    padding: 3rem 2rem;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.membership-section h2 {
+    color: var(--white);
+}
+
+.membership-info {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.contact-info {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 8px;
+    margin-top: 2rem;
+}
+
+.contact-info h4 {
+    color: var(--white);
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+}
+
+.contact-intro {
+    color: var(--white);
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.direct-contact {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.direct-email-button {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--pantone-292) 0%, var(--pantone-2945) 100%);
+    color: var(--white);
+    text-decoration: none;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(105, 179, 231, 0.4);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.direct-email-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(105, 179, 231, 0.5);
+    background: linear-gradient(135deg, var(--pantone-2945) 0%, var(--shadow-blue) 100%);
+}
+
+.social-reminder {
+    color: var(--white);
+    opacity: 0.8;
+    font-size: 0.95rem;
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.instagram-link {
+    color: var(--pantone-292);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.instagram-link:hover {
+    color: var(--white);
+    text-decoration: underline;
+}
+
+.signup-button-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    justify-items: center;
+    margin: 2rem 0;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.signup-button {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--pantone-292) 0%, var(--pantone-2945) 100%);
+    color: var(--white);
+    text-decoration: none;
+    padding: 1rem 2.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0, 76, 151, 0.3);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.signup-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 76, 151, 0.4);
+    background: linear-gradient(135deg, var(--pantone-2945) 0%, var(--shadow-blue) 100%);
+}
+
+.discord-button {
+    display: inline-block;
+    background: linear-gradient(135deg, #5865F2 0%, #404EED 100%);
+    color: var(--white);
+    text-decoration: none;
+    padding: 1rem 2.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.discord-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(88, 101, 242, 0.4);
+    background: linear-gradient(135deg, #404EED 0%, #36317C 100%);
+}
+
+.instagram-button {
+    display: inline-block;
+    background: linear-gradient(135deg, #E4405F 0%, #C13584 50%, #833AB4 100%);
+    color: var(--white);
+    text-decoration: none;
+    padding: 1rem 2.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(228, 64, 95, 0.3);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.instagram-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(228, 64, 95, 0.4);
+    background: linear-gradient(135deg, #C13584 0%, #833AB4 50%, #5851DB 100%);
+}
+
+/* Footer */
+.footer {
+    background-color: var(--cool-gray-10);
+    color: var(--white);
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: 3rem;
+}
+
+/* Responsive Design - Mobile First Approach */
+
+/* Extra Large Screens */
+@media (min-width: 1400px) {
+    .container {
+        max-width: 1320px;
+        padding: 0 24px;
+    }
+
+    .grid-auto-fit {
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    }
+
+    .content-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Large Screens */
+@media (min-width: 1200px) and (max-width: 1399px) {
+    .content-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .activities-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Medium Screens */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .container {
+        padding: 0 20px;
+    }
+
+    .signup-button-container {
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 600px;
+    }
+}
+
+/* Small to Medium Screens */
+@media (min-width: 768px) and (max-width: 991px) {
+    .signup-button-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+
+    .logo-section {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+}
+
+/* Tablet and Small Screens */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+        gap: 2rem;
+    }
+
+    .main-content .container {
+        gap: 3rem;
+    }
+
+    .header .container {
+        gap: 1rem;
+    }
+
+    .main-title {
+        font-size: 2rem;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    .logo-section {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .logo {
+        height: 60px;
+    }
+
+    .content-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .activities-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .board-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .signup-button-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        max-width: 300px;
+    }
+
+    .signup-button,
+    .discord-button,
+    .instagram-button {
+        width: 100%;
+    }
+
+    .board-member {
+        padding: 1.5rem;
+    }
+
+    .intro-section,
+    .benefits-section,
+    .membership-section {
+        padding: 2rem 1rem;
+    }
+}
+
+/* Mobile Phones */
+@media (max-width: 480px) {
+    .container {
+        padding: 0 10px;
+        gap: 1.5rem;
+    }
+
+    .main-content .container {
+        gap: 2.5rem;
+    }
+
+    .main-title {
+        font-size: 1.75rem;
+        text-align: center;
+    }
+
+    .subtitle {
+        font-size: 0.9rem;
+    }
+
+    .logo {
+        height: 50px;
+    }
+
+    .intro-section,
+    .benefits-section,
+    .membership-section {
+        padding: 1.5rem 1rem;
+        margin: 1rem 0;
+    }
+
+    .card,
+    .activity-item {
+        padding: 1.25rem;
+    }
+
+    .board-member {
+        padding: 1.25rem;
+    }
+
+    .signup-button-container {
+        max-width: 280px;
+        gap: 0.75rem;
+    }
+
+    .signup-button,
+    .discord-button,
+    .instagram-button {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.9rem;
+    }
+
+    .direct-email-button {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.9rem;
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .activities-grid {
+        gap: 1rem;
+    }
+
+    .content-grid {
+        gap: 1rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+    }
+}
+
+/* Extra Small Mobile Devices */
+@media (max-width: 320px) {
+    .container {
+        padding: 0 8px;
+    }
+
+    .main-title {
+        font-size: 1.5rem;
+    }
+
+    .logo {
+        height: 40px;
+    }
+
+    .intro-section,
+    .benefits-section,
+    .membership-section {
+        padding: 1rem 0.5rem;
+    }
+
+    .signup-button,
+    .discord-button,
+    .instagram-button,
+    .direct-email-button {
+        font-size: 0.8rem;
+        padding: 0.625rem 1rem;
+    }
+}
