@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Workshops & Research | IEEE/ACM Chapter | Monmouth University</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="monmouth-ai-workshops-v2.css">
+    <link rel="stylesheet" href="workshop-forms.css">
+</head>
+<body>
+    <!-- Registration Modal -->
+    <div id="registrationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-plus"></i> Workshop Registration</h2>
+                <button class="close-modal" onclick="closeRegistrationModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="event-details" class="event-summary"></div>
+                <form id="registrationForm">
+                    <input type="hidden" id="reg-eventId" name="eventId">
+                    <input type="hidden" id="reg-eventTitle" name="eventTitle">
+                    <input type="hidden" id="reg-eventDate" name="eventDate">
+                    <div class="form-section">
+                        <h3>Personal Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name <span class="required">*</span></label>
+                                <input type="text" id="firstName" name="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name <span class="required">*</span></label>
+                                <input type="text" id="lastName" name="lastName" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email <span class="required">*</span></label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" placeholder="(123) 456-7890">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <h3>Affiliation</h3>
+                        <div class="form-group">
+                            <label for="affiliation">I am a <span class="required">*</span></label>
+                            <select id="affiliation" name="affiliation" required onchange="toggleStudentFields()">
+                                <option value="">Select...</option>
+                                <option value="undergraduate">Undergraduate Student</option>
+                                <option value="graduate">Graduate Student</option>
+                                <option value="faculty">Faculty Member</option>
+                                <option value="staff">Staff Member</option>
+                                <option value="alumni">Alumni</option>
+                                <option value="external">External Professional</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div id="studentFields" style="display: none;">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="studentId">Student ID</label>
+                                    <input type="text" id="studentId" name="studentId" placeholder="1234567" pattern="[0-9]{7}" maxlength="7">
+                                    <small style="display: block; margin-top: 4px; color: #666; font-size: 0.85rem;">Enter 7 digits without the "s" prefix</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="department">Department/Major</label>
+                                    <input type="text" id="department" name="department" placeholder="e.g., Computer Science">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <h3>Interests & Preferences</h3>
+                        <div class="form-group">
+                            <label>What interests you most about this workshop?</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="interests" value="learning-ai">Learning AI fundamentals</label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="interests" value="hands-on">Hands-on practice</label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="interests" value="networking">Networking opportunities</label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="interests" value="research">Research opportunities</label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="interests" value="career">Career development</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="dietaryRestrictions">Dietary Restrictions</label>
+                            <input type="text" id="dietaryRestrictions" name="dietaryRestrictions" placeholder="e.g., Vegetarian, None">
+                        </div>
+                        <div class="form-group">
+                            <label for="accessibility">Accessibility Needs</label>
+                            <textarea id="accessibility" name="accessibility" rows="2" placeholder="Please let us know if you need any accommodations"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="comments">Additional Comments</label>
+                            <textarea id="comments" name="comments" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="closeRegistrationModal()">Cancel</button>
+                        <button type="submit" class="btn-primary"><i class="fas fa-check"></i> Complete Registration</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Messages -->
+    <div id="successMessage" class="success-toast"><i class="fas fa-check-circle"></i><span id="successText"></span></div>
+    <div id="errorMessage" class="error-toast"><i class="fas fa-exclamation-circle"></i><span id="errorText"></span></div>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="wrapper">
+            <div class="header-inner">
+                <div class="logo">
+                    <a href="https://www.monmouth.edu">
+                        <span style="color: #fff; font-size: 1.5rem; font-weight: 700;">Monmouth University</span>
+                    </a>
+                </div>
+                <nav class="main-nav">
+                    <ul class="nav-menu">
+                        <li><a href="https://www.monmouth.edu">Home</a></li>
+                        <li><a href="https://www.monmouth.edu/academics/">Academics</a></li>
+                        <li><a href="https://www.monmouth.edu/department-of-csse/">CSSE Department</a></li>
+                        <li><a href="index.html">IEEE/ACM Chapter</a></li>
+                        <li><a href="#about">About AI Lab</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                    <button class="mobile-toggle" aria-label="Toggle mobile menu">
+                        <span></span><span></span><span></span>
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs">
+        <div class="wrapper">
+            <nav aria-label="Breadcrumb">
+                <ol>
+                    <li><a href="https://www.monmouth.edu">Home</a></li>
+                    <li><a href="https://www.monmouth.edu/academics/">Academics</a></li>
+                    <li><a href="https://www.monmouth.edu/school-of-science/">School of Science</a></li>
+                    <li><a href="https://www.monmouth.edu/department-of-csse/">Department of CSSE</a></li>
+                    <li><a href="index.html">IEEE/ACM Chapter</a></li>
+                    <li aria-current="page">AI Workshops & Research</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="wp-block-mu-hero has-featured-image">
+        <div class="hero-media"><div class="hero-overlay"></div></div>
+        <div class="hero-content-wrapper">
+            <div class="brackets"></div>
+            <h1 class="hero-title">AI Workshops & Research</h1>
+            <div class="hero-text">
+                <p>An IEEE/ACM Chapter Initiative</p>
+                <p>Advancing artificial intelligence through cutting-edge research, collaborative projects, and educational workshops.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-holder">
+        <div class="wrapper">
+            <div class="content-and-navigator">
+                <!-- Sidebar Navigation -->
+                <aside class="navigator">
+                    <nav class="supernav" aria-label="Section Navigation">
+                        <ul>
+                            <li><a href="index.html"><i class="fas fa-arrow-left"></i> Back to IEEE/ACM</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#about">About AI Lab</a></li>
+                            <li><a href="#research">Research Areas</a></li>
+                            <li><a href="#projects">Active Projects</a></li>
+                            <li><a href="#seminars">Workshops & Seminars</a></li>
+                            <li><a href="#team">Research Team</a></li>
+                            <li><a href="#resources">Resources</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                            <li class="divider"></li>
+                            <li><a href="https://www.instagram.com/monmouth_ieeeacm/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        </ul>
+                    </nav>
+                </aside>
+
+                <!-- Main Content Area -->
+                <main class="content">
+                    <!-- About Section -->
+                    <section id="about" class="content-section">
+                        <h2>Welcome to the AI Research Lab</h2>
+                        <p class="lead">The IEEE/ACM AI Workshops and Research Lab brings together students, faculty, and industry professionals to explore the frontiers of artificial intelligence and machine learning.</p>
+
+                        <div class="info-callout">
+                            <i class="fas fa-info-circle"></i>
+                            <div>
+                                <strong>Organized by IEEE/ACM Student Chapter</strong>
+                                <p>These workshops are part of the IEEE/ACM chapter's commitment to providing cutting-edge learning opportunities to Monmouth University students.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Research Areas Section -->
+                    <section id="research" class="content-section">
+                        <h2>Research Areas</h2>
+                        <div class="research-grid">
+                            <div class="research-card">
+                                <i class="fas fa-brain"></i>
+                                <h3>Machine Learning</h3>
+                                <p>Neural networks, deep learning, and advanced ML algorithms</p>
+                            </div>
+                            <div class="research-card">
+                                <i class="fas fa-comments"></i>
+                                <h3>Natural Language Processing</h3>
+                                <p>Language models, chatbots, and text analysis</p>
+                            </div>
+                            <div class="research-card">
+                                <i class="fas fa-eye"></i>
+                                <h3>Computer Vision</h3>
+                                <p>Image recognition, object detection, and visual AI</p>
+                            </div>
+                            <div class="research-card">
+                                <i class="fas fa-robot"></i>
+                                <h3>Robotics & AI</h3>
+                                <p>Autonomous systems and intelligent agents</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Active Projects Section -->
+                    <section id="projects" class="content-section">
+                        <h2>Active Projects</h2>
+                        <div class="project-list">
+                            <article class="project-card">
+                                <h3>AI-Powered Student Assistant</h3>
+                                <p>Developing an intelligent chatbot to help students with course selection, academic resources, and campus navigation.</p>
+                                <p><strong>Technologies:</strong> LLMs, Python, n8n</p>
+                            </article>
+                            <article class="project-card">
+                                <h3>Computer Vision for Campus Safety</h3>
+                                <p>Real-time object detection system for enhancing campus security and monitoring.</p>
+                                <p><strong>Technologies:</strong> YOLO, OpenCV, PyTorch</p>
+                            </article>
+                            <article class="project-card">
+                                <h3>NLP Research Database</h3>
+                                <p>Building an advanced search and analysis tool for academic research papers.</p>
+                                <p><strong>Technologies:</strong> Transformers, Vector DBs, Python</p>
+                            </article>
+                        </div>
+                    </section>
+
+                    <!-- Workshops & Seminars Section -->
+                    <section id="seminars" class="content-section">
+                        <h2>Workshops & Seminars</h2>
+                        <h3>Upcoming Events</h3>
+                        <div class="event-list">
+                            <article class="event-card featured">
+                                <div class="event-date"><span class="day">15</span><span class="month">Nov</span></div>
+                                <div class="event-content">
+                                    <span class="event-category">Machine Learning</span>
+                                    <h4>Introduction to Neural Networks</h4>
+                                    <p>Hands-on workshop covering fundamentals of neural networks and PyTorch.</p>
+                                    <p><strong>Speaker:</strong> Dr. Sarah Mitchell<br>
+                                    <strong>Time:</strong> 2:00 PM - 4:00 PM<br>
+                                    <strong>Location:</strong> Howard Hall 235</p>
+                                    <a href="javascript:void(0)" class="btn-primary" onclick="openRegistrationModal('event-neural-networks', 'Introduction to Neural Networks', 'November 15, 2025, 2:00 PM - 4:00 PM')">Register Now</a>
+                                </div>
+                            </article>
+
+                            <article class="event-card">
+                                <div class="event-date"><span class="day">22</span><span class="month">Nov</span></div>
+                                <div class="event-content">
+                                    <span class="event-category">NLP</span>
+                                    <h4>Building Chatbots with LLMs</h4>
+                                    <p>Learn to create intelligent chatbots using large language models.</p>
+                                    <p><strong>Speaker:</strong> Prof. James Chen<br>
+                                    <strong>Time:</strong> 3:30 PM - 5:30 PM<br>
+                                    <strong>Location:</strong> Jules L. Plangere Jr. Center</p>
+                                    <a href="javascript:void(0)" class="btn-primary" onclick="openRegistrationModal('event-chatbots-llm', 'Building Chatbots with LLMs', 'November 22, 2025, 3:30 PM - 5:30 PM')">Register Now</a>
+                                </div>
+                            </article>
+
+                            <article class="event-card">
+                                <div class="event-date"><span class="day">29</span><span class="month">Nov</span></div>
+                                <div class="event-content">
+                                    <span class="event-category">Computer Vision</span>
+                                    <h4>Object Detection with YOLO</h4>
+                                    <p>Dive into real-time object detection using YOLO architecture.</p>
+                                    <p><strong>Speaker:</strong> Dr. Emily Rodriguez<br>
+                                    <strong>Time:</strong> 1:00 PM - 3:00 PM<br>
+                                    <strong>Location:</strong> Howard Hall 240</p>
+                                    <a href="javascript:void(0)" class="btn-primary" onclick="openRegistrationModal('event-yolo-detection', 'Object Detection with YOLO', 'November 29, 2025, 1:00 PM - 3:00 PM')">Register Now</a>
+                                </div>
+                            </article>
+                        </div>
+                    </section>
+
+                    <!-- Research Team Section -->
+                    <section id="team" class="content-section">
+                        <h2>Research Team</h2>
+                        <p>Our team consists of dedicated students, faculty advisors, and industry partners.</p>
+
+                        <h3>Student Leaders</h3>
+                        <div class="team-grid">
+                            <div class="team-card">
+                                <div class="team-avatar" style="background: linear-gradient(135deg, #004C97, #002855); color: white; font-size: 2rem; font-weight: bold;">KG</div>
+                                <h4>Kiumbura Githinji</h4>
+                                <p class="team-role">AI Lab Coordinator<br>IEEE/ACM President</p>
+                                <p class="team-contact"><i class="fas fa-envelope"></i> <a href="mailto:s1358017@monmouth.edu">s1358017@monmouth.edu</a></p>
+                            </div>
+                        </div>
+
+                        <h3 style="margin-top: 2rem;">Faculty Advisor</h3>
+                        <div class="team-grid">
+                            <div class="team-card">
+                                <div class="team-avatar" style="background: linear-gradient(135deg, #002855, #0d64b2); color: white; font-size: 1.5rem;">
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                                <h4>Dr. Ling Zheng</h4>
+                                <p class="team-role">Department Chair<br>Computer Science & Software Engineering</p>
+                                <p class="team-contact"><i class="fas fa-envelope"></i> <a href="mailto:lzheng@monmouth.edu">lzheng@monmouth.edu</a></p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Resources Section -->
+                    <section id="resources" class="content-section">
+                        <h2>Resources</h2>
+                        <div class="resources-grid">
+                            <div class="resource-card">
+                                <i class="fas fa-book"></i>
+                                <h3>Learning Materials</h3>
+                                <ul>
+                                    <li><a href="#">Workshop Slides & Code</a></li>
+                                    <li><a href="#">Tutorial Videos</a></li>
+                                    <li><a href="#">Recommended Reading</a></li>
+                                </ul>
+                            </div>
+                            <div class="resource-card">
+                                <i class="fas fa-tools"></i>
+                                <h3>Tools & Software</h3>
+                                <ul>
+                                    <li><a href="https://pytorch.org" target="_blank">PyTorch</a></li>
+                                    <li><a href="https://www.tensorflow.org" target="_blank">TensorFlow</a></li>
+                                    <li><a href="https://scikit-learn.org" target="_blank">Scikit-learn</a></li>
+                                </ul>
+                            </div>
+                            <div class="resource-card">
+                                <i class="fas fa-graduation-cap"></i>
+                                <h3>Online Courses</h3>
+                                <ul>
+                                    <li><a href="https://www.coursera.org/learn/machine-learning" target="_blank">Machine Learning (Coursera)</a></li>
+                                    <li><a href="https://www.fast.ai" target="_blank">Fast.ai</a></li>
+                                    <li><a href="https://www.deeplearning.ai" target="_blank">DeepLearning.AI</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Contact Section -->
+                    <section id="contact" class="content-section">
+                        <h2>Get Involved</h2>
+                        <p>Interested in joining our AI workshops or research projects? We welcome all Monmouth University students!</p>
+
+                        <div class="contact-info">
+                            <div class="contact-block">
+                                <h3><i class="fas fa-envelope"></i> Email</h3>
+                                <p><strong>Student Coordinator:</strong><br>
+                                <a href="mailto:s1358017@monmouth.edu">s1358017@monmouth.edu</a><br>
+                                <em>Kiumbura Githinji, IEEE/ACM President</em></p>
+                                <p style="margin-top: 1rem;"><strong>Faculty Advisor:</strong><br>
+                                <a href="mailto:lzheng@monmouth.edu">lzheng@monmouth.edu</a><br>
+                                <em>Dr. Ling Zheng, Department Chair</em></p>
+                            </div>
+                            <div class="contact-block">
+                                <h3><i class="fas fa-users"></i> Join the Community</h3>
+                                <p><a href="https://www.instagram.com/monmouth_ieeeacm/" target="_blank"><i class="fab fa-instagram"></i> Follow on Instagram</a><br>
+                                <a href="https://forms.office.com/r/qm0mq5jU4W" target="_blank"><i class="fas fa-user-plus"></i> Become an IEEE/ACM Member</a></p>
+                            </div>
+                            <div class="contact-block">
+                                <h3><i class="fas fa-map-marker-alt"></i> Location</h3>
+                                <p>Howard Hall, Room 221<br>Monmouth University<br>West Long Branch, NJ 07764<br><br>
+                                <strong>Phone:</strong> (732) 571-3400</p>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="wrapper">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>IEEE/ACM Monmouth</h3>
+                    <p>AI Workshops & Research<br>Student Chapter Initiative</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">IEEE/ACM Main Page</a></li>
+                        <li><a href="https://www.monmouth.edu">Monmouth Home</a></li>
+                        <li><a href="https://www.monmouth.edu/department-of-csse/">CSSE Department</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <ul>
+                        <li><a href="https://www.instagram.com/monmouth_ieeeacm/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li><a href="mailto:s1358017@monmouth.edu"><i class="fas fa-envelope"></i> Email</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 IEEE/ACM Monmouth University Chapter. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="monmouth-ai-workshops-v2.js"></script>
+    <script src="workshop-forms.js"></script>
+    <script src="chatbot.js"></script>
+    <script>
+        console.log('✅ AI Workshops page loaded');
+        console.log('✅ Registration system ready');
+    </script>
+</body>
+</html>
