@@ -10,98 +10,6 @@
     <link rel="stylesheet" href="workshop-forms.css">
 </head>
 <body>
-    <!-- Informed Consent Modal -->
-    <div id="consentModal" class="modal">
-        <div class="modal-content" style="max-width: 900px; max-height: 90vh; overflow-y: auto;">
-            <div class="modal-header">
-                <h2 style="color: #002855; margin: 0;">
-                    <i class="fas fa-file-contract"></i> Research Study Informed Consent
-                </h2>
-                <button class="close-modal" onclick="closeConsentModal()">&times;</button>
-            </div>
-
-            <div class="modal-body" style="padding: 2rem;">
-                <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; border-left: 4px solid #E57200;">
-                    <h3 style="color: #002855; margin-top: 0; font-size: 1.3rem;">
-                        Improving Efficiency in Higher Education through Customized AI Training
-                    </h3>
-
-                    <div style="margin-top: 1rem; line-height: 1.6;">
-                        <p><strong>Principal Investigator:</strong> Weihao Qu<br>
-                        Phone: 732-263-5396 | Email: <a href="mailto:wqu@monmouth.edu">wqu@monmouth.edu</a></p>
-
-                        <p><strong>Co-Investigator:</strong> Ling Zheng<br>
-                        Phone: 732-571-4459 | Email: <a href="mailto:lzheng@monmouth.edu">lzheng@monmouth.edu</a></p>
-                    </div>
-                </div>
-
-                <div style="line-height: 1.8; color: #333;">
-                    <p style="font-size: 1.05rem; margin-bottom: 1.5rem;">
-                        <strong>You are being asked to be a participant in a research study.</strong>
-                    </p>
-
-                    <h4 style="color: #002855; margin-top: 1.5rem;">What is the purpose of this study?</h4>
-                    <p>The purpose of this study is about how artificial intelligence (AI) tools can be used to improve efficiency in learning, studying, and working at a mid-sized college. The goal of this project is to design and test customized AI training workshops, one-on-one sessions, and online modules for students, staff, and faculty.</p>
-
-                    <h4 style="color: #002855; margin-top: 1.5rem;">What will you have to do, if you agree to be in the study?</h4>
-                    <p>If you agree to be in this study, your part will involve:</p>
-                    <ul style="margin-left: 1.5rem;">
-                        <li>Attend an AI workshop (about 45–60 minutes).</li>
-                        <li>Complete a short survey (5–10 minutes) at the end of the workshop.</li>
-                        <li>Receive a follow-up survey about one month later (5–10 minutes).</li>
-                    </ul>
-                    <p><strong>Your total participation time will be about 55–80 minutes.</strong></p>
-
-                    <h4 style="color: #002855; margin-top: 1.5rem;">Are there any possible risks to being in this study?</h4>
-                    <p>If you agree to be in this study, there are no foreseeable risks to you, above those that you experience in your daily life.</p>
-
-                    <h4 style="color: #002855; margin-top: 1.5rem;">Are there any possible benefits to being in this study?</h4>
-                    <p>There is no direct benefit to you by participating in this study.</p>
-
-                    <h4 style="color: #002855; margin-top: 1.5rem;">How will your study information be protected?</h4>
-                    <p>Your name will not be linked in any way to the information you provide. Neither IP addresses nor any other identifiable information will be collected. The registered email will be collected during the one-on-one training in order to contact the participants with the post survey.</p>
-
-                    <p>Data will be collected using the Internet; no guarantees can be made regarding the interception of data sent via the Internet by any third party. Confidentiality will be maintained to the degree permitted by the technology used.</p>
-
-                    <p>Your information will be viewed by the study team and other people within Monmouth University who help administer and oversee research. If information from this study is published or presented at scientific meetings, your name and other identifiable information will not be used.</p>
-
-                    <h4 style="color: #002855; margin-top: 1.5rem;">Important Contact Information</h4>
-                    <p>Please contact Dr. Weihao Qu at <a href="tel:732-263-5396">732-263-5396</a> or via e-mail at <a href="mailto:wqu@monmouth.edu">wqu@monmouth.edu</a> if you have any questions about the study, or if you believe you have experienced harm or injury as a result of being in this study.</p>
-
-                    <p>If your participation in this research study has caused you to feel uncomfortable in any way, or if by participating in this research study it has prompted you to consider personal matters about which you are concerned, we encourage you to immediately stop participating in this research study and strongly encourage you to contact support services:</p>
-                    <ul style="margin-left: 1.5rem;">
-                        <li><strong>Monmouth University students:</strong> Contact Counseling and Psychological Services (CPS) at <a href="tel:732-571-7517">732-571-7517</a></li>
-                        <li><strong>Monmouth University employees:</strong> Contact Employee Assistance Program (EAP) at <a href="tel:1-800-300-0628">1-800-300-0628</a></li>
-                        <li><strong>General public:</strong> Contact your local community mental health center or the National Helpline of the Substance Abuse and Mental Health Services Administration (SAMHSA) at <a href="tel:1-800-662-4357">1-800-662-HELP (4357)</a> — a free, confidential, 24/7 resource</li>
-                    </ul>
-
-                    <p>For any questions about your rights as a research participant, please contact the Monmouth University Institutional Review Board via e-mail at <a href="mailto:IRB@monmouth.edu">IRB@monmouth.edu</a>.</p>
-
-                    <h4 style="color: #002855; margin-top: 1.5rem;">Your participation is voluntary!</h4>
-                    <p>Your participation in this study is voluntary. You may decide not to participate at all or, if you start the study, you may withdraw at any time without any penalty. Withdrawal or refusing to participate will not affect your relationship with Monmouth University in any way.</p>
-
-                    <div style="background: #fff3cd; border: 2px solid #ffc107; padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
-                        <p style="margin: 0; font-size: 1.05rem; color: #333;">
-                            <strong>If you click 'I ACCEPT' below:</strong> It means that you have (a) read this consent form, (b) you agree to be a participant in this study, and (c) you are over 18 years old.
-                        </p>
-                        <p style="margin: 1rem 0 0 0; font-size: 1.05rem; color: #333;">
-                            <strong>If you click 'I DO NOT AGREE':</strong> You will still go through the steps listed within the purpose of the study, but your data will not be used for research purposes.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal-footer" style="padding: 1.5rem; background: #f8f9fa; display: flex; gap: 1rem; justify-content: center;">
-                <button type="button" class="btn-secondary" onclick="proceedToRegistration(false)" style="padding: 1rem 2rem; font-size: 1.1rem;">
-                    <i class="fas fa-times-circle"></i> I DO NOT AGREE
-                </button>
-                <button type="button" class="btn-primary" onclick="proceedToRegistration(true)" style="padding: 1rem 2rem; font-size: 1.1rem;">
-                    <i class="fas fa-check-circle"></i> I ACCEPT
-                </button>
-            </div>
-        </div>
-    </div>
-
     <!-- Registration Modal -->
     <div id="registrationModal" class="modal">
         <div class="modal-content">
@@ -197,149 +105,6 @@
                             <textarea id="comments" name="comments" rows="3"></textarea>
                         </div>
                     </div>
-
-                    <!-- Pre-Workshop Survey -->
-                    <div class="survey-section" style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid #E57200;">
-                        <h3 style="color: #002855; margin-bottom: 1.5rem;">
-                            <i class="fas fa-clipboard-list"></i> Pre-Workshop Survey
-                        </h3>
-                        <p style="color: #666; margin-bottom: 1.5rem;">
-                            Please answer these questions to help us understand your current knowledge level.
-                        </p>
-
-                        <!-- Question 1: AI Familiarity -->
-                        <div class="form-group" style="margin-bottom: 1.5rem;">
-                            <label class="form-label" style="font-weight: 600; color: #002855; margin-bottom: 0.75rem; display: block;">
-                                1. How familiar were you with AI tools before this workshop? <span style="color: #E57200;">*</span>
-                            </label>
-                            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                                <label class="radio-option" style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; transition: all 0.3s;">
-                                    <input type="radio" name="aiFamiliarity" value="not-at-all" required style="margin-right: 0.75rem; width: 18px; height: 18px;">
-                                    <span>Not at all familiar</span>
-                                </label>
-                                <label class="radio-option" style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; transition: all 0.3s;">
-                                    <input type="radio" name="aiFamiliarity" value="slightly" required style="margin-right: 0.75rem; width: 18px; height: 18px;">
-                                    <span>Slightly familiar</span>
-                                </label>
-                                <label class="radio-option" style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; transition: all 0.3s;">
-                                    <input type="radio" name="aiFamiliarity" value="somewhat" required style="margin-right: 0.75rem; width: 18px; height: 18px;">
-                                    <span>Somewhat familiar</span>
-                                </label>
-                                <label class="radio-option" style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; transition: all 0.3s;">
-                                    <input type="radio" name="aiFamiliarity" value="very" required style="margin-right: 0.75rem; width: 18px; height: 18px;">
-                                    <span>Very familiar</span>
-                                </label>
-                                <label class="radio-option" style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; transition: all 0.3s;">
-                                    <input type="radio" name="aiFamiliarity" value="extremely" required style="margin-right: 0.75rem; width: 18px; height: 18px;">
-                                    <span>Extremely familiar</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- Question 2: Website Building Familiarity -->
-                        <div class="form-group" style="margin-bottom: 1.5rem;">
-                            <label class="form-label" style="font-weight: 600; color: #002855; margin-bottom: 0.75rem; display: block;">
-                                2. How familiar were you with website building before this workshop? <span style="color: #E57200;">*</span>
-                            </label>
-                            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                                <label class="radio-option" style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; transition: all 0.3s;">
-                                    <input type="radio" name="websiteFamiliarity" value="none" required style="margin-right: 0.75rem; width: 18px; height: 18px;">
-                                    <span>None</span>
-                                </label>
-                                <label class="radio-option" style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; transition: all 0.3s;">
-                                    <input type="radio" name="websiteFamiliarity" value="basic" required style="margin-right: 0.75rem; width: 18px; height: 18px;">
-                                    <span>Basic knowledge (e.g., used templates)</span>
-                                </label>
-                                <label class="radio-option" style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; transition: all 0.3s;">
-                                    <input type="radio" name="websiteFamiliarity" value="intermediate" required style="margin-right: 0.75rem; width: 18px; height: 18px;">
-                                    <span>Intermediate (e.g., edited HTML/CSS)</span>
-                                </label>
-                                <label class="radio-option" style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; transition: all 0.3s;">
-                                    <input type="radio" name="websiteFamiliarity" value="advanced" required style="margin-right: 0.75rem; width: 18px; height: 18px;">
-                                    <span>Advanced (built a website from scratch)</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Post-Workshop Survey -->
-                    <div class="survey-section" style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid #E57200;">
-                        <h3 style="color: #002855; margin-bottom: 1.5rem;">
-                            <i class="fas fa-star"></i> Post-Workshop Survey
-                        </h3>
-                        <p style="color: #666; margin-bottom: 1.5rem;">
-                            After the workshop, please rate your agreement with the following statements.
-                        </p>
-
-                        <!-- Question 3a: AI Understanding -->
-                        <div class="form-group" style="margin-bottom: 2rem;">
-                            <label class="form-label" style="font-weight: 600; color: #002855; margin-bottom: 1rem; display: block;">
-                                3. I understand how AI tools (like ChatGPT or design generators) can help in web development. <span style="color: #E57200;">*</span>
-                            </label>
-                            <div class="likert-scale" data-question="aiUnderstanding" style="display: flex; flex-direction: column; gap: 0.5rem;">
-                                <input type="hidden" name="aiUnderstanding" required>
-                                <div style="display: flex; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap;">
-                                    <button type="button" class="likert-option" onclick="setLikertValue('aiUnderstanding', 1)" style="flex: 1; min-width: 120px; padding: 1rem; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; transition: all 0.3s; font-weight: 600;">
-                                        1<br><span style="font-size: 0.85rem; font-weight: 400;">Strongly Disagree</span>
-                                    </button>
-                                    <button type="button" class="likert-option" onclick="setLikertValue('aiUnderstanding', 2)" style="flex: 1; min-width: 120px; padding: 1rem; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; transition: all 0.3s; font-weight: 600;">
-                                        2<br><span style="font-size: 0.85rem; font-weight: 400;">Disagree</span>
-                                    </button>
-                                    <button type="button" class="likert-option" onclick="setLikertValue('aiUnderstanding', 3)" style="flex: 1; min-width: 120px; padding: 1rem; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; transition: all 0.3s; font-weight: 600;">
-                                        3<br><span style="font-size: 0.85rem; font-weight: 400;">Neutral</span>
-                                    </button>
-                                    <button type="button" class="likert-option" onclick="setLikertValue('aiUnderstanding', 4)" style="flex: 1; min-width: 120px; padding: 1rem; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; transition: all 0.3s; font-weight: 600;">
-                                        4<br><span style="font-size: 0.85rem; font-weight: 400;">Agree</span>
-                                    </button>
-                                    <button type="button" class="likert-option" onclick="setLikertValue('aiUnderstanding', 5)" style="flex: 1; min-width: 120px; padding: 1rem; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; transition: all 0.3s; font-weight: 600;">
-                                        5<br><span style="font-size: 0.85rem; font-weight: 400;">Strongly Agree</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Question 3b: Website Confidence -->
-                        <div class="form-group" style="margin-bottom: 2rem;">
-                            <label class="form-label" style="font-weight: 600; color: #002855; margin-bottom: 1rem; display: block;">
-                                I feel more confident in my ability to build and publish a simple website. <span style="color: #E57200;">*</span>
-                            </label>
-                            <div class="likert-scale" data-question="websiteConfidence" style="display: flex; flex-direction: column; gap: 0.5rem;">
-                                <input type="hidden" name="websiteConfidence" required>
-                                <div style="display: flex; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap;">
-                                    <button type="button" class="likert-option" onclick="setLikertValue('websiteConfidence', 1)" style="flex: 1; min-width: 120px; padding: 1rem; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; transition: all 0.3s; font-weight: 600;">
-                                        1<br><span style="font-size: 0.85rem; font-weight: 400;">Strongly Disagree</span>
-                                    </button>
-                                    <button type="button" class="likert-option" onclick="setLikertValue('websiteConfidence', 2)" style="flex: 1; min-width: 120px; padding: 1rem; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; transition: all 0.3s; font-weight: 600;">
-                                        2<br><span style="font-size: 0.85rem; font-weight: 400;">Disagree</span>
-                                    </button>
-                                    <button type="button" class="likert-option" onclick="setLikertValue('websiteConfidence', 3)" style="flex: 1; min-width: 120px; padding: 1rem; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; transition: all 0.3s; font-weight: 600;">
-                                        3<br><span style="font-size: 0.85rem; font-weight: 400;">Neutral</span>
-                                    </button>
-                                    <button type="button" class="likert-option" onclick="setLikertValue('websiteConfidence', 4)" style="flex: 1; min-width: 120px; padding: 1rem; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; transition: all 0.3s; font-weight: 600;">
-                                        4<br><span style="font-size: 0.85rem; font-weight: 400;">Agree</span>
-                                    </button>
-                                    <button type="button" class="likert-option" onclick="setLikertValue('websiteConfidence', 5)" style="flex: 1; min-width: 120px; padding: 1rem; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; transition: all 0.3s; font-weight: 600;">
-                                        5<br><span style="font-size: 0.85rem; font-weight: 400;">Strongly Agree</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Question 4: Follow-up Email -->
-                        <div class="form-group" style="margin-bottom: 1.5rem;">
-                            <label class="form-label" style="font-weight: 600; color: #002855; margin-bottom: 0.75rem; display: block;">
-                                4. Please share your email or your personal domain to receive more updated contents of our workshop on AI and learning modules.
-                            </label>
-                            <input type="email" name="followUpEmail" class="form-input" placeholder="your.email@example.com or yourdomain.com" style="width: 100%; padding: 0.75rem; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem;">
-                            <small style="color: #666; font-size: 0.9rem; margin-top: 0.5rem; display: block;">
-                                <i class="fas fa-info-circle"></i> This is optional. We'll use this to send you follow-up surveys and workshop updates.
-                            </small>
-                        </div>
-                    </div>
-
-                    <!-- Hidden field for consent status -->
-                    <input type="hidden" id="reg-consent" name="consent" value="">
-
                     <div class="form-actions">
                         <button type="button" class="btn-secondary" onclick="closeRegistrationModal()">Cancel</button>
                         <button type="submit" class="btn-primary"><i class="fas fa-check"></i> Complete Registration</button>
@@ -445,17 +210,6 @@
                                 <p>These workshops are part of the IEEE/ACM chapter's commitment to providing cutting-edge learning opportunities to Monmouth University students.</p>
                             </div>
                         </div>
-
-                        <!-- Workshop Materials Callout - Compact -->
-                        <div style="margin-top: 1.5rem; padding: 1rem 1.25rem; background: #f8f9fa; border-left: 4px solid #E57200; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
-                            <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                <i class="fas fa-file-pdf" style="font-size: 1.5rem; color: #E57200;"></i>
-                                <span style="font-weight: 600; color: #002855;">Workshop Slides: Build Your Portfolio with AI</span>
-                            </div>
-                            <a href="AI_Portfolio_Workshop.pdf" target="_blank" style="background: #E57200; color: white; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 600; transition: all 0.3s; font-size: 0.9rem;">
-                                <i class="fas fa-download"></i> View PDF
-                            </a>
-                        </div>
                     </section>
 
                     <!-- Research Areas Section -->
@@ -490,20 +244,19 @@
                         <h2>Active Projects</h2>
                         <div class="project-list">
                             <article class="project-card">
-                                <h3>UleAIrn</h3>
-                                <p>An innovative AI-powered learning platform designed to personalize education and enhance student engagement through adaptive learning technologies.</p>
-                                <p><strong>Technologies:</strong> AI/ML, Adaptive Learning, EdTech</p>
-                                <a href="https://www.uleairn.com/" target="_blank" class="btn-secondary" style="display: inline-block; margin-top: 1rem;">Visit UleAIrn</a>
+                                <h3>AI-Powered Student Assistant</h3>
+                                <p>Developing an intelligent chatbot to help students with course selection, academic resources, and campus navigation.</p>
+                                <p><strong>Technologies:</strong> LLMs, Python, n8n</p>
                             </article>
                             <article class="project-card">
-                                <h3>Gamified Learning with AI</h3>
-                                <p>Integrating game mechanics with artificial intelligence to create engaging, interactive learning experiences that motivate and educate students.</p>
-                                <p><strong>Technologies:</strong> AI, Gamification, Interactive Learning</p>
+                                <h3>Computer Vision for Campus Safety</h3>
+                                <p>Real-time object detection system for enhancing campus security and monitoring.</p>
+                                <p><strong>Technologies:</strong> YOLO, OpenCV, PyTorch</p>
                             </article>
                             <article class="project-card">
-                                <h3>Monmouth University's Hawk Hack</h3>
-                                <p>Annual hackathon bringing together students, faculty, and industry professionals to build innovative solutions using cutting-edge technologies including AI and machine learning.</p>
-                                <p><strong>Focus:</strong> Innovation, Collaboration, Technology</p>
+                                <h3>NLP Research Database</h3>
+                                <p>Building an advanced search and analysis tool for academic research papers.</p>
+                                <p><strong>Technologies:</strong> Transformers, Vector DBs, Python</p>
                             </article>
                         </div>
                     </section>
@@ -514,33 +267,41 @@
                         <h3>Upcoming Events</h3>
                         <div class="event-list">
                             <article class="event-card featured">
-                                <div class="event-date"><span class="day">13</span><span class="month">Nov</span></div>
+                                <div class="event-date"><span class="day">15</span><span class="month">Nov</span></div>
                                 <div class="event-content">
-                                    <span class="event-category">Web Development & AI</span>
-                                    <h4>AI Site Lab: Your Portfolio Your Way</h4>
-                                    <p>Learn to build your personal portfolio website using AI-powered tools and modern web technologies. Hands-on workshop where you'll create, customize, and deploy your own portfolio site.</p>
-                                    <p><strong>Speaker:</strong> Kiumbura Githinji<br>
-                                    <strong>Time:</strong> 1:15 PM - 2:30 PM<br>
-                                    <strong>Location:</strong> Edison Hall Room 201, Monmouth University</p>
-                                    <a href="https://cglink.me/24X/r375564" target="_blank" class="btn-primary">Register Now</a>
+                                    <span class="event-category">Machine Learning</span>
+                                    <h4>Introduction to Neural Networks</h4>
+                                    <p>Hands-on workshop covering fundamentals of neural networks and PyTorch.</p>
+                                    <p><strong>Speaker:</strong> Dr. Sarah Mitchell<br>
+                                    <strong>Time:</strong> 2:00 PM - 4:00 PM<br>
+                                    <strong>Location:</strong> Howard Hall 235</p>
+                                    <a href="javascript:void(0)" class="btn-primary" onclick="openRegistrationModal('event-neural-networks', 'Introduction to Neural Networks', 'November 15, 2025, 2:00 PM - 4:00 PM')">Register Now</a>
                                 </div>
                             </article>
 
                             <article class="event-card">
-                                <div class="event-date"><span class="day">20</span><span class="month">Nov</span></div>
+                                <div class="event-date"><span class="day">22</span><span class="month">Nov</span></div>
                                 <div class="event-content">
-                                    <span class="event-category">Web Development & AI</span>
-                                    <h4>AI Site Lab: Your Portfolio Your Way</h4>
-                                    <p>Learn to build your personal portfolio website using AI-powered tools and modern web technologies. Hands-on workshop where you'll create, customize, and deploy your own portfolio site.</p>
-                                    <p><strong>Speaker:</strong> Kiumbura Githinji<br>
-                                    <strong>Time:</strong> 1:15 PM - 2:30 PM<br>
-                                    <strong>Location:</strong> Edison Hall Room 201, Monmouth University</p>
-                                    <div class="event-buttons" style="display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center;">
-                                        <a href="https://cglink.me/24X/r375584" target="_blank" class="btn-primary">Register Now</a>
-                                        <button onclick="copyStartingPrompt(this)" class="btn-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem;">
-                                            <i class="fas fa-copy"></i> Copy Starting Prompt
-                                        </button>
-                                    </div>
+                                    <span class="event-category">NLP</span>
+                                    <h4>Building Chatbots with LLMs</h4>
+                                    <p>Learn to create intelligent chatbots using large language models.</p>
+                                    <p><strong>Speaker:</strong> Prof. James Chen<br>
+                                    <strong>Time:</strong> 3:30 PM - 5:30 PM<br>
+                                    <strong>Location:</strong> Jules L. Plangere Jr. Center</p>
+                                    <a href="javascript:void(0)" class="btn-primary" onclick="openRegistrationModal('event-chatbots-llm', 'Building Chatbots with LLMs', 'November 22, 2025, 3:30 PM - 5:30 PM')">Register Now</a>
+                                </div>
+                            </article>
+
+                            <article class="event-card">
+                                <div class="event-date"><span class="day">29</span><span class="month">Nov</span></div>
+                                <div class="event-content">
+                                    <span class="event-category">Computer Vision</span>
+                                    <h4>Object Detection with YOLO</h4>
+                                    <p>Dive into real-time object detection using YOLO architecture.</p>
+                                    <p><strong>Speaker:</strong> Dr. Emily Rodriguez<br>
+                                    <strong>Time:</strong> 1:00 PM - 3:00 PM<br>
+                                    <strong>Location:</strong> Howard Hall 240</p>
+                                    <a href="javascript:void(0)" class="btn-primary" onclick="openRegistrationModal('event-yolo-detection', 'Object Detection with YOLO', 'November 29, 2025, 1:00 PM - 3:00 PM')">Register Now</a>
                                 </div>
                             </article>
                         </div>
@@ -554,7 +315,7 @@
                         <h3>Student Leaders</h3>
                         <div class="team-grid">
                             <div class="team-card">
-                                <img src="kiumbura-githinji.jpg" alt="Kiumbura Githinji" class="team-photo">
+                                <div class="team-avatar" style="background: linear-gradient(135deg, #004C97, #002855); color: white; font-size: 2rem; font-weight: bold;">KG</div>
                                 <h4>Kiumbura Githinji</h4>
                                 <p class="team-role">AI Lab Coordinator<br>IEEE/ACM President</p>
                                 <p class="team-contact"><i class="fas fa-envelope"></i> <a href="mailto:s1358017@monmouth.edu">s1358017@monmouth.edu</a></p>
@@ -564,7 +325,9 @@
                         <h3 style="margin-top: 2rem;">Faculty Advisor</h3>
                         <div class="team-grid">
                             <div class="team-card">
-                                <img src="ling-zheng.jpg" alt="Dr. Ling Zheng" class="team-photo">
+                                <div class="team-avatar" style="background: linear-gradient(135deg, #002855, #0d64b2); color: white; font-size: 1.5rem;">
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
                                 <h4>Dr. Ling Zheng</h4>
                                 <p class="team-role">Department Chair<br>Computer Science & Software Engineering</p>
                                 <p class="team-contact"><i class="fas fa-envelope"></i> <a href="mailto:lzheng@monmouth.edu">lzheng@monmouth.edu</a></p>
@@ -580,7 +343,6 @@
                                 <i class="fas fa-book"></i>
                                 <h3>Learning Materials</h3>
                                 <ul>
-                                    <li><a href="filezilla-cheatsheet.html"><i class="fas fa-file-alt"></i> FileZilla Cheat Sheet</a></li>
                                     <li><a href="#">Workshop Slides & Code</a></li>
                                     <li><a href="#">Tutorial Videos</a></li>
                                     <li><a href="#">Recommended Reading</a></li>
@@ -675,82 +437,6 @@
     <script>
         console.log('✅ AI Workshops page loaded');
         console.log('✅ Registration system ready');
-        console.log('✅ Survey system with informed consent ready');
-
-        // Copy starting prompt function
-        function copyStartingPrompt(button) {
-            const prompt = `Create a modern, responsive personal portfolio website with:
-Hero section with my name and title
-About section with biography
-Projects showcase (3 projects with descriptions)
-Contact section with email/links
-Make it a single HTML file with embedded CSS and JavaScript
-Use a clean, professional design with modern aesthetics`;
-
-            navigator.clipboard.writeText(prompt).then(() => {
-                // Show success feedback
-                const originalHTML = button.innerHTML;
-                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                button.style.background = '#28a745';
-                button.style.color = 'white';
-
-                setTimeout(() => {
-                    button.innerHTML = originalHTML;
-                    button.style.background = '';
-                    button.style.color = '';
-                }, 2000);
-            }).catch(err => {
-                console.error('Failed to copy:', err);
-                alert('Failed to copy prompt. Please try again.');
-            });
-        }
     </script>
-
-    <style>
-        /* Radio option hover effects */
-        .radio-option:hover {
-            border-color: #E57200 !important;
-            background: #fff8f0 !important;
-        }
-
-        .radio-option input[type="radio"]:checked {
-            accent-color: #E57200;
-        }
-
-        .radio-option:has(input:checked) {
-            border-color: #E57200 !important;
-            background: #fff8f0 !important;
-        }
-
-        /* Likert scale button styles */
-        .likert-option:hover {
-            border-color: #004C97 !important;
-            background: #f0f7ff !important;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-
-        .likert-option.selected {
-            border-color: #E57200 !important;
-            background: #E57200 !important;
-            color: white !important;
-        }
-
-        .likert-option.selected span {
-            color: white !important;
-        }
-
-        /* Responsive design for Likert scale */
-        @media (max-width: 768px) {
-            .likert-scale > div {
-                flex-direction: column;
-            }
-
-            .likert-option {
-                width: 100% !important;
-                min-width: auto !important;
-            }
-        }
-    </style>
 </body>
 </html>

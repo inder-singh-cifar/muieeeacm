@@ -264,34 +264,8 @@ class IEEEACMAssistant {
                 max-width: 70%;
                 padding: 12px 16px;
                 border-radius: 12px;
-                line-height: 1.6;
+                line-height: 1.5;
                 font-size: 14px;
-            }
-
-            .assistant-message-content strong {
-                font-weight: 700;
-            }
-
-            .assistant-message-content em {
-                font-style: italic;
-            }
-
-            .assistant-message-content code {
-                background: #f5f5f5;
-                padding: 2px 6px;
-                border-radius: 4px;
-                font-family: 'Courier New', monospace;
-                font-size: 13px;
-            }
-
-            .assistant-message.bot .assistant-message-content code {
-                background: #f0f0f0;
-                color: #d63384;
-            }
-
-            .assistant-message.user .assistant-message-content code {
-                background: rgba(255, 255, 255, 0.2);
-                color: white;
             }
 
             .assistant-message.bot .assistant-message-content {
@@ -544,7 +518,7 @@ class IEEEACMAssistant {
 
         messageDiv.innerHTML = `
             <div class="assistant-message-avatar">${avatarContent}</div>
-            <div class="assistant-message-content">${this.formatText(text)}</div>
+            <div class="assistant-message-content">${this.escapeHtml(text)}</div>
         `;
 
         messagesContainer.appendChild(messageDiv);
@@ -690,34 +664,10 @@ class IEEEACMAssistant {
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
 
-    formatText(text) {
-        // Convert markdown-style formatting to HTML
-        let formatted = text
-            // Escape HTML first
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            // Bold text: **text** or __text__
-            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-            .replace(/__(.+?)__/g, '<strong>$1</strong>')
-            // Italic text: *text* or _text_
-            .replace(/\*(.+?)\*/g, '<em>$1</em>')
-            .replace(/_(.+?)_/g, '<em>$1</em>')
-            // Code blocks: ```code```
-            .replace(/```(.+?)```/gs, '<code>$1</code>')
-            // Inline code: `code`
-            .replace(/`(.+?)`/g, '<code>$1</code>')
-            // Line breaks
-            .replace(/\n\n/g, '<br><br>')
-            .replace(/\n/g, '<br>');
-
-        // Handle numbered lists: 1. item
-        formatted = formatted.replace(/(\d+)\.\s+(.+?)(<br>|$)/g, '<div style="margin-left: 20px;">$1. $2</div>');
-
-        // Handle bullet points: - item or * item
-        formatted = formatted.replace(/[-•]\s+(.+?)(<br>|$)/g, '<div style="margin-left: 20px;">• $1</div>');
-
-        return formatted;
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
     }
 }
 

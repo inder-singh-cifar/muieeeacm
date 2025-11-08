@@ -10,63 +10,26 @@ const API_URL = 'http://localhost:3000/api'; // Change this to your server URL
    ========================================================================== */
 
 function openRegistrationModal(eventId, eventTitle, eventDate) {
-    // First show the informed consent modal
-    const consentModal = document.getElementById('consentModal');
-
-    // Store event details for later use
-    window.currentEventDetails = { eventId, eventTitle, eventDate };
-
-    // Reset consent form
-    document.getElementById('consentForm').reset();
-
-    // Show consent modal
-    consentModal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-}
-
-function proceedToRegistration(consentGiven) {
-    // Close consent modal
-    const consentModal = document.getElementById('consentModal');
-    consentModal.classList.remove('active');
-
-    // Store consent status
-    window.userConsentGiven = consentGiven;
-
-    // Open registration modal with stored event details
-    const { eventId, eventTitle, eventDate } = window.currentEventDetails;
     const modal = document.getElementById('registrationModal');
 
     // Set event details
     document.getElementById('reg-eventId').value = eventId;
     document.getElementById('reg-eventTitle').value = eventTitle;
     document.getElementById('reg-eventDate').value = eventDate;
-    document.getElementById('reg-consent').value = consentGiven ? 'accepted' : 'declined';
 
     // Display event details
     const eventDetails = document.getElementById('event-details');
     eventDetails.innerHTML = `
         <h3>${eventTitle}</h3>
         <p><i class="fas fa-calendar"></i> <strong>Date:</strong> ${eventDate}</p>
-        ${!consentGiven ? '<p style="color: #E57200; font-weight: 600;"><i class="fas fa-info-circle"></i> You may still register, but your data will not be used for research purposes.</p>' : ''}
     `;
 
     // Reset form
     document.getElementById('registrationForm').reset();
-    // Restore event details and consent
-    document.getElementById('reg-eventId').value = eventId;
-    document.getElementById('reg-eventTitle').value = eventTitle;
-    document.getElementById('reg-eventDate').value = eventDate;
-    document.getElementById('reg-consent').value = consentGiven ? 'accepted' : 'declined';
 
     // Show modal
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
-}
-
-function closeConsentModal() {
-    const modal = document.getElementById('consentModal');
-    modal.classList.remove('active');
-    document.body.style.overflow = '';
 }
 
 function closeRegistrationModal() {
@@ -115,18 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     interests: formData.getAll('interests'),
                     dietaryRestrictions: formData.get('dietaryRestrictions'),
                     accessibility: formData.get('accessibility'),
-                    comments: formData.get('comments'),
-                    // Research consent and survey data
-                    researchConsent: formData.get('consent'),
-                    preSurvey: {
-                        aiFamiliarity: formData.get('aiFamiliarity'),
-                        websiteFamiliarity: formData.get('websiteFamiliarity')
-                    },
-                    postSurvey: {
-                        aiUnderstanding: parseInt(formData.get('aiUnderstanding')),
-                        websiteConfidence: parseInt(formData.get('websiteConfidence'))
-                    },
-                    followUpEmail: formData.get('followUpEmail')
+                    comments: formData.get('comments')
                 };
 
                 // Validate student ID if provided
@@ -380,29 +332,9 @@ function showError(message) {
     }, 5000);
 }
 
-// Likert scale handling
-function setLikertValue(questionName, value) {
-    // Set the hidden input value
-    document.querySelector(`input[name="${questionName}"]`).value = value;
-
-    // Update visual feedback
-    const container = document.querySelector(`[data-question="${questionName}"]`);
-    if (container) {
-        const buttons = container.querySelectorAll('.likert-option');
-        buttons.forEach((btn, index) => {
-            if (index + 1 === value) {
-                btn.classList.add('selected');
-            } else {
-                btn.classList.remove('selected');
-            }
-        });
-    }
-}
-
 // Close modals on escape key
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
-        closeConsentModal();
         closeRegistrationModal();
         closeSurveyModal();
     }
@@ -411,7 +343,6 @@ document.addEventListener('keydown', function(e) {
 // Close modals on background click
 document.addEventListener('click', function(e) {
     if (e.target.classList.contains('modal')) {
-        closeConsentModal();
         closeRegistrationModal();
         closeSurveyModal();
     }
@@ -423,9 +354,6 @@ document.addEventListener('click', function(e) {
 
 window.openRegistrationModal = openRegistrationModal;
 window.closeRegistrationModal = closeRegistrationModal;
-window.closeConsentModal = closeConsentModal;
-window.proceedToRegistration = proceedToRegistration;
 window.toggleStudentFields = toggleStudentFields;
 window.openSurveyModal = openSurveyModal;
 window.closeSurveyModal = closeSurveyModal;
-window.setLikertValue = setLikertValue;
