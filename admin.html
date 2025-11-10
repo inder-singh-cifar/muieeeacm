@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workshop Registrations Admin | IEEE/ACM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #004C97 0%, #002855 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid #E57200;
+        }
+
+        .stat-card h3 {
+            color: #666;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #002855;
+        }
+
+        .filters {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group input,
+        .filter-group select {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .filter-group button {
+            padding: 10px 20px;
+            background: #004C97;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .filter-group button:hover {
+            background: #002855;
+        }
+
+        .registrations-table {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-header h2 {
+            color: #002855;
+        }
+
+        .export-btn {
+            padding: 10px 20px;
+            background: #E57200;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .export-btn:hover {
+            background: #d66700;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f8f9fa;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #002855;
+            border-bottom: 2px solid #eee;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-student {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .badge-faculty {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        .badge-external {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            table {
+                font-size: 14px;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-chart-bar"></i> Workshop Registrations Dashboard</h1>
+            <p>IEEE/ACM Monmouth University Chapter</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <h3>Total Registrations</h3>
+                <div class="number" id="totalRegistrations">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Research Participants</h3>
+                <div class="number" id="researchCount">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Monmouth Students</h3>
+                <div class="number" id="studentCount">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Faculty/Staff</h3>
+                <div class="number" id="facultyCount">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>External Participants</h3>
+                <div class="number" id="externalCount">0</div>
+            </div>
+        </div>
+
+        <div class="filters">
+            <div class="filter-group">
+                <input type="text" id="searchInput" placeholder="Search by name or email..." style="flex: 1; min-width: 250px;">
+                <select id="eventFilter">
+                    <option value="">All Events</option>
+                </select>
+                <select id="affiliationFilter">
+                    <option value="">All Affiliations</option>
+                    <option value="undergraduate">Undergraduate Student</option>
+                    <option value="graduate">Graduate Student</option>
+                    <option value="faculty">Faculty</option>
+                    <option value="external">External Professional</option>
+                </select>
+                <button onclick="applyFilters()"><i class="fas fa-filter"></i> Filter</button>
+                <button onclick="resetFilters()"><i class="fas fa-redo"></i> Reset</button>
+            </div>
+        </div>
+
+        <div class="registrations-table">
+            <div class="table-header">
+                <h2>Registrations</h2>
+                <button class="export-btn" onclick="exportToCSV()">
+                    <i class="fas fa-download"></i> Export to CSV
+                </button>
+            </div>
+
+            <div id="loadingIndicator" class="loading">
+                <i class="fas fa-spinner fa-spin"></i> Loading registrations...
+            </div>
+
+            <div id="tableContainer" style="display: none;">
+                <table id="registrationsTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Event</th>
+                            <th>Affiliation</th>
+                            <th>Student ID</th>
+                            <th>Research Consent</th>
+                            <th>AI Familiarity</th>
+                            <th>Web Knowledge</th>
+                            <th>Registered</th>
+                        </tr>
+                    </thead>
+                    <tbody id="registrationsBody">
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="noDataMessage" class="no-data" style="display: none;">
+                <i class="fas fa-inbox"></i>
+                <p>No registrations found</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allRegistrations = [];
+        let filteredRegistrations = [];
+
+        // Load registrations on page load
+        window.addEventListener('load', loadRegistrations);
+
+        async function loadRegistrations() {
+            try {
+                const response = await fetch('http://localhost:3000/api/registrations');
+                const data = await response.json();
+
+                if (data.success) {
+                    allRegistrations = data.registrations;
+                    filteredRegistrations = [...allRegistrations];
+                    updateStats();
+                    populateFilters();
+                    renderTable();
+                }
+            } catch (error) {
+                console.error('Error loading registrations:', error);
+                document.getElementById('loadingIndicator').innerHTML =
+                    '<i class="fas fa-exclamation-triangle"></i> Error loading registrations. Make sure the server is running.';
+            }
+        }
+
+        function updateStats() {
+            const total = allRegistrations.length;
+            const researchParticipants = allRegistrations.filter(r => r.researchConsent === 'accepted').length;
+            const students = allRegistrations.filter(r =>
+                r.affiliation === 'undergraduate' || r.affiliation === 'graduate'
+            ).length;
+            const faculty = allRegistrations.filter(r => r.affiliation === 'faculty').length;
+            const external = allRegistrations.filter(r => r.affiliation === 'external').length;
+
+            document.getElementById('totalRegistrations').textContent = total;
+            document.getElementById('researchCount').textContent = researchParticipants;
+            document.getElementById('studentCount').textContent = students;
+            document.getElementById('facultyCount').textContent = faculty;
+            document.getElementById('externalCount').textContent = external;
+        }
+
+        function populateFilters() {
+            const eventFilter = document.getElementById('eventFilter');
+            const uniqueEvents = [...new Set(allRegistrations.map(r => r.eventTitle))];
+
+            uniqueEvents.forEach(event => {
+                const option = document.createElement('option');
+                option.value = event;
+                option.textContent = event;
+                eventFilter.appendChild(option);
+            });
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('registrationsBody');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const tableContainer = document.getElementById('tableContainer');
+            const noDataMessage = document.getElementById('noDataMessage');
+
+            loadingIndicator.style.display = 'none';
+
+            if (filteredRegistrations.length === 0) {
+                tableContainer.style.display = 'none';
+                noDataMessage.style.display = 'block';
+                return;
+            }
+
+            tableContainer.style.display = 'block';
+            noDataMessage.style.display = 'none';
+
+            tbody.innerHTML = filteredRegistrations.map(reg => `
+                <tr>
+                    <td><strong>${reg.firstName} ${reg.lastName}</strong></td>
+                    <td>${reg.email}</td>
+                    <td>${reg.eventTitle}</td>
+                    <td>
+                        <span class="badge badge-${getBadgeClass(reg.affiliation)}">
+                            ${formatAffiliation(reg.affiliation)}
+                        </span>
+                    </td>
+                    <td>${reg.studentId || 'N/A'}</td>
+                    <td>
+                        <span class="badge" style="background: ${reg.researchConsent === 'accepted' ? '#e8f5e9' : '#fff3e0'}; color: ${reg.researchConsent === 'accepted' ? '#2e7d32' : '#e65100'};">
+                            ${reg.researchConsent === 'accepted' ? '✓ Accepted' : '✗ Declined'}
+                        </span>
+                    </td>
+                    <td>${formatFamiliarity(reg.preSurvey?.aiFamiliarity)}</td>
+                    <td>${formatFamiliarity(reg.preSurvey?.websiteFamiliarity)}</td>
+                    <td>${formatDate(reg.registeredAt)}</td>
+                </tr>
+            `).join('');
+        }
+
+        function getBadgeClass(affiliation) {
+            if (affiliation === 'undergraduate' || affiliation === 'graduate') return 'student';
+            if (affiliation === 'faculty') return 'faculty';
+            return 'external';
+        }
+
+        function formatAffiliation(affiliation) {
+            const map = {
+                'undergraduate': 'Undergraduate',
+                'graduate': 'Graduate',
+                'faculty': 'Faculty',
+                'external': 'External'
+            };
+            return map[affiliation] || affiliation;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+        }
+
+        function formatFamiliarity(value) {
+            if (!value) return 'N/A';
+            const map = {
+                'not-at-all': 'None',
+                'slightly': 'Slight',
+                'somewhat': 'Some',
+                'very': 'High',
+                'extremely': 'Expert',
+                'none': 'None',
+                'basic': 'Basic',
+                'intermediate': 'Intermediate',
+                'advanced': 'Advanced'
+            };
+            return map[value] || value;
+        }
+
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const eventFilter = document.getElementById('eventFilter').value;
+            const affiliationFilter = document.getElementById('affiliationFilter').value;
+
+            filteredRegistrations = allRegistrations.filter(reg => {
+                const matchesSearch = !searchTerm ||
+                    reg.firstName.toLowerCase().includes(searchTerm) ||
+                    reg.lastName.toLowerCase().includes(searchTerm) ||
+                    reg.email.toLowerCase().includes(searchTerm);
+
+                const matchesEvent = !eventFilter || reg.eventTitle === eventFilter;
+                const matchesAffiliation = !affiliationFilter || reg.affiliation === affiliationFilter;
+
+                return matchesSearch && matchesEvent && matchesAffiliation;
+            });
+
+            renderTable();
+        }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('eventFilter').value = '';
+            document.getElementById('affiliationFilter').value = '';
+            filteredRegistrations = [...allRegistrations];
+            renderTable();
+        }
+
+        function exportToCSV() {
+            const headers = ['Name', 'Email', 'Event', 'Date', 'Affiliation', 'Student ID', 'Organization', 'Research Consent', 'AI Familiarity (Pre)', 'Web Knowledge (Pre)', 'AI Understanding (Post)', 'Website Confidence (Post)', 'Follow-up Email', 'Registered At'];
+            const rows = filteredRegistrations.map(reg => [
+                `${reg.firstName} ${reg.lastName}`,
+                reg.email,
+                reg.eventTitle,
+                reg.eventDate,
+                formatAffiliation(reg.affiliation),
+                reg.studentId || '',
+                reg.organization || '',
+                reg.researchConsent || 'N/A',
+                reg.preSurvey?.aiFamiliarity || 'N/A',
+                reg.preSurvey?.websiteFamiliarity || 'N/A',
+                reg.postSurvey?.aiUnderstanding || 'N/A',
+                reg.postSurvey?.websiteConfidence || 'N/A',
+                reg.followUpEmail || '',
+                reg.registeredAt
+            ]);
+
+            const csvContent = [
+                headers.join(','),
+                ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+            ].join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `workshop-registrations-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Auto-refresh every 30 seconds
+        setInterval(loadRegistrations, 30000);
+    </script>
+</body>
+</html>
