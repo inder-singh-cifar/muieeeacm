@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FileZilla Cheat Sheet | AI Workshops | IEEE/ACM Monmouth University</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="monmouth-ai-workshops-v2.css">
+    <style>
+        .cheatsheet-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .cheatsheet-header {
+            text-align: center;
+            padding: 2rem 0;
+            border-bottom: 3px solid #E57200;
+            margin-bottom: 2rem;
+        }
+
+        .cheatsheet-header h1 {
+            color: #002855;
+            font-family: 'Crimson Text', serif;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cheatsheet-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .section {
+            margin-bottom: 2.5rem;
+        }
+
+        .section h2 {
+            color: #002855;
+            font-family: 'Crimson Text', serif;
+            font-size: 1.8rem;
+            border-left: 4px solid #E57200;
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .definition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .definition-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            border-left: 4px solid #002855;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .definition-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .definition-card h3 {
+            color: #002855;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .definition-card h3 i {
+            color: #E57200;
+        }
+
+        .definition-card p {
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .tip-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .tip-box h4 {
+            color: #856404;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tip-box p {
+            color: #856404;
+            margin: 0;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #002855;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .back-link:hover {
+            color: #E57200;
+        }
+
+        .print-btn {
+            background: #E57200;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .print-btn:hover {
+            background: #c96200;
+        }
+
+        @media print {
+            .back-link, .print-btn {
+                display: none;
+            }
+            .definition-card {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cheatsheet-container">
+        <a href="ai-workshops.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Workshops
+        </a>
+
+        <button class="print-btn" onclick="window.print()">
+            <i class="fas fa-print"></i> Print Cheat Sheet
+        </button>
+
+        <header class="cheatsheet-header">
+            <h1><i class="fas fa-file-alt"></i> FileZilla Definitions Cheat Sheet</h1>
+            <p>Essential terms for file transfer and web hosting</p>
+        </header>
+
+        <!-- Monmouth University Connection Details -->
+        <section class="section" style="background: linear-gradient(135deg, #002855 0%, #003d7a 100%); padding: 2rem; border-radius: 12px; margin-bottom: 2.5rem;">
+            <h2 style="color: white; border-left-color: #E57200;"><i class="fas fa-university"></i> Monmouth University Connection Details</h2>
+            <div style="background: white; border-radius: 8px; padding: 1.5rem; margin-top: 1rem;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                    <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+                        <i class="fas fa-server" style="font-size: 2rem; color: #E57200; margin-bottom: 0.5rem;"></i>
+                        <h4 style="color: #002855; margin: 0.5rem 0;">Host</h4>
+                        <p style="font-family: monospace; font-size: 1.1rem; color: #333; margin: 0; font-weight: bold;">zorak.monmouth.edu</p>
+                    </div>
+                    <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+                        <i class="fas fa-user" style="font-size: 2rem; color: #E57200; margin-bottom: 0.5rem;"></i>
+                        <h4 style="color: #002855; margin: 0.5rem 0;">Username</h4>
+                        <p style="font-family: monospace; font-size: 1.1rem; color: #333; margin: 0; font-weight: bold;">s1234567</p>
+                        <p style="font-size: 0.85rem; color: #666; margin: 0.25rem 0 0 0;">Your "s" + 7-digit student ID</p>
+                    </div>
+                    <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+                        <i class="fas fa-key" style="font-size: 2rem; color: #E57200; margin-bottom: 0.5rem;"></i>
+                        <h4 style="color: #002855; margin: 0.5rem 0;">Password</h4>
+                        <p style="font-size: 1rem; color: #333; margin: 0; font-weight: bold;">Your chosen password</p>
+                        <p style="font-size: 0.85rem; color: #666; margin: 0.25rem 0 0 0;">Set it yourself - remember it!</p>
+                    </div>
+                    <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+                        <i class="fas fa-plug" style="font-size: 2rem; color: #E57200; margin-bottom: 0.5rem;"></i>
+                        <h4 style="color: #002855; margin: 0.5rem 0;">Port</h4>
+                        <p style="font-family: monospace; font-size: 1.5rem; color: #333; margin: 0; font-weight: bold;">21</p>
+                    </div>
+                </div>
+                <div class="tip-box" style="margin-top: 1.5rem; margin-bottom: 0;">
+                    <h4><i class="fas fa-info-circle"></i> Important</h4>
+                    <p>All Monmouth email holders (@monmouth.edu) can use these credentials. Make sure to set your FTP password through the university system first!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FileZilla Interface Basics -->
+        <section class="section">
+            <h2><i class="fas fa-desktop"></i> FileZilla Interface Basics</h2>
+            <div class="definition-grid">
+                <div class="definition-card">
+                    <h3><i class="fas fa-server"></i> Host</h3>
+                    <p>The server address you're connecting to. This is usually your web hosting provider's server name (e.g., ftp.yoursite.com or an IP address like 192.168.1.1).</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-user"></i> Username</h3>
+                    <p>Your FTP account username provided by your hosting service. This identifies who is connecting to the server.</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-key"></i> Password</h3>
+                    <p>The secret code paired with your username to authenticate your connection. Keep this secure and never share it.</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-plug"></i> Port</h3>
+                    <p>A number that specifies which "door" to use when connecting. FTP uses port 21, SFTP uses port 22. Leave blank to use the default.</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-laptop"></i> Local Site (Left Panel)</h3>
+                    <p>Shows files on YOUR computer. This is where you navigate to find files you want to upload to your website.</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-cloud"></i> Remote Site (Right Panel)</h3>
+                    <p>Shows files on the SERVER (your website). This is where your website files live and what visitors see.</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-exchange-alt"></i> Transfer Queue (Bottom Panel)</h3>
+                    <p>Shows files currently being uploaded or downloaded, plus any files waiting in line. Displays progress and status.</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-bookmark"></i> Site Manager</h3>
+                    <p>A feature to save your server connection details so you don't have to re-enter them every time. Access via File → Site Manager.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FTP/SFTP Protocols -->
+        <section class="section">
+            <h2><i class="fas fa-shield-alt"></i> Transfer Protocols</h2>
+            <div class="definition-grid">
+                <div class="definition-card">
+                    <h3><i class="fas fa-exchange-alt"></i> FTP (File Transfer Protocol)</h3>
+                    <p>The basic method for transferring files between computers over the internet. Fast but NOT encrypted - data is sent in plain text.</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-lock"></i> SFTP (SSH File Transfer Protocol)</h3>
+                    <p>A secure version of FTP that encrypts all data during transfer. Recommended for sensitive files. Uses port 22.</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-certificate"></i> FTPS (FTP Secure)</h3>
+                    <p>FTP with added SSL/TLS encryption. Similar security to SFTP but uses different technology. Uses port 990 or 21.</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-shield-alt"></i> SSL/TLS</h3>
+                    <p>Security protocols that encrypt data during transfer. The same technology that makes websites show "https" instead of "http".</p>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <h4><i class="fas fa-lightbulb"></i> Pro Tip</h4>
+                <p>Always use SFTP when available! It keeps your username, password, and files secure during transfer.</p>
+            </div>
+        </section>
+
+        <!-- Server & Hosting Terminology -->
+        <section class="section">
+            <h2><i class="fas fa-globe"></i> Server & Hosting Terms</h2>
+            <div class="definition-grid">
+                <div class="definition-card">
+                    <h3><i class="fas fa-server"></i> Server</h3>
+                    <p>A powerful computer that stores your website files and serves them to visitors 24/7. Think of it as your website's home.</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-building"></i> Web Hosting</h3>
+                    <p>A service that rents you space on a server to store your website. Examples: Render, Netlify, GoDaddy, Bluehost.</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-folder"></i> Root Directory</h3>
+                    <p>The main/top-level folder of your website on the server. Usually named "public_html", "www", or "htdocs". Your index.html goes here.</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-home"></i> public_html</h3>
+                    <p>The most common name for your website's root folder. Files here are publicly accessible via your domain name.</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-globe-americas"></i> Domain Name</h3>
+                    <p>Your website's address that people type in browsers (e.g., www.yoursite.com). Points to your server's location.</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-map-marker-alt"></i> IP Address</h3>
+                    <p>A unique number that identifies your server on the internet (e.g., 192.168.1.1). Domain names are easier-to-remember versions of these.</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-database"></i> Bandwidth</h3>
+                    <p>The amount of data that can be transferred to/from your website. Like a highway - more bandwidth means more traffic can flow.</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-hdd"></i> Storage/Disk Space</h3>
+                    <p>How much room you have on the server for your files. Measured in MB or GB. Images and videos use the most space.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- File Permissions -->
+        <section class="section">
+            <h2><i class="fas fa-user-lock"></i> File Permissions</h2>
+            <div class="definition-grid">
+                <div class="definition-card">
+                    <h3><i class="fas fa-cog"></i> CHMOD</h3>
+                    <p>A command to change file permissions. In FileZilla, right-click a file and select "File Permissions" to modify.</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-eye"></i> Read (r or 4)</h3>
+                    <p>Permission to view/open a file. Needed for visitors to see your web pages and images.</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-pen"></i> Write (w or 2)</h3>
+                    <p>Permission to modify or delete a file. Be careful giving this to others - they could change your content.</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-play"></i> Execute (x or 1)</h3>
+                    <p>Permission to run a file as a program/script. Required for PHP scripts and other server-side code.</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-hashtag"></i> Permission Numbers</h3>
+                    <p>Three digits representing Owner, Group, Others. Common values: 755 (folders), 644 (files), 777 (full access - risky!).</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-user"></i> Owner</h3>
+                    <p>The user who created the file. Usually has full permissions (read, write, execute).</p>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <h4><i class="fas fa-exclamation-triangle"></i> Security Warning</h4>
+                <p>Never set permissions to 777 unless absolutely necessary - it allows anyone to read, write, and execute the file!</p>
+            </div>
+        </section>
+
+        <!-- Common Actions -->
+        <section class="section">
+            <h2><i class="fas fa-tasks"></i> Common FileZilla Actions</h2>
+            <div class="definition-grid">
+                <div class="definition-card">
+                    <h3><i class="fas fa-upload"></i> Upload</h3>
+                    <p>Transfer files FROM your computer TO the server. Drag files from the left panel to the right, or right-click and select "Upload".</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-download"></i> Download</h3>
+                    <p>Transfer files FROM the server TO your computer. Drag from right to left, or right-click and select "Download".</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-sync"></i> Overwrite</h3>
+                    <p>Replace an existing file with a new version. FileZilla will ask what to do when a file with the same name exists.</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-redo"></i> Refresh</h3>
+                    <p>Reload the file list to see recent changes. Press F5 or right-click and select "Refresh" if files aren't appearing.</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-link"></i> Quick Connect</h3>
+                    <p>The bar at the top of FileZilla for fast, one-time connections. Enter host, username, password, and port, then click "Quickconnect".</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-times-circle"></i> Abort</h3>
+                    <p>Cancel a transfer in progress. Click the X button in the transfer queue or go to Transfer → Cancel current operation.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Common File Types -->
+        <section class="section">
+            <h2><i class="fas fa-file-code"></i> Common Web File Types</h2>
+            <div class="definition-grid">
+                <div class="definition-card">
+                    <h3><i class="fab fa-html5"></i> .html / .htm</h3>
+                    <p>HyperText Markup Language files - the structure of web pages. index.html is typically your homepage.</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fab fa-css3-alt"></i> .css</h3>
+                    <p>Cascading Style Sheet files - controls colors, fonts, layouts, and visual design of your website.</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fab fa-js"></i> .js</h3>
+                    <p>JavaScript files - adds interactivity and dynamic features to your website (animations, forms, etc.).</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-image"></i> .jpg / .png / .gif / .webp</h3>
+                    <p>Image files. JPG for photos, PNG for graphics with transparency, GIF for animations, WebP for optimized web images.</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fab fa-php"></i> .php</h3>
+                    <p>PHP script files - server-side code that generates dynamic content. Requires a PHP-enabled server.</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-cog"></i> .htaccess</h3>
+                    <p>Apache server configuration file. Controls redirects, security, and other server behaviors. Starts with a dot (hidden file).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Troubleshooting -->
+        <section class="section">
+            <h2><i class="fas fa-wrench"></i> Common Error Messages</h2>
+            <div class="definition-grid">
+                <div class="definition-card">
+                    <h3><i class="fas fa-ban"></i> Connection Refused</h3>
+                    <p>Server rejected your connection. Check if FTP service is enabled, correct port is used, or if firewall is blocking.</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-user-times"></i> Authentication Failed</h3>
+                    <p>Wrong username or password. Double-check credentials - they're case-sensitive! Contact hosting support if unsure.</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-clock"></i> Connection Timed Out</h3>
+                    <p>Server took too long to respond. Could be server issues, network problems, or wrong host address.</p>
+                </div>
+
+                <div class="definition-card">
+                    <h3><i class="fas fa-lock"></i> Permission Denied</h3>
+                    <p>You don't have rights to access that file/folder. Check file permissions or contact your hosting provider.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 2rem 0; border-top: 2px solid #e0e0e0; margin-top: 2rem;">
+            <p style="color: #666;">
+                <i class="fas fa-graduation-cap"></i> Created for IEEE/ACM AI Workshops at Monmouth University
+            </p>
+            <p style="color: #999; font-size: 0.9rem;">
+                Questions? Contact <a href="mailto:s1358017@monmouth.edu">s1358017@monmouth.edu</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
