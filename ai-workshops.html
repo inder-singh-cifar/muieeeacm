@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Workshops & Research | IEEE/ACM Chapter | Monmouth University</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="monmouth-ai-workshops-v2.css">
+    <link rel="stylesheet" href="workshop-forms.css">
+</head>
+<body>
+    <!-- Informed Consent Modal -->
+    <div id="consentModal" class="modal">
+        <div class="modal-content" style="max-width: 900px; max-height: 90vh; overflow-y: auto;">
+            <div class="modal-header">
+                <h2 style="color: #002855; margin: 0;">
+                    <i class="fas fa-file-contract"></i> Research Study Informed Consent
+                </h2>
+                <button class="close-modal" onclick="closeConsentModal()">&times;</button>
+            </div>
+
+            <div class="modal-body" style="padding: 2rem;">
+                <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; border-left: 4px solid #E57200;">
+                    <h3 style="color: #002855; margin-top: 0; font-size: 1.3rem;">
+                        Improving Efficiency in Higher Education through Customized AI Training
+                    </h3>
+
+                    <div style="margin-top: 1rem; line-height: 1.6;">
+                        <p><strong>Principal Investigator:</strong> Weihao Qu<br>
+                        Phone: 732-263-5396 | Email: <a href="mailto:wqu@monmouth.edu">wqu@monmouth.edu</a></p>
+
+                        <p><strong>Co-Investigator:</strong> Ling Zheng<br>
+                        Phone: 732-571-4459 | Email: <a href="mailto:lzheng@monmouth.edu">lzheng@monmouth.edu</a></p>
+                    </div>
+                </div>
+
+                <div style="line-height: 1.8; color: #333;">
+                    <p style="font-size: 1.05rem; margin-bottom: 1.5rem;">
+                        <strong>You are being asked to be a participant in a research study.</strong>
+                    </p>
+
+                    <h4 style="color: #002855; margin-top: 1.5rem;">What is the purpose of this study?</h4>
+                    <p>The purpose of this study is about how artificial intelligence (AI) tools can be used to improve efficiency in learning, studying, and working at a mid-sized college. The goal of this project is to design and test customized AI training workshops, one-on-one sessions, and online modules for students, staff, and faculty.</p>
+
+                    <h4 style="color: #002855; margin-top: 1.5rem;">What will you have to do, if you agree to be in the study?</h4>
+                    <p>If you agree to be in this study, your part will involve:</p>
+                    <ul style="margin-left: 1.5rem;">
+                        <li>Attend an AI workshop (about 45–60 minutes).</li>
+                        <li>Complete a short survey (5–10 minutes) at the end of the workshop.</li>
+                        <li>Receive a follow-up survey about one month later (5–10 minutes).</li>
+                    </ul>
+                    <p><strong>Your total participation time will be about 55–80 minutes.</strong></p>
+
+                    <h4 style="color: #002855; margin-top: 1.5rem;">Are there any possible risks to being in this study?</h4>
+                    <p>If you agree to be in this study, there are no foreseeable risks to you, above those that you experience in your daily life.</p>
+
+                    <h4 style="color: #002855; margin-top: 1.5rem;">Are there any possible benefits to being in this study?</h4>
+                    <p>There is no direct benefit to you by participating in this study.</p>
+
+                    <h4 style="color: #002855; margin-top: 1.5rem;">How will your study information be protected?</h4>
+                    <p>Your name will not be linked in any way to the information you provide. Neither IP addresses nor any other identifiable information will be collected. The registered email will be collected during the one-on-one training in order to contact the participants with the post survey.</p>
+
+                    <p>Data will be collected using the Internet; no guarantees can be made regarding the interception of data sent via the Internet by any third party. Confidentiality will be maintained to the degree permitted by the technology used.</p>
+
+                    <p>Your information will be viewed by the study team and other people within Monmouth University who help administer and oversee research. If information from this study is published or presented at scientific meetings, your name and other identifiable information will not be used.</p>
+
+                    <h4 style="color: #002855; margin-top: 1.5rem;">Important Contact Information</h4>
+                    <p>Please contact Dr. Weihao Qu at <a href="tel:732-263-5396">732-263-5396</a> or via e-mail at <a href="mailto:wqu@monmouth.edu">wqu@monmouth.edu</a> if you have any questions about the study, or if you believe you have experienced harm or injury as a result of being in this study.</p>
+
+                    <p>If your participation in this research study has caused you to feel uncomfortable in any way, or if by participating in this research study it has prompted you to consider personal matters about which you are concerned, we encourage you to immediately stop participating in this research study and strongly encourage you to contact support services:</p>
+                    <ul style="margin-left: 1.5rem;">
+                        <li><strong>Monmouth University students:</strong> Contact Counseling and Psychological Services (CPS) at <a href="tel:732-571-7517">732-571-7517</a></li>
+                        <li><strong>Monmouth University employees:</strong> Contact Employee Assistance Program (EAP) at <a href="tel:1-800-300-0628">1-800-300-0628</a></li>
+                        <li><strong>General public:</strong> Contact your local community mental health center or the National Helpline of the Substance Abuse and Mental Health Services Administration (SAMHSA) at <a href="tel:1-800-662-4357">1-800-662-HELP (4357)</a> — a free, confidential, 24/7 resource</li>
+                    </ul>
+
+                    <p>For any questions about your rights as a research participant, please contact the Monmouth University Institutional Review Board via e-mail at <a href="mailto:IRB@monmouth.edu">IRB@monmouth.edu</a>.</p>
+
+                    <h4 style="color: #002855; margin-top: 1.5rem;">Your participation is voluntary!</h4>
+                    <p>Your participation in this study is voluntary. You may decide not to participate at all or, if you start the study, you may withdraw at any time without any penalty. Withdrawal or refusing to participate will not affect your relationship with Monmouth University in any way.</p>
+
+                    <div style="background: #fff3cd; border: 2px solid #ffc107; padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
+                        <p style="margin: 0; font-size: 1.05rem; color: #333;">
+                            <strong>If you click 'I ACCEPT' below:</strong> It means that you have (a) read this consent form, (b) you agree to be a participant in this study, and (c) you are over 18 years old.
+                        </p>
+                        <p style="margin: 1rem 0 0 0; font-size: 1.05rem; color: #333;">
+                            <strong>If you click 'I DO NOT AGREE':</strong> You will still go through the steps listed within the purpose of the study, but your data will not be used for research purposes.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="padding: 1.5rem; background: #f8f9fa; display: flex; gap: 1rem; justify-content: center;">
+                <button type="button" class="btn-secondary" onclick="proceedToRegistration(false)" style="padding: 1rem 2rem; font-size: 1.1rem;">
+                    <i class="fas fa-times-circle"></i> I DO NOT AGREE
+                </button>
+                <button type="button" class="btn-primary" onclick="proceedToRegistration(true)" style="padding: 1rem 2rem; font-size: 1.1rem;">
+                    <i class="fas fa-check-circle"></i> I ACCEPT
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Registration Modal -->
+    <div id="registrationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-plus"></i> Workshop Registration</h2>
+                <button class="close-modal" onclick="closeRegistrationModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="event-details" class="event-summary"></div>
+                <form id="registrationForm">
+                    <input type="hidden" id="reg-eventId" name="eventId">
+                    <input type="hidden" id="reg-eventTitle" name="eventTitle">
+                    <input type="hidden" id="reg-eventDate" name="eventDate">
+                    <div class="form-section">
+                        <h3>Personal Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name <span class="required">*</span></label>
+                                <input type="text" id="firstName" name="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name <span class="required">*</span></label>
+                                <input type="text" id="lastName" name="lastName" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email <span class="required">*</span></label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" placeholder="(123) 456-7890">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <h3>Affiliation</h3>
+                        <div class="form-group">
+                            <label for="affiliation">I am a <span class="required">*</span></label>
+                            <select id="affiliation" name="affiliation" required onchange="toggleStudentFields()">
+                                <option value="">Select...</option>
+                                <option value="undergraduate">Undergraduate Student</option>
+                                <option value="graduate">Graduate Student</option>
+                                <option value="faculty">Faculty Member</option>
+                                <option value="staff">Staff Member</option>
+                                <option value="alumni">Alumni</option>
+                                <option value="external">External Professional</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div id="studentFields" style="display: none;">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="studentId">Student ID</label>
+                                    <input type="text" id="studentId" name="studentId" placeholder="1234567" pattern="[0-9]{7}" maxlength="7">
+                                    <small style="display: block; margin-top: 4px; color: #666; font-size: 0.85rem;">Enter 7 digits without the "s" prefix</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="department">Department/Major</label>
+                                    <input type="text" id="department" name="department" placeholder="e.g., Computer Science">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <h3>Interests & Preferences</h3>
+                        <div class="form-group">
+                            <label>What interests you most about this workshop?</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="interests" value="learning-ai">Learning AI fundamentals</label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="interests" value="hands-on">Hands-on practice</label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="interests" value="networking">Networking opportunities</label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="interests" value="research">Research opportunities</label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="interests" value="career">Career development</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="dietaryRestrictions">Dietary Restrictions</label>
+                            <input type="text" id="dietaryRestrictions" name="dietaryRestrictions" placeholder="e.g., Vegetarian, None">
+                        </div>
+                        <div class="form-group">
+                            <label for="accessibility">Accessibility Needs</label>
+                            <textarea id="accessibility" name="accessibility" rows="2" placeholder="Please let us know if you need any accommodations"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="comments">Additional Comments</label>
+                            <textarea id="comments" name="comments" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Pre-Workshop Survey -->
+                    <div class="survey-section" style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid #E57200;">
+                        <h3 style="color: #002855; margin-bottom: 1.5rem;">
+                            <i class="fas fa-clipboard-list"></i> Pre-Workshop Survey
+                        </h3>
+                        <p style="color: #666; margin-bottom: 1.5rem;">
+                            Please answer these questions to help us understand your current knowledge level.
+                        </p>
+
+                        <!-- Question 1: AI Familiarity -->
+                        <div class="form-group" style="margin-bottom: 1.5rem;">
+                            <label class="form-label" style="font-weight: 600; color: #002855; margin-bottom: 0.75rem; display: block;">
+                                1. How familiar were you with AI tools before this workshop? <span style="color: #E57200;">*</span>
+                            </label>
+                            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                <label class="radio-option" style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; transition: all 0.3s;">
+                                    <input type="radio" name="aiFamiliarity" value="not-at-all" required style="margin-right: 0.75rem; width: 18px; height: 18px;">
+                                    <span>Not at all familiar</span>
+                                </label>
+                                <label class="radio-option" style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; transition: all 0.3s;">
+                                    <input type="radio" name="aiFamiliarity" value="slightly" required style="margin-right: 0.75rem; width: 18px; height: 18px;">
+                                    <span>Slightly familiar</span>
+                                </label>
+                                <label class="radio-option" style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; transition: all 0.3s;">
+                                    <input type="radio" name="aiFamiliarity" value="somewhat" required style="margin-right: 0.75rem; width: 18px; height: 18px;">
+                                    <span>Somewhat familiar</span>
+                                </label>
+                                <label class="radio-option" style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; transition: all 0.3s;">
+                                    <input type="radio" name="aiFamiliarity" value="very" required style="margin-right: 0.75rem; width: 18px; height: 18px;">
+                                    <span>Very familiar</span>
+                                </label>
+                                <label class="radio-option" style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; transition: all 0.3s;">
+                                    <input type="radio" name="aiFamiliarity" value="extremely" required style="margin-right: 0.75rem; width: 18px; height: 18px;">
+                                    <span>Extremely familiar</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Question 2: Website Building Familiarity -->
+                        <div class="form-group" style="margin-bottom: 1.5rem;">
+                            <label class="form-label" style="font-weight: 600; color: #002855; margin-bottom: 0.75rem; display: block;">
+                                2. How familiar were you with website building before this workshop? <span style="color: #E57200;">*</span>
+                            </label>
+                            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                <label class="radio-option" style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; transition: all 0.3s;">
+                                    <input type="radio" name="websiteFamiliarity" value="none" required style="margin-right: 0.75rem; width: 18px; height: 18px;">
+                                    <span>None</span>
+                                </label>
+                                <label class="radio-option" style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; transition: all 0.3s;">
+                                    <input type="radio" name="websiteFamiliarity" value="basic" required style="margin-right: 0.75rem; width: 18px; height: 18px;">
+                                    <span>Basic knowledge (e.g., used templates)</span>
+                                </label>
+                                <label class="radio-option" style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; transition: all 0.3s;">
+                                    <input type="radio" name="websiteFamiliarity" value="intermediate" required style="margin-right: 0.75rem; width: 18px; height: 18px;">
+                                    <span>Intermediate (e.g., edited HTML/CSS)</span>
+                                </label>
+                                <label class="radio-option" style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; transition: all 0.3s;">
+                                    <input type="radio" name="websiteFamiliarity" value="advanced" required style="margin-right: 0.75rem; width: 18px; height: 18px;">
+                                    <span>Advanced (built a website from scratch)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Post-Workshop Survey -->
+                    <div class="survey-section" style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid #E57200;">
+                        <h3 style="color: #002855; margin-bottom: 1.5rem;">
+                            <i class="fas fa-star"></i> Post-Workshop Survey
+                        </h3>
+                        <p style="color: #666; margin-bottom: 1.5rem;">
+                            After the workshop, please rate your agreement with the following statements.
+                        </p>
+
+                        <!-- Question 3a: AI Understanding -->
+                        <div class="form-group" style="margin-bottom: 2rem;">
+                            <label class="form-label" style="font-weight: 600; color: #002855; margin-bottom: 1rem; display: block;">
+                                3. I understand how AI tools (like ChatGPT or design generators) can help in web development. <span style="color: #E57200;">*</span>
+                            </label>
+                            <div class="likert-scale" data-question="aiUnderstanding" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <input type="hidden" name="aiUnderstanding" required>
+                                <div style="display: flex; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap;">
+                                    <button type="button" class="likert-option" onclick="setLikertValue('aiUnderstanding', 1)" style="flex: 1; min-width: 120px; padding: 1rem; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; transition: all 0.3s; font-weight: 600;">
+                                        1<br><span style="font-size: 0.85rem; font-weight: 400;">Strongly Disagree</span>
+                                    </button>
+                                    <button type="button" class="likert-option" onclick="setLikertValue('aiUnderstanding', 2)" style="flex: 1; min-width: 120px; padding: 1rem; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; transition: all 0.3s; font-weight: 600;">
+                                        2<br><span style="font-size: 0.85rem; font-weight: 400;">Disagree</span>
+                                    </button>
+                                    <button type="button" class="likert-option" onclick="setLikertValue('aiUnderstanding', 3)" style="flex: 1; min-width: 120px; padding: 1rem; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; transition: all 0.3s; font-weight: 600;">
+                                        3<br><span style="font-size: 0.85rem; font-weight: 400;">Neutral</span>
+                                    </button>
+                                    <button type="button" class="likert-option" onclick="setLikertValue('aiUnderstanding', 4)" style="flex: 1; min-width: 120px; padding: 1rem; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; transition: all 0.3s; font-weight: 600;">
+                                        4<br><span style="font-size: 0.85rem; font-weight: 400;">Agree</span>
+                                    </button>
+                                    <button type="button" class="likert-option" onclick="setLikertValue('aiUnderstanding', 5)" style="flex: 1; min-width: 120px; padding: 1rem; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; transition: all 0.3s; font-weight: 600;">
+                                        5<br><span style="font-size: 0.85rem; font-weight: 400;">Strongly Agree</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question 3b: Website Confidence -->
+                        <div class="form-group" style="margin-bottom: 2rem;">
+                            <label class="form-label" style="font-weight: 600; color: #002855; margin-bottom: 1rem; display: block;">
+                                I feel more confident in my ability to build and publish a simple website. <span style="color: #E57200;">*</span>
+                            </label>
+                            <div class="likert-scale" data-question="websiteConfidence" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <input type="hidden" name="websiteConfidence" required>
+                                <div style="display: flex; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap;">
+                                    <button type="button" class="likert-option" onclick="setLikertValue('websiteConfidence', 1)" style="flex: 1; min-width: 120px; padding: 1rem; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; transition: all 0.3s; font-weight: 600;">
+                                        1<br><span style="font-size: 0.85rem; font-weight: 400;">Strongly Disagree</span>
+                                    </button>
+                                    <button type="button" class="likert-option" onclick="setLikertValue('websiteConfidence', 2)" style="flex: 1; min-width: 120px; padding: 1rem; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; transition: all 0.3s; font-weight: 600;">
+                                        2<br><span style="font-size: 0.85rem; font-weight: 400;">Disagree</span>
+                                    </button>
+                                    <button type="button" class="likert-option" onclick="setLikertValue('websiteConfidence', 3)" style="flex: 1; min-width: 120px; padding: 1rem; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; transition: all 0.3s; font-weight: 600;">
+                                        3<br><span style="font-size: 0.85rem; font-weight: 400;">Neutral</span>
+                                    </button>
+                                    <button type="button" class="likert-option" onclick="setLikertValue('websiteConfidence', 4)" style="flex: 1; min-width: 120px; padding: 1rem; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; transition: all 0.3s; font-weight: 600;">
+                                        4<br><span style="font-size: 0.85rem; font-weight: 400;">Agree</span>
+                                    </button>
+                                    <button type="button" class="likert-option" onclick="setLikertValue('websiteConfidence', 5)" style="flex: 1; min-width: 120px; padding: 1rem; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; transition: all 0.3s; font-weight: 600;">
+                                        5<br><span style="font-size: 0.85rem; font-weight: 400;">Strongly Agree</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question 4: Follow-up Email -->
+                        <div class="form-group" style="margin-bottom: 1.5rem;">
+                            <label class="form-label" style="font-weight: 600; color: #002855; margin-bottom: 0.75rem; display: block;">
+                                4. Please share your email or your personal domain to receive more updated contents of our workshop on AI and learning modules.
+                            </label>
+                            <input type="email" name="followUpEmail" class="form-input" placeholder="your.email@example.com or yourdomain.com" style="width: 100%; padding: 0.75rem; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                            <small style="color: #666; font-size: 0.9rem; margin-top: 0.5rem; display: block;">
+                                <i class="fas fa-info-circle"></i> This is optional. We'll use this to send you follow-up surveys and workshop updates.
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Hidden field for consent status -->
+                    <input type="hidden" id="reg-consent" name="consent" value="">
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="closeRegistrationModal()">Cancel</button>
+                        <button type="submit" class="btn-primary"><i class="fas fa-check"></i> Complete Registration</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Messages -->
+    <div id="successMessage" class="success-toast"><i class="fas fa-check-circle"></i><span id="successText"></span></div>
+    <div id="errorMessage" class="error-toast"><i class="fas fa-exclamation-circle"></i><span id="errorText"></span></div>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="wrapper">
+            <div class="header-inner">
+                <div class="logo">
+                    <a href="https://www.monmouth.edu" style="color: #fff; font-size: 1.5rem; font-weight: 400; text-decoration: none; font-family: 'Utopia Std', 'Georgia', serif;">
+                        Monmouth University
+                    </a>
+                </div>
+                <nav class="main-nav">
+                    <ul class="nav-menu">
+                        <li><a href="https://www.monmouth.edu">Home</a></li>
+                        <li><a href="https://www.monmouth.edu/academics/">Academics</a></li>
+                        <li><a href="https://www.monmouth.edu/department-of-csse/">CSSE Department</a></li>
+                        <li><a href="index.html">IEEE/ACM Chapter</a></li>
+                        <li><a href="#about">About AI Lab</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                    <button class="mobile-toggle" aria-label="Toggle mobile menu">
+                        <span></span><span></span><span></span>
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs">
+        <div class="wrapper">
+            <nav aria-label="Breadcrumb">
+                <ol>
+                    <li><a href="https://www.monmouth.edu">Home</a></li>
+                    <li><a href="https://www.monmouth.edu/academics/">Academics</a></li>
+                    <li><a href="https://www.monmouth.edu/school-of-science/">School of Science</a></li>
+                    <li><a href="https://www.monmouth.edu/department-of-csse/">Department of CSSE</a></li>
+                    <li><a href="index.html">IEEE/ACM Chapter</a></li>
+                    <li aria-current="page">AI Workshops & Research</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="wp-block-mu-hero has-featured-image">
+        <div class="hero-media"><div class="hero-overlay"></div></div>
+        <div class="hero-content-wrapper">
+            <div class="brackets"></div>
+            <h1 class="hero-title">AI Workshops & Research</h1>
+            <div class="hero-text">
+                <p>An IEEE/ACM Chapter Initiative</p>
+                <p>Advancing artificial intelligence through cutting-edge research, collaborative projects, and educational workshops.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-holder">
+        <div class="wrapper">
+            <div class="content-and-navigator">
+                <!-- Sidebar Navigation -->
+                <aside class="navigator">
+                    <nav class="supernav" aria-label="Section Navigation">
+                        <ul>
+                            <li><a href="index.html"><i class="fas fa-arrow-left"></i> Back to IEEE/ACM</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#about">About AI Lab</a></li>
+                            <li><a href="#research">Research Areas</a></li>
+                            <li><a href="#projects">Active Projects</a></li>
+                            <li><a href="#seminars">Workshops & Seminars</a></li>
+                            <li><a href="#team">Research Team</a></li>
+                            <li><a href="#resources">Resources</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                            <li class="divider"></li>
+                            <li><a href="https://www.instagram.com/monmouth_ieeeacm/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        </ul>
+                    </nav>
+                </aside>
+
+                <!-- Main Content Area -->
+                <main class="content">
+                    <!-- About Section -->
+                    <section id="about" class="content-section">
+                        <h2>Welcome to the AI Research Lab</h2>
+                        <p class="lead">The IEEE/ACM AI Workshops and Research Lab brings together students, faculty, and industry professionals to explore the frontiers of artificial intelligence and machine learning.</p>
+
+                        <div class="info-callout">
+                            <i class="fas fa-info-circle"></i>
+                            <div>
+                                <strong>Organized by IEEE/ACM Student Chapter</strong>
+                                <p>These workshops are part of the IEEE/ACM chapter's commitment to providing cutting-edge learning opportunities to Monmouth University students.</p>
+                            </div>
+                        </div>
+
+                        <!-- Workshop Materials Callout - Compact -->
+                        <div style="margin-top: 1.5rem; padding: 1rem 1.25rem; background: #f8f9fa; border-left: 4px solid #E57200; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                <i class="fas fa-file-pdf" style="font-size: 1.5rem; color: #E57200;"></i>
+                                <span style="font-weight: 600; color: #002855;">Workshop Slides: Build Your Portfolio with AI</span>
+                            </div>
+                            <a href="AI_Portfolio_Workshop.pdf" target="_blank" style="background: #E57200; color: white; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 600; transition: all 0.3s; font-size: 0.9rem;">
+                                <i class="fas fa-download"></i> View PDF
+                            </a>
+                        </div>
+                    </section>
+
+                    <!-- Research Areas Section -->
+                    <section id="research" class="content-section">
+                        <h2>Research Areas</h2>
+                        <div class="research-grid">
+                            <div class="research-card">
+                                <i class="fas fa-brain"></i>
+                                <h3>Machine Learning</h3>
+                                <p>Neural networks, deep learning, and advanced ML algorithms</p>
+                            </div>
+                            <div class="research-card">
+                                <i class="fas fa-comments"></i>
+                                <h3>Natural Language Processing</h3>
+                                <p>Language models, chatbots, and text analysis</p>
+                            </div>
+                            <div class="research-card">
+                                <i class="fas fa-eye"></i>
+                                <h3>Computer Vision</h3>
+                                <p>Image recognition, object detection, and visual AI</p>
+                            </div>
+                            <div class="research-card">
+                                <i class="fas fa-robot"></i>
+                                <h3>Robotics & AI</h3>
+                                <p>Autonomous systems and intelligent agents</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Active Projects Section -->
+                    <section id="projects" class="content-section">
+                        <h2>Active Projects</h2>
+                        <div class="project-list">
+                            <article class="project-card">
+                                <h3>UleAIrn</h3>
+                                <p>An innovative AI-powered learning platform designed to personalize education and enhance student engagement through adaptive learning technologies.</p>
+                                <p><strong>Technologies:</strong> AI/ML, Adaptive Learning, EdTech</p>
+                                <a href="https://www.uleairn.com/" target="_blank" class="btn-secondary" style="display: inline-block; margin-top: 1rem;">Visit UleAIrn</a>
+                            </article>
+                            <article class="project-card">
+                                <h3>Gamified Learning with AI</h3>
+                                <p>Integrating game mechanics with artificial intelligence to create engaging, interactive learning experiences that motivate and educate students.</p>
+                                <p><strong>Technologies:</strong> AI, Gamification, Interactive Learning</p>
+                            </article>
+                            <article class="project-card">
+                                <h3>Monmouth University's Hawk Hack</h3>
+                                <p>Annual hackathon bringing together students, faculty, and industry professionals to build innovative solutions using cutting-edge technologies including AI and machine learning.</p>
+                                <p><strong>Focus:</strong> Innovation, Collaboration, Technology</p>
+                            </article>
+                        </div>
+                    </section>
+
+                    <!-- Workshops & Seminars Section -->
+                    <section id="seminars" class="content-section">
+                        <h2>Workshops & Seminars</h2>
+                        <h3>Upcoming Events</h3>
+                        <div class="event-list">
+                            <article class="event-card featured">
+                                <div class="event-date"><span class="day">13</span><span class="month">Nov</span></div>
+                                <div class="event-content">
+                                    <span class="event-category">Web Development & AI</span>
+                                    <h4>AI Site Lab: Your Portfolio Your Way</h4>
+                                    <p>Learn to build your personal portfolio website using AI-powered tools and modern web technologies. Hands-on workshop where you'll create, customize, and deploy your own portfolio site.</p>
+                                    <p><strong>Speaker:</strong> Kiumbura Githinji<br>
+                                    <strong>Time:</strong> 1:15 PM - 2:30 PM<br>
+                                    <strong>Location:</strong> Edison Hall Room 201, Monmouth University</p>
+                                    <a href="https://cglink.me/24X/r375564" target="_blank" class="btn-primary">Register Now</a>
+                                </div>
+                            </article>
+
+                            <article class="event-card">
+                                <div class="event-date"><span class="day">20</span><span class="month">Nov</span></div>
+                                <div class="event-content">
+                                    <span class="event-category">Web Development & AI</span>
+                                    <h4>AI Site Lab: Your Portfolio Your Way</h4>
+                                    <p>Learn to build your personal portfolio website using AI-powered tools and modern web technologies. Hands-on workshop where you'll create, customize, and deploy your own portfolio site.</p>
+                                    <p><strong>Speaker:</strong> Kiumbura Githinji<br>
+                                    <strong>Time:</strong> 1:15 PM - 2:30 PM<br>
+                                    <strong>Location:</strong> Edison Hall Room 201, Monmouth University</p>
+                                    <div class="event-buttons" style="display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center;">
+                                        <a href="https://cglink.me/24X/r375584" target="_blank" class="btn-primary">Register Now</a>
+                                        <button onclick="copyStartingPrompt(this)" class="btn-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                                            <i class="fas fa-copy"></i> Copy Starting Prompt
+                                        </button>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </section>
+
+                    <!-- Research Team Section -->
+                    <section id="team" class="content-section">
+                        <h2>Research Team</h2>
+                        <p>Our team consists of dedicated students, faculty advisors, and industry partners.</p>
+
+                        <h3>Student Leaders</h3>
+                        <div class="team-grid">
+                            <div class="team-card">
+                                <img src="kiumbura-githinji.jpg" alt="Kiumbura Githinji" class="team-photo">
+                                <h4>Kiumbura Githinji</h4>
+                                <p class="team-role">AI Lab Coordinator<br>IEEE/ACM President</p>
+                                <p class="team-contact"><i class="fas fa-envelope"></i> <a href="mailto:s1358017@monmouth.edu">s1358017@monmouth.edu</a></p>
+                            </div>
+                        </div>
+
+                        <h3 style="margin-top: 2rem;">Faculty Advisor</h3>
+                        <div class="team-grid">
+                            <div class="team-card">
+                                <img src="ling-zheng.jpg" alt="Dr. Ling Zheng" class="team-photo">
+                                <h4>Dr. Ling Zheng</h4>
+                                <p class="team-role">Department Chair<br>Computer Science & Software Engineering</p>
+                                <p class="team-contact"><i class="fas fa-envelope"></i> <a href="mailto:lzheng@monmouth.edu">lzheng@monmouth.edu</a></p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Resources Section -->
+                    <section id="resources" class="content-section">
+                        <h2>Resources</h2>
+                        <div class="resources-grid">
+                            <div class="resource-card">
+                                <i class="fas fa-book"></i>
+                                <h3>Learning Materials</h3>
+                                <ul>
+                                    <li><a href="filezilla-cheatsheet.html"><i class="fas fa-file-alt"></i> FileZilla Cheat Sheet</a></li>
+                                    <li><a href="#">Workshop Slides & Code</a></li>
+                                    <li><a href="#">Tutorial Videos</a></li>
+                                    <li><a href="#">Recommended Reading</a></li>
+                                </ul>
+                            </div>
+                            <div class="resource-card">
+                                <i class="fas fa-tools"></i>
+                                <h3>Tools & Software</h3>
+                                <ul>
+                                    <li><a href="https://pytorch.org" target="_blank">PyTorch</a></li>
+                                    <li><a href="https://www.tensorflow.org" target="_blank">TensorFlow</a></li>
+                                    <li><a href="https://scikit-learn.org" target="_blank">Scikit-learn</a></li>
+                                </ul>
+                            </div>
+                            <div class="resource-card">
+                                <i class="fas fa-graduation-cap"></i>
+                                <h3>Online Courses</h3>
+                                <ul>
+                                    <li><a href="https://www.coursera.org/learn/machine-learning" target="_blank">Machine Learning (Coursera)</a></li>
+                                    <li><a href="https://www.fast.ai" target="_blank">Fast.ai</a></li>
+                                    <li><a href="https://www.deeplearning.ai" target="_blank">DeepLearning.AI</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Contact Section -->
+                    <section id="contact" class="content-section">
+                        <h2>Get Involved</h2>
+                        <p>Interested in joining our AI workshops or research projects? We welcome all Monmouth University students!</p>
+
+                        <div class="contact-info">
+                            <div class="contact-block">
+                                <h3><i class="fas fa-envelope"></i> Email</h3>
+                                <p><strong>Student Coordinator:</strong><br>
+                                <a href="mailto:s1358017@monmouth.edu">s1358017@monmouth.edu</a><br>
+                                <em>Kiumbura Githinji, IEEE/ACM President</em></p>
+                                <p style="margin-top: 1rem;"><strong>Faculty Advisor:</strong><br>
+                                <a href="mailto:lzheng@monmouth.edu">lzheng@monmouth.edu</a><br>
+                                <em>Dr. Ling Zheng, Department Chair</em></p>
+                            </div>
+                            <div class="contact-block">
+                                <h3><i class="fas fa-users"></i> Join the Community</h3>
+                                <p><a href="https://www.instagram.com/monmouth_ieeeacm/" target="_blank"><i class="fab fa-instagram"></i> Follow on Instagram</a><br>
+                                <a href="https://forms.office.com/r/qm0mq5jU4W" target="_blank"><i class="fas fa-user-plus"></i> Become an IEEE/ACM Member</a></p>
+                            </div>
+                            <div class="contact-block">
+                                <h3><i class="fas fa-map-marker-alt"></i> Location</h3>
+                                <p>Howard Hall, Room 221<br>Monmouth University<br>West Long Branch, NJ 07764<br><br>
+                                <strong>Phone:</strong> (732) 571-3400</p>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="wrapper">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>IEEE/ACM Monmouth</h3>
+                    <p>AI Workshops & Research<br>Student Chapter Initiative</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">IEEE/ACM Main Page</a></li>
+                        <li><a href="https://www.monmouth.edu">Monmouth Home</a></li>
+                        <li><a href="https://www.monmouth.edu/department-of-csse/">CSSE Department</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <ul>
+                        <li><a href="https://www.instagram.com/monmouth_ieeeacm/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li><a href="mailto:s1358017@monmouth.edu"><i class="fas fa-envelope"></i> Email</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 IEEE/ACM Monmouth University Chapter. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="monmouth-ai-workshops-v2.js"></script>
+    <script src="workshop-forms.js"></script>
+    <script src="chatbot.js"></script>
+    <script>
+        console.log('✅ AI Workshops page loaded');
+        console.log('✅ Registration system ready');
+        console.log('✅ Survey system with informed consent ready');
+
+        // Copy starting prompt function
+        function copyStartingPrompt(button) {
+            const prompt = `Create a modern, responsive personal portfolio website with:
+Hero section with my name and title
+About section with biography
+Projects showcase (3 projects with descriptions)
+Contact section with email/links
+Make it a single HTML file with embedded CSS and JavaScript
+Use a clean, professional design with modern aesthetics`;
+
+            navigator.clipboard.writeText(prompt).then(() => {
+                // Show success feedback
+                const originalHTML = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                button.style.background = '#28a745';
+                button.style.color = 'white';
+
+                setTimeout(() => {
+                    button.innerHTML = originalHTML;
+                    button.style.background = '';
+                    button.style.color = '';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                alert('Failed to copy prompt. Please try again.');
+            });
+        }
+    </script>
+
+    <style>
+        /* Radio option hover effects */
+        .radio-option:hover {
+            border-color: #E57200 !important;
+            background: #fff8f0 !important;
+        }
+
+        .radio-option input[type="radio"]:checked {
+            accent-color: #E57200;
+        }
+
+        .radio-option:has(input:checked) {
+            border-color: #E57200 !important;
+            background: #fff8f0 !important;
+        }
+
+        /* Likert scale button styles */
+        .likert-option:hover {
+            border-color: #004C97 !important;
+            background: #f0f7ff !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .likert-option.selected {
+            border-color: #E57200 !important;
+            background: #E57200 !important;
+            color: white !important;
+        }
+
+        .likert-option.selected span {
+            color: white !important;
+        }
+
+        /* Responsive design for Likert scale */
+        @media (max-width: 768px) {
+            .likert-scale > div {
+                flex-direction: column;
+            }
+
+            .likert-option {
+                width: 100% !important;
+                min-width: auto !important;
+            }
+        }
+    </style>
+</body>
+</html>
