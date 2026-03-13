@@ -576,14 +576,14 @@ class IEEEACMAssistant {
         container.className = 'assistant-container';
         container.innerHTML = `
             <button class="assistant-button" id="assistant-toggle" aria-label="Open AI assistant">
-                <img src="shadow_transparent.png" alt="Monmouth Shadow Hawk">
+                <img src="images/shadow_transparent.png" alt="Monmouth Shadow Hawk">
                 <span class="assistant-badge">?</span>
             </button>
 
             <div class="assistant-window" id="assistant-window">
                 <div class="assistant-header">
                     <div class="assistant-header-title">
-                        <img src="shadow_transparent.png" alt="Shadow Hawk" class="assistant-header-logo">
+                        <img src="images/shadow_transparent.png" alt="Shadow Hawk" class="assistant-header-logo">
                         <h3>${ASSISTANT_CONFIG.botName}</h3>
                     </div>
                     <button class="assistant-close" id="assistant-close" aria-label="Close assistant">
@@ -660,7 +660,7 @@ class IEEEACMAssistant {
         messageDiv.className = `assistant-message ${sender}`;
 
         const avatarContent = sender === 'bot'
-            ? '<img src="shadow_transparent.png" alt="Shadow Hawk">'
+            ? '<img src="images/shadow_transparent.png" alt="Shadow Hawk">'
             : '👤';
 
         messageDiv.innerHTML = `
@@ -679,7 +679,7 @@ class IEEEACMAssistant {
         typingDiv.id = 'typing-indicator';
         typingDiv.innerHTML = `
             <div class="assistant-message-avatar">
-                <img src="shadow_transparent.png" alt="Shadow Hawk">
+                <img src="images/shadow_transparent.png" alt="Shadow Hawk">
             </div>
             <div class="assistant-typing">
                 <div class="assistant-typing-dot"></div>

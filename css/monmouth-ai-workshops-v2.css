@@ -753,7 +753,7 @@ a:hover {
 }
 
 /* Specific adjustment for Lynda's photo to show full face and head */
-img[src="lynda-levy.JPG"] {
+img[src="images/lynda-levy.JPG"] {
     object-position: center 30%;
 }
 
