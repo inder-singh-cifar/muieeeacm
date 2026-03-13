@@ -728,6 +728,62 @@ a:hover {
     border-radius: 8px;
 }
 
+.team-card {
+    text-align: center;
+    padding: 2rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.team-photo {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 1rem;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--monmouth-orange);
+    display: block;
+}
+
+/* Specific adjustment for Lynda's photo to show full face and head */
+img[src="lynda-levy.JPG"] {
+    object-position: center 30%;
+}
+
+.team-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: var(--monmouth-blue);
+}
+
+.team-role {
+    color: var(--monmouth-orange);
+    font-weight: 600;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.team-contact {
+    font-size: 0.9rem;
+    color: var(--monmouth-gray);
+}
+
+.team-contact a {
+    color: var(--monmouth-blue);
+    text-decoration: none;
+}
+
+.team-contact a:hover {
+    text-decoration: underline;
+}
+
 .member-photo {
     width: 120px;
     height: 120px;
@@ -813,6 +869,551 @@ a:hover {
     text-decoration: none;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* ==========================================================================
+   Give / Crowdfunding Section
+   ========================================================================== */
+
+.give-banner-link {
+    display: block;
+    margin: 1.5rem 0;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 16px rgba(0, 40, 85, 0.2);
+}
+
+.give-banner-link:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 28px rgba(0, 40, 85, 0.35);
+}
+
+.give-banner-img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* Fundraising Progress Bar */
+
+.fundraise-progress-container {
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    background: #fff;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    position: relative;
+}
+
+.fundraise-stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    text-align: center;
+}
+
+.fundraise-stat {
+    display: flex;
+    flex-direction: column;
+}
+
+.fundraise-stat-amount {
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--monmouth-blue);
+    line-height: 1.2;
+}
+
+.fundraise-stat-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--monmouth-gray);
+    margin-top: 0.15rem;
+}
+
+.fundraise-bar-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.fundraise-bar {
+    flex: 1;
+    height: 20px;
+    background: var(--monmouth-light-gray);
+    border-radius: 50px;
+    overflow: hidden;
+    position: relative;
+}
+
+.fundraise-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--monmouth-orange), #ff9800);
+    border-radius: 50px;
+    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    min-width: 0;
+}
+
+.fundraise-bar-fill::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.25) 50%,
+        transparent 100%
+    );
+    animation: barShimmer 2s infinite;
+}
+
+@keyframes barShimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.fundraise-percent {
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--monmouth-orange);
+    min-width: 40px;
+    text-align: right;
+}
+
+.fundraise-admin-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+    padding: 0.4rem 0.85rem;
+    background: none;
+    border: 1px dashed var(--monmouth-gray);
+    border-radius: 6px;
+    color: var(--monmouth-gray);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.fundraise-admin-btn:hover {
+    border-color: var(--monmouth-light-blue);
+    color: var(--monmouth-light-blue);
+}
+
+/* Fundraise Admin Modal */
+
+.fundraise-admin-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 40, 85, 0.6);
+    z-index: 5000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.fundraise-admin-overlay.active {
+    display: flex;
+}
+
+.fundraise-admin-box {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 360px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+.fundraise-admin-box h3 {
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 1.2rem;
+    color: var(--monmouth-blue);
+    margin-bottom: 0.5rem;
+}
+
+.fundraise-admin-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.fundraise-admin-fields label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.fundraise-admin-fields label span {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--monmouth-gray);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.fundraise-admin-fields input {
+    padding: 0.5rem 0.75rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.95rem;
+    color: var(--monmouth-text);
+    transition: border-color 0.2s;
+}
+
+.fundraise-admin-fields input:focus {
+    outline: none;
+    border-color: var(--monmouth-blue);
+}
+
+@media (max-width: 767px) {
+    .fundraise-stats-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem 0.5rem;
+    }
+
+    .fundraise-stat-amount {
+        font-size: 1.3rem;
+    }
+}
+
+.give-details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.give-goal-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--monmouth-light-gray);
+    border-radius: 10px;
+    border-left: 4px solid var(--monmouth-orange);
+}
+
+.give-goal-icon {
+    font-size: 1.5rem;
+    color: var(--monmouth-orange);
+    flex-shrink: 0;
+}
+
+.give-goal-label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--monmouth-gray);
+}
+
+.give-goal-amount {
+    display: block;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--monmouth-blue);
+    font-family: 'Crimson Text', Georgia, serif;
+}
+
+.give-why {
+    margin-top: 2rem;
+    padding: 2rem;
+    background: #fff;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+}
+
+.give-why h3 {
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 1.4rem;
+    color: var(--monmouth-blue);
+    margin-bottom: 0.75rem;
+}
+
+.give-why > p {
+    color: var(--monmouth-gray);
+    margin-bottom: 1.25rem;
+    line-height: 1.6;
+}
+
+.give-impact-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+}
+
+.give-impact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: var(--monmouth-light-gray);
+    border-radius: 8px;
+    font-size: 0.92rem;
+    color: #333;
+    line-height: 1.4;
+}
+
+.give-impact-item i {
+    color: var(--monmouth-orange);
+    font-size: 1.1rem;
+    margin-top: 0.15rem;
+    flex-shrink: 0;
+}
+
+@media (max-width: 767px) {
+    .give-details {
+        grid-template-columns: 1fr;
+    }
+
+    .give-impact-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .give-why {
+        padding: 1.25rem;
+    }
+}
+
+/* ==========================================================================
+   Giving Day Countdown Widget
+   ========================================================================== */
+
+.giving-day-widget {
+    margin-top: 2.5rem;
+    background: linear-gradient(135deg, #001a3a 0%, #002855 100%);
+    border-radius: 16px;
+    padding: 2rem;
+    color: #fff;
+    text-align: center;
+    box-shadow: 0 6px 24px rgba(0, 40, 85, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.giving-day-widget::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 20% 80%, rgba(229, 114, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(13, 100, 178, 0.15) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.giving-day-widget.live {
+    background: linear-gradient(135deg, #1a3a00 0%, #2e7d32 100%);
+    box-shadow: 0 6px 24px rgba(46, 125, 50, 0.35);
+}
+
+.giving-day-header {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.giving-day-badge {
+    display: inline-block;
+    background: rgba(229, 114, 0, 0.2);
+    border: 1px solid rgba(229, 114, 0, 0.4);
+    color: var(--monmouth-orange);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    padding: 0.35rem 1rem;
+    border-radius: 50px;
+    margin-bottom: 0.75rem;
+}
+
+.giving-day-header h3 {
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem;
+    color: #fff;
+}
+
+.giving-day-header p {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.75);
+    margin: 0;
+    max-width: 500px;
+    margin-inline: auto;
+}
+
+.giving-day-countdown {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1.5rem 0;
+    position: relative;
+}
+
+.countdown-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    min-width: 72px;
+    backdrop-filter: blur(4px);
+}
+
+.countdown-number {
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+}
+
+.countdown-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 0.25rem;
+}
+
+.countdown-separator {
+    font-size: 2rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.3);
+    line-height: 1;
+    padding-bottom: 1rem;
+}
+
+.giving-day-status {
+    margin-bottom: 1.25rem;
+    position: relative;
+}
+
+.status-upcoming {
+    color: var(--monmouth-orange);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.status-upcoming i {
+    margin-right: 0.4rem;
+}
+
+.status-live {
+    color: #69f0ae;
+    font-weight: 700;
+    font-size: 1rem;
+    animation: livePulse 1.5s infinite;
+}
+
+.status-live i {
+    font-size: 0.6rem;
+    vertical-align: middle;
+    margin-right: 0.4rem;
+}
+
+@keyframes livePulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+.status-ended {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.95rem;
+}
+
+.giving-day-details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.giving-day-detail-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 0.5rem 0.85rem;
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.giving-day-detail-item i {
+    color: var(--monmouth-orange);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.giving-day-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 2rem;
+    background: var(--monmouth-orange);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.giving-day-cta:hover {
+    background: #c96200;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(229, 114, 0, 0.4);
+    text-decoration: none;
+}
+
+@media (max-width: 767px) {
+    .giving-day-widget {
+        padding: 1.5rem 1rem;
+    }
+
+    .giving-day-countdown {
+        gap: 0.3rem;
+    }
+
+    .countdown-unit {
+        min-width: 56px;
+        padding: 0.6rem 0.5rem;
+    }
+
+    .countdown-number {
+        font-size: 1.8rem;
+    }
+
+    .countdown-separator {
+        font-size: 1.5rem;
+    }
+
+    .giving-day-details {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .giving-day-header h3 {
+        font-size: 1.3rem;
+    }
 }
 
 /* ==========================================================================

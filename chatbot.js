@@ -13,10 +13,17 @@ const ASSISTANT_CONFIG = {
     placeholderText: 'Ask me anything...',
     errorMessage: 'Sorry, I\'m having trouble connecting. Please try again later or email us at s1358017@monmouth.edu',
 
-    // System context for Gemini
-    systemContext: `You are a helpful AI assistant for the IEEE/ACM student chapter at Monmouth University.
+    // Base system context for Gemini (events get appended dynamically)
+    systemContextBase: `You are the IEEE/ACM AI assistant ("Shadow") for the IEEE/ACM student chapter at Monmouth University.
 
-Your knowledge:
+RESPONSE RULES:
+- Keep responses SHORT (2-4 sentences max for simple questions).
+- Use bullet points for lists, but limit to 5 items.
+- Never write paragraphs longer than 3 sentences.
+- When listing events, show: title, date/day, time, and location.
+- Be friendly and conversational, not formal.
+
+Chapter Info:
 - IEEE: Institute of Electrical and Electronics Engineers - world's largest technical professional organization
 - ACM: Association for Computing Machinery - world's largest computing society
 - This is a student chapter at Monmouth University
@@ -25,39 +32,141 @@ Your knowledge:
 - Treasurer: Lynda Levy
 - Secretary: Anna Pitera
 
-We offer:
-- AI Workshops & Research (cutting-edge machine learning, NLP, computer vision)
+Activities:
+- AI Workshops & Research (machine learning, NLP, computer vision)
 - Technical workshops (Python, web development, cybersecurity)
-- Guest speaker events with industry professionals
-- Networking opportunities
-- Research collaboration
-- Career development (resume reviews, interview prep)
+- Guest speakers from industry
+- Networking, career development, resume reviews
 - Hackathons and programming competitions
 
 Membership Benefits:
-- Access to IEEE and ACM digital libraries
+- IEEE and ACM digital library access
 - Professional development resources
 - Networking with industry leaders
-- Scholarship opportunities
-- Leadership experience
+- Scholarship and leadership opportunities
+
+Support & Give:
+- The chapter has a crowdfunding campaign to re-establish official IEEE and ACM affiliation
+- Goal: $5,000 | Deadline: April 28, 2026
+- Donations support: official chapter status fees, professional speakers, workshops, networking events, and digital library access
+- Donate at: https://fly.monmouth.edu/project/49605
+- Every gift helps pave the way for student success in tech
 
 Contact:
 - Email: s1358017@monmouth.edu
 - Instagram: @monmouth_ieeeacm
-- Join Form: https://forms.office.com/r/qm0mq5jU4W
-
-Be friendly, informative, and helpful. Answer questions about the chapter, events, membership, computer science, and engineering topics. Keep responses concise and engaging.`
+- Join: https://forms.office.com/r/qm0mq5jU4W
+- Events Calendar: events.html`
 };
+
+function buildEventsContext() {
+    const DAYS_FULL = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+    let eventsData = [];
+    try {
+        const stored = localStorage.getItem('ieeeacm_events');
+        if (stored) {
+            eventsData = JSON.parse(stored) || [];
+        }
+    } catch { /* ignore */ }
+
+    if (eventsData.length === 0) return '\n\nNo events currently scheduled.';
+
+    function formatTime12(t) {
+        if (!t) return '';
+        const [h, m] = t.split(':').map(Number);
+        const ampm = h >= 12 ? 'PM' : 'AM';
+        return (h % 12 || 12) + ':' + (m < 10 ? '0' : '') + m + ' ' + ampm;
+    }
+
+    function generateUpcoming(event, rangeStart, rangeEnd) {
+        const occ = [];
+        const rec = event.recurrence;
+        const excluded = new Set(event.excludedDates || []);
+        if (!rec) return occ;
+
+        if (rec.type === 'once') {
+            const d = new Date(rec.date + 'T00:00:00');
+            if (d >= rangeStart && d <= rangeEnd && !excluded.has(rec.date)) occ.push(d);
+        } else if (rec.type === 'weekly' || rec.type === 'biweekly') {
+            const start = new Date(rec.startDate + 'T00:00:00');
+            const end = new Date(rec.endDate + 'T00:00:00');
+            const es = rangeStart > start ? rangeStart : start;
+            const ee = rangeEnd < end ? rangeEnd : end;
+            let cur = new Date(start);
+            while (cur.getDay() !== rec.day) cur.setDate(cur.getDate() + 1);
+            const step = rec.type === 'biweekly' ? 14 : 7;
+            while (cur <= ee) {
+                const ds = cur.getFullYear() + '-' + String(cur.getMonth()+1).padStart(2,'0') + '-' + String(cur.getDate()).padStart(2,'0');
+                if (cur >= es && !excluded.has(ds)) occ.push(new Date(cur));
+                cur.setDate(cur.getDate() + step);
+            }
+        } else if (rec.type === 'monthly') {
+            const start = new Date(rec.startDate + 'T00:00:00');
+            const end = new Date(rec.endDate + 'T00:00:00');
+            const es = rangeStart > start ? rangeStart : start;
+            const ee = rangeEnd < end ? rangeEnd : end;
+            let cur = new Date(es.getFullYear(), es.getMonth(), rec.dayOfMonth);
+            if (cur < es) cur.setMonth(cur.getMonth() + 1);
+            while (cur <= ee) {
+                const ds = cur.getFullYear() + '-' + String(cur.getMonth()+1).padStart(2,'0') + '-' + String(cur.getDate()).padStart(2,'0');
+                if (cur.getDate() === rec.dayOfMonth && !excluded.has(ds)) occ.push(new Date(cur));
+                cur = new Date(cur.getFullYear(), cur.getMonth() + 1, rec.dayOfMonth);
+            }
+        }
+        return occ;
+    }
+
+    const now = new Date(); now.setHours(0,0,0,0);
+    const end = new Date(now); end.setMonth(end.getMonth() + 3);
+    const all = [];
+    eventsData.forEach(ev => {
+        generateUpcoming(ev, now, end).forEach(date => {
+            all.push({ event: ev, date });
+        });
+    });
+    all.sort((a, b) => a.date - b.date);
+
+    if (all.length === 0) return '\n\nNo upcoming events in the next 3 months.';
+
+    let ctx = '\n\nUPCOMING EVENTS (next 3 months):\n';
+    all.slice(0, 15).forEach(item => {
+        const ev = item.event;
+        const d = item.date;
+        const dayName = DAYS_FULL[d.getDay()];
+        const dateStr = MONTHS[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+        ctx += '- ' + ev.title + ' | ' + dayName + ', ' + dateStr + ' | ' + formatTime12(ev.startTime) + '-' + formatTime12(ev.endTime) + ' | ' + ev.location;
+        if (ev.description) ctx += ' | ' + ev.description;
+        ctx += '\n';
+    });
+
+    // Also list all event types/series
+    ctx += '\nALL EVENT SERIES:\n';
+    eventsData.forEach(ev => {
+        const rec = ev.recurrence;
+        let schedule = '';
+        if (rec.type === 'once') schedule = 'One-time on ' + rec.date;
+        else if (rec.type === 'weekly') schedule = 'Every ' + DAYS_FULL[rec.day] + ' (' + rec.startDate + ' to ' + rec.endDate + ')';
+        else if (rec.type === 'biweekly') schedule = 'Every other ' + DAYS_FULL[rec.day] + ' (' + rec.startDate + ' to ' + rec.endDate + ')';
+        else if (rec.type === 'monthly') schedule = 'Monthly on the ' + rec.dayOfMonth + 'th (' + rec.startDate + ' to ' + rec.endDate + ')';
+        ctx += '- ' + ev.title + ' [' + ev.category + '] | ' + schedule + ' | ' + formatTime12(ev.startTime) + '-' + formatTime12(ev.endTime) + ' | ' + ev.location + '\n';
+    });
+
+    return ctx;
+}
 
 class IEEEACMAssistant {
     constructor() {
         this.isOpen = false;
         this.messages = [];
         this.conversationHistory = [];
+        this.systemContext = '';
         this.init();
     }
 
     init() {
+        this.systemContext = ASSISTANT_CONFIG.systemContextBase + buildEventsContext();
         this.injectStyles();
         this.createChatWidget();
         this.attachEventListeners();
@@ -261,11 +370,49 @@ class IEEEACMAssistant {
             }
 
             .assistant-message-content {
-                max-width: 70%;
+                max-width: 75%;
                 padding: 12px 16px;
                 border-radius: 12px;
-                line-height: 1.5;
+                line-height: 1.6;
                 font-size: 14px;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+                overflow: hidden;
+            }
+
+            .assistant-message-content a {
+                color: #004C97;
+                word-break: break-all;
+            }
+
+            .assistant-message.user .assistant-message-content a {
+                color: #69B3E7;
+            }
+
+            .assistant-message-content strong {
+                font-weight: 700;
+            }
+
+            .assistant-message-content em {
+                font-style: italic;
+            }
+
+            .assistant-message-content code {
+                background: #f5f5f5;
+                padding: 2px 6px;
+                border-radius: 4px;
+                font-family: 'Courier New', monospace;
+                font-size: 13px;
+            }
+
+            .assistant-message.bot .assistant-message-content code {
+                background: #f0f0f0;
+                color: #d63384;
+            }
+
+            .assistant-message.user .assistant-message-content code {
+                background: rgba(255, 255, 255, 0.2);
+                color: white;
             }
 
             .assistant-message.bot .assistant-message-content {
@@ -518,7 +665,7 @@ class IEEEACMAssistant {
 
         messageDiv.innerHTML = `
             <div class="assistant-message-avatar">${avatarContent}</div>
-            <div class="assistant-message-content">${this.escapeHtml(text)}</div>
+            <div class="assistant-message-content">${this.formatText(text)}</div>
         `;
 
         messagesContainer.appendChild(messageDiv);
@@ -592,6 +739,9 @@ class IEEEACMAssistant {
         // Show typing indicator
         this.showTyping();
 
+        // Refresh events context in case admin made changes
+        this.systemContext = ASSISTANT_CONFIG.systemContextBase + buildEventsContext();
+
         try {
             // Call Gemini API
             const response = await fetch(
@@ -605,7 +755,7 @@ class IEEEACMAssistant {
                         contents: [
                             {
                                 role: 'user',
-                                parts: [{ text: ASSISTANT_CONFIG.systemContext }]
+                                parts: [{ text: this.systemContext }]
                             },
                             ...this.conversationHistory
                         ],
@@ -664,10 +814,36 @@ class IEEEACMAssistant {
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
 
-    escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
+    formatText(text) {
+        // Convert markdown-style formatting to HTML
+        let formatted = text
+            // Escape HTML first
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            // Bold text: **text** or __text__
+            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+            .replace(/__(.+?)__/g, '<strong>$1</strong>')
+            // Italic text: *text* or _text_
+            .replace(/\*(.+?)\*/g, '<em>$1</em>')
+            .replace(/_(.+?)_/g, '<em>$1</em>')
+            // Code blocks: ```code```
+            .replace(/```(.+?)```/gs, '<code>$1</code>')
+            // Inline code: `code`
+            .replace(/`(.+?)`/g, '<code>$1</code>')
+            // URLs to clickable links
+            .replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>')
+            // Line breaks
+            .replace(/\n\n/g, '<br><br>')
+            .replace(/\n/g, '<br>');
+
+        // Handle numbered lists: 1. item
+        formatted = formatted.replace(/(\d+)\.\s+(.+?)(<br>|$)/g, '<div style="margin-left: 20px;">$1. $2</div>');
+
+        // Handle bullet points: - item or * item
+        formatted = formatted.replace(/[-•]\s+(.+?)(<br>|$)/g, '<div style="margin-left: 20px;">• $1</div>');
+
+        return formatted;
     }
 }
 

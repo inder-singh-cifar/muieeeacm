@@ -1,0 +1,92 @@
+{
+  "categories": [
+    { "id": "meeting", "name": "Meeting", "color": "#002855" },
+    { "id": "workshop", "name": "Workshop", "color": "#E57200" },
+    { "id": "competition", "name": "Competition", "color": "#6a1b9a" },
+    { "id": "career", "name": "Career", "color": "#2e7d32" },
+    { "id": "social", "name": "Social", "color": "#c62828" }
+  ],
+  "events": [
+    {
+      "id": "evt-001",
+      "title": "General Body Meeting",
+      "description": "Regular chapter meeting open to all members. Discuss upcoming events, project updates, and chapter business.",
+      "location": "Howard Hall, Room 221",
+      "category": "Meeting",
+      "startTime": "13:15",
+      "endTime": "14:30",
+      "recurrence": {
+        "type": "weekly",
+        "day": 4,
+        "startDate": "2026-01-22",
+        "endDate": "2026-05-14"
+      },
+      "createdAt": "2026-01-10T12:00:00Z",
+      "updatedAt": "2026-01-10T12:00:00Z"
+    },
+    {
+      "id": "evt-002",
+      "title": "AI Workshop: Portfolio Building",
+      "description": "Learn to build your personal portfolio website using AI-powered tools and modern web technologies. Bring your laptop!",
+      "location": "Edison Hall, Room 201",
+      "category": "Workshop",
+      "startTime": "13:15",
+      "endTime": "14:30",
+      "recurrence": {
+        "type": "biweekly",
+        "day": 3,
+        "startDate": "2026-02-04",
+        "endDate": "2026-04-29"
+      },
+      "createdAt": "2026-01-10T12:00:00Z",
+      "updatedAt": "2026-01-10T12:00:00Z"
+    },
+    {
+      "id": "evt-003",
+      "title": "Hackathon Prep Session",
+      "description": "Prepare for upcoming hackathons with team formation, brainstorming, and practice problems.",
+      "location": "Howard Hall, Room 221",
+      "category": "Competition",
+      "startTime": "15:00",
+      "endTime": "17:00",
+      "recurrence": {
+        "type": "monthly",
+        "dayOfMonth": 15,
+        "startDate": "2026-02-15",
+        "endDate": "2026-05-15"
+      },
+      "createdAt": "2026-01-10T12:00:00Z",
+      "updatedAt": "2026-01-10T12:00:00Z"
+    },
+    {
+      "id": "evt-004",
+      "title": "Resume & Career Workshop",
+      "description": "Get your resume reviewed and practice interview skills with industry mentors and chapter advisors.",
+      "location": "Howard Hall, Room 221",
+      "category": "Career",
+      "startTime": "14:00",
+      "endTime": "15:30",
+      "recurrence": {
+        "type": "once",
+        "date": "2026-03-20"
+      },
+      "createdAt": "2026-01-10T12:00:00Z",
+      "updatedAt": "2026-01-10T12:00:00Z"
+    },
+    {
+      "id": "evt-005",
+      "title": "End of Semester Social",
+      "description": "Celebrate the end of the semester with food, games, and recognition of outstanding members.",
+      "location": "Student Center, Anacon Hall",
+      "category": "Social",
+      "startTime": "17:00",
+      "endTime": "19:00",
+      "recurrence": {
+        "type": "once",
+        "date": "2026-05-08"
+      },
+      "createdAt": "2026-01-10T12:00:00Z",
+      "updatedAt": "2026-01-10T12:00:00Z"
+    }
+  ]
+}

@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="monmouth-ai-workshops-v2.css">
+    <link rel="icon" type="image/png" href="ieeeacm-logo-transparent.png">
 </head>
 <body>
     <!-- Header -->
@@ -20,12 +21,14 @@
                 </div>
                 <nav class="main-nav">
                     <ul class="nav-menu">
-                        <li><a href="https://www.monmouth.edu">Home</a></li>
+                        <li><a href="index.html">Home</a></li>
                         <li><a href="https://www.monmouth.edu/academics/">Academics</a></li>
                         <li><a href="https://www.monmouth.edu/department-of-csse/">CSSE Department</a></li>
                         <li><a href="#about">About</a></li>
                         <li><a href="ai-workshops.html">AI Workshops</a></li>
+                        <li><a href="events.html">Events</a></li>
                         <li><a href="#join">Join</a></li>
+                        <li><a href="#give">Give</a></li>
                     </ul>
                     <button class="mobile-toggle" aria-label="Toggle mobile menu">
                         <span></span><span></span><span></span>
@@ -55,7 +58,7 @@
         <div class="hero-media"><div class="hero-overlay"></div></div>
         <div class="hero-content-wrapper">
             <div style="display: flex; align-items: center; justify-content: center; gap: 40px; flex-wrap: wrap;">
-                <img src="circuit-logo-large.png" alt="IEEE/ACM Circuit Logo" style="width: 200px; height: auto;">
+                <img src="ieeeacm-logo-transparent.png" alt="IEEE/ACM Monmouth University Logo" style="width: 200px; height: auto;">
                 <div style="text-align: left;">
                     <h1 class="hero-title" style="margin: 0;">IEEE/ACM Student Chapter</h1>
                     <div class="hero-text">
@@ -77,9 +80,11 @@
                             <li><a href="#about">About Our Chapter</a></li>
                             <li><a href="#activities">Activities</a></li>
                             <li><a href="ai-workshops.html">AI Workshops</a></li>
-                            <li><a href="#events">Events</a></li>
+                            <li><a href="events.html">Events Calendar</a></li>
+                            <li><a href="#events">Upcoming Events</a></li>
                             <li><a href="#team">Leadership Team</a></li>
                             <li><a href="#join">Join Us</a></li>
+                            <li><a href="#give">Support & Give</a></li>
                             <li class="divider"></li>
                             <li><a href="https://www.instagram.com/monmouth_ieeeacm/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
                         </ul>
@@ -153,47 +158,111 @@
                     <!-- Events Section -->
                     <section id="events" class="content-section">
                         <h2>Upcoming Events</h2>
-                        <div class="event-list">
-                            <article class="event-card">
-                                <div class="event-date"><span class="day">15</span><span class="month">Nov</span></div>
-                                <div class="event-content">
-                                    <span class="event-category">Machine Learning</span>
-                                    <h4>Introduction to Neural Networks</h4>
-                                    <p>Hands-on workshop covering fundamentals of neural networks and PyTorch.</p>
-                                    <p><strong>Time:</strong> 2:00 PM - 4:00 PM<br>
-                                    <strong>Location:</strong> Howard Hall 235</p>
-                                    <a href="ai-workshops.html#seminars" class="btn-primary">Learn More</a>
-                                </div>
-                            </article>
-
-                            <article class="event-card">
-                                <div class="event-date"><span class="day">22</span><span class="month">Nov</span></div>
-                                <div class="event-content">
-                                    <span class="event-category">NLP</span>
-                                    <h4>Building Chatbots with LLMs</h4>
-                                    <p>Learn to create intelligent chatbots using large language models.</p>
-                                    <p><strong>Time:</strong> 3:30 PM - 5:30 PM<br>
-                                    <strong>Location:</strong> Jules L. Plangere Jr. Center</p>
-                                    <a href="ai-workshops.html#seminars" class="btn-primary">Learn More</a>
-                                </div>
-                            </article>
-
-                            <article class="event-card">
-                                <div class="event-date"><span class="day">29</span><span class="month">Nov</span></div>
-                                <div class="event-content">
-                                    <span class="event-category">Computer Vision</span>
-                                    <h4>Object Detection with YOLO</h4>
-                                    <p>Dive into real-time object detection using YOLO architecture.</p>
-                                    <p><strong>Time:</strong> 1:00 PM - 3:00 PM<br>
-                                    <strong>Location:</strong> Howard Hall 240</p>
-                                    <a href="ai-workshops.html#seminars" class="btn-primary">Learn More</a>
-                                </div>
-                            </article>
+                        <p class="lead">View our full calendar of meetings, workshops, and chapter events. You can add any event directly to your iCalendar or Google Calendar.</p>
+                        <div id="homeUpcomingEvents" class="event-list">
+                            <!-- Dynamically loaded from events.json -->
                         </div>
                         <div style="text-align: center; margin-top: 2rem;">
-                            <a href="ai-workshops.html" class="btn-secondary">View All AI Workshops & Events</a>
+                            <a href="events.html" class="btn-primary btn-large"><i class="fas fa-calendar-alt"></i> View Full Events Calendar</a>
+                            <a href="ai-workshops.html" class="btn-secondary" style="margin-left: 1rem;">AI Workshops</a>
                         </div>
                     </section>
+                    <script>
+                    // Load upcoming events on homepage
+                    (function() {
+                        const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                        const DAYS_FULL = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+                        function generateOccurrences(event, rangeStart, rangeEnd) {
+                            var occ = [];
+                            var rec = event.recurrence;
+                            if (!rec) return occ;
+                            if (rec.type === 'once') {
+                                var d = new Date(rec.date + 'T00:00:00');
+                                if (d >= rangeStart && d <= rangeEnd) occ.push(d);
+                            } else if (rec.type === 'weekly' || rec.type === 'biweekly') {
+                                var start = new Date(rec.startDate + 'T00:00:00');
+                                var end = new Date(rec.endDate + 'T00:00:00');
+                                var es = rangeStart > start ? rangeStart : start;
+                                var ee = rangeEnd < end ? rangeEnd : end;
+                                var cur = new Date(start);
+                                while (cur.getDay() !== rec.day) cur.setDate(cur.getDate() + 1);
+                                var step = rec.type === 'biweekly' ? 14 : 7;
+                                while (cur <= ee) { if (cur >= es) occ.push(new Date(cur)); cur.setDate(cur.getDate() + step); }
+                            } else if (rec.type === 'monthly') {
+                                var start2 = new Date(rec.startDate + 'T00:00:00');
+                                var end2 = new Date(rec.endDate + 'T00:00:00');
+                                var es2 = rangeStart > start2 ? rangeStart : start2;
+                                var ee2 = rangeEnd < end2 ? rangeEnd : end2;
+                                var cur2 = new Date(es2.getFullYear(), es2.getMonth(), rec.dayOfMonth);
+                                if (cur2 < es2) cur2.setMonth(cur2.getMonth() + 1);
+                                while (cur2 <= ee2) { if (cur2.getDate() === rec.dayOfMonth) occ.push(new Date(cur2)); cur2 = new Date(cur2.getFullYear(), cur2.getMonth() + 1, rec.dayOfMonth); }
+                            }
+                            return occ;
+                        }
+
+                        function formatTime12(t) {
+                            if (!t) return '';
+                            var parts = t.split(':').map(Number);
+                            var ampm = parts[0] >= 12 ? 'PM' : 'AM';
+                            var h = parts[0] % 12 || 12;
+                            return h + ':' + (parts[1] < 10 ? '0' : '') + parts[1] + ' ' + ampm;
+                        }
+
+                        var DEFAULT_EVENTS = [
+                            { id: 'evt-001', title: 'General Body Meeting', description: 'Regular chapter meeting open to all members. Discuss upcoming events, project updates, and chapter business.', location: 'Howard Hall, Room 221', category: 'Meeting', startTime: '13:15', endTime: '14:30', recurrence: { type: 'weekly', day: 4, startDate: '2026-01-22', endDate: '2026-05-14' } },
+                            { id: 'evt-002', title: 'AI Workshop: Portfolio Building', description: 'Learn to build your personal portfolio website using AI-powered tools and modern web technologies. Bring your laptop!', location: 'Edison Hall, Room 201', category: 'Workshop', startTime: '13:15', endTime: '14:30', recurrence: { type: 'biweekly', day: 3, startDate: '2026-02-04', endDate: '2026-04-29' } },
+                            { id: 'evt-003', title: 'Hackathon Prep Session', description: 'Prepare for upcoming hackathons with team formation, brainstorming, and practice problems.', location: 'Howard Hall, Room 221', category: 'Competition', startTime: '15:00', endTime: '17:00', recurrence: { type: 'monthly', dayOfMonth: 15, startDate: '2026-02-15', endDate: '2026-05-15' } },
+                            { id: 'evt-004', title: 'Resume & Career Workshop', description: 'Get your resume reviewed and practice interview skills with industry mentors and chapter advisors.', location: 'Howard Hall, Room 221', category: 'Career', startTime: '14:00', endTime: '15:30', recurrence: { type: 'once', date: '2026-03-20' } },
+                            { id: 'evt-005', title: 'End of Semester Social', description: 'Celebrate the end of the semester with food, games, and recognition of outstanding members.', location: 'Student Center, Anacon Hall', category: 'Social', startTime: '17:00', endTime: '19:00', recurrence: { type: 'once', date: '2026-05-08' } }
+                        ];
+
+                        function loadEventsData(callback) {
+                            // Try localStorage first (shared with calendar page)
+                            var stored = localStorage.getItem('ieeeacm_events');
+                            if (stored) {
+                                callback(JSON.parse(stored));
+                                return;
+                            }
+                            // Fall back to events.json, then embedded defaults
+                            fetch('events.json').then(function(r){ return r.json(); }).then(function(data) {
+                                var evts = Array.isArray(data) ? data : (data.events || []);
+                                callback(evts);
+                            }).catch(function(){ callback(DEFAULT_EVENTS); });
+                        }
+
+                        loadEventsData(function(events) {
+                            var now = new Date(); now.setHours(0,0,0,0);
+                            var end = new Date(now); end.setMonth(end.getMonth() + 2);
+                            var all = [];
+                            events.forEach(function(ev) {
+                                generateOccurrences(ev, now, end).forEach(function(date) {
+                                    all.push({event: ev, date: date});
+                                });
+                            });
+                            all.sort(function(a,b){ return a.date - b.date; });
+                            var items = all.slice(0, 3);
+                            var container = document.getElementById('homeUpcomingEvents');
+                            if (items.length === 0) {
+                                container.innerHTML = '<p style="text-align:center;color:#5B6770;">No upcoming events. Check back soon!</p>';
+                                return;
+                            }
+                            container.innerHTML = items.map(function(item) {
+                                var ev = item.event, d = item.date;
+                                return '<article class="event-card">' +
+                                    '<div class="event-date"><span class="day">' + d.getDate() + '</span><span class="month">' + MONTHS[d.getMonth()] + '</span></div>' +
+                                    '<div class="event-content">' +
+                                    '<span class="event-category">' + ev.category + '</span>' +
+                                    '<h4>' + ev.title + '</h4>' +
+                                    '<p>' + ev.description + '</p>' +
+                                    '<p><strong>Time:</strong> ' + formatTime12(ev.startTime) + ' - ' + formatTime12(ev.endTime) + '<br>' +
+                                    '<strong>Location:</strong> ' + ev.location + '</p>' +
+                                    '<a href="events.html" class="btn-primary">View Calendar</a>' +
+                                    '</div></article>';
+                            }).join('');
+                        });
+                    })();
+                    </script>
 
                     <!-- Team Section -->
                     <section id="team" class="content-section">
@@ -202,28 +271,28 @@
 
                         <div class="team-grid">
                             <div class="team-card">
-                                <div class="team-avatar" style="background: linear-gradient(135deg, #004C97, #002855); color: white; font-size: 2rem; font-weight: bold;">KG</div>
+                                <img src="kiumbura-githinji.jpg" alt="Kiumbura Githinji" class="team-photo">
                                 <h3>Kiumbura Githinji</h3>
                                 <p class="team-role">President</p>
                                 <p class="team-contact"><i class="fas fa-envelope"></i> <a href="mailto:s1358017@monmouth.edu">s1358017@monmouth.edu</a></p>
                             </div>
 
                             <div class="team-card">
-                                <div class="team-avatar" style="background: linear-gradient(135deg, #004C97, #002855); color: white; font-size: 2rem; font-weight: bold;">MA</div>
+                                <img src="miriam-abecasis.JPG" alt="Miriam Abecasis" class="team-photo">
                                 <h3>Miriam Abecasis</h3>
                                 <p class="team-role">Vice President</p>
                                 <p class="team-contact"><i class="fas fa-envelope"></i> <a href="mailto:s1354404@monmouth.edu">s1354404@monmouth.edu</a></p>
                             </div>
 
                             <div class="team-card">
-                                <div class="team-avatar" style="background: linear-gradient(135deg, #004C97, #002855); color: white; font-size: 2rem; font-weight: bold;">LL</div>
+                                <img src="lynda-levy.JPG" alt="Lynda Levy" class="team-photo">
                                 <h3>Lynda Levy</h3>
                                 <p class="team-role">Treasurer</p>
                                 <p class="team-contact"><i class="fas fa-envelope"></i> <a href="mailto:s1354589@monmouth.edu">s1354589@monmouth.edu</a></p>
                             </div>
 
                             <div class="team-card">
-                                <div class="team-avatar" style="background: linear-gradient(135deg, #004C97, #002855); color: white; font-size: 2rem; font-weight: bold;">AP</div>
+                                <img src="anna-pitera.png" alt="Anna Pitera" class="team-photo">
                                 <h3>Anna Pitera</h3>
                                 <p class="team-role">Secretary</p>
                                 <p class="team-contact"><i class="fas fa-envelope"></i> <a href="mailto:s1369554@monmouth.edu">s1369554@monmouth.edu</a></p>
@@ -279,6 +348,281 @@
                             <a href="mailto:s1358017@monmouth.edu">s1358017@monmouth.edu</a></p>
                         </div>
                     </section>
+
+                    <!-- Give / Crowdfunding Section -->
+                    <section id="give" class="content-section">
+                        <h2>Support Our Chapter</h2>
+                        <p class="lead">Help us re-establish official affiliation with IEEE and ACM — two of the world's most prestigious technology organizations. Every gift counts in paving the way for our students' success in the tech field.</p>
+
+                        <a href="https://fly.monmouth.edu/project/49605?clid=p1jTA7XRhKgGffKQMhMnKm&utm_campaign=site_share&utm_medium=plain&utm_source=scalefunder" target="_blank" class="give-banner-link">
+                            <img src="give-banner.svg" alt="Support & Give — IEEE/ACM Monmouth Chapter" class="give-banner-img">
+                        </a>
+
+                        <!-- Fundraising Progress Bar -->
+                        <div class="fundraise-progress-container" id="fundraiseProgress">
+                            <div class="fundraise-stats-row">
+                                <div class="fundraise-stat">
+                                    <span class="fundraise-stat-amount" id="fpRaised">$0</span>
+                                    <span class="fundraise-stat-label">Raised</span>
+                                </div>
+                                <div class="fundraise-stat">
+                                    <span class="fundraise-stat-amount" id="fpDonors">0</span>
+                                    <span class="fundraise-stat-label">Donors</span>
+                                </div>
+                                <div class="fundraise-stat">
+                                    <span class="fundraise-stat-amount" id="fpGoal">$5,000</span>
+                                    <span class="fundraise-stat-label">Goal</span>
+                                </div>
+                                <div class="fundraise-stat">
+                                    <span class="fundraise-stat-amount" id="fpDaysLeft">--</span>
+                                    <span class="fundraise-stat-label">Days Left</span>
+                                </div>
+                            </div>
+                            <div class="fundraise-bar-wrapper">
+                                <div class="fundraise-bar">
+                                    <div class="fundraise-bar-fill" id="fpBarFill" style="width: 0%"></div>
+                                </div>
+                                <span class="fundraise-percent" id="fpPercent">0%</span>
+                            </div>
+                            <!-- Admin: Update button (visible only when admin mode on main page) -->
+                            <button class="fundraise-admin-btn" id="fpAdminBtn" style="display:none;" title="Update fundraising stats">
+                                <i class="fas fa-edit"></i> Update Stats
+                            </button>
+                        </div>
+
+                        <!-- Fundraise Admin Modal -->
+                        <div class="fundraise-admin-overlay" id="fundraiseAdminOverlay">
+                            <div class="fundraise-admin-box">
+                                <h3><i class="fas fa-chart-line" style="color:var(--monmouth-orange);"></i> Update Fundraising Progress</h3>
+                                <p style="color:var(--monmouth-gray);font-size:0.9rem;margin-bottom:1rem;">Enter current values from the <a href="https://fly.monmouth.edu/project/49605" target="_blank">campaign page</a>.</p>
+                                <div class="fundraise-admin-fields">
+                                    <label>
+                                        <span>Amount Raised ($)</span>
+                                        <input type="number" id="fpEditRaised" min="0" step="1" placeholder="e.g. 62">
+                                    </label>
+                                    <label>
+                                        <span>Number of Donors</span>
+                                        <input type="number" id="fpEditDonors" min="0" step="1" placeholder="e.g. 2">
+                                    </label>
+                                    <label>
+                                        <span>Goal ($)</span>
+                                        <input type="number" id="fpEditGoal" min="1" step="1" value="5000">
+                                    </label>
+                                </div>
+                                <div style="display:flex;gap:0.5rem;margin-top:1rem;">
+                                    <button class="btn-primary" id="fpEditSave" style="flex:1;"><i class="fas fa-save"></i> Save</button>
+                                    <button class="btn-cancel" id="fpEditCancel" style="flex:1;">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script>
+                        (function() {
+                            var STORAGE_KEY = 'ieeeacm_fundraise';
+                            var CAMPAIGN_END = new Date('2026-04-28T23:59:59-04:00');
+                            var defaults = { raised: 62, donors: 2, goal: 5000 };
+
+                            function load() {
+                                try {
+                                    var s = localStorage.getItem(STORAGE_KEY);
+                                    if (s) return JSON.parse(s);
+                                } catch {}
+                                return defaults;
+                            }
+
+                            function save(data) {
+                                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+                            }
+
+                            function render() {
+                                var data = load();
+                                var pct = Math.min(100, Math.round((data.raised / data.goal) * 100));
+                                var daysLeft = Math.max(0, Math.ceil((CAMPAIGN_END - Date.now()) / 86400000));
+
+                                document.getElementById('fpRaised').textContent = '$' + data.raised.toLocaleString();
+                                document.getElementById('fpDonors').textContent = data.donors.toLocaleString();
+                                document.getElementById('fpGoal').textContent = '$' + data.goal.toLocaleString();
+                                document.getElementById('fpDaysLeft').textContent = daysLeft;
+                                document.getElementById('fpPercent').textContent = pct + '%';
+
+                                var bar = document.getElementById('fpBarFill');
+                                // Animate the bar after a short delay
+                                setTimeout(function() {
+                                    bar.style.width = pct + '%';
+                                }, 200);
+                            }
+
+                            render();
+
+                            // Admin button - show when admin toggle exists and is checked
+                            var adminBtn = document.getElementById('fpAdminBtn');
+                            var overlay = document.getElementById('fundraiseAdminOverlay');
+
+                            // Check periodically if admin mode is active (simple approach for main page)
+                            setInterval(function() {
+                                var adminToggle = document.getElementById('adminToggle');
+                                if (adminToggle && adminToggle.checked) {
+                                    adminBtn.style.display = 'inline-flex';
+                                } else {
+                                    adminBtn.style.display = 'none';
+                                }
+                            }, 1000);
+
+                            adminBtn.addEventListener('click', function() {
+                                var data = load();
+                                document.getElementById('fpEditRaised').value = data.raised;
+                                document.getElementById('fpEditDonors').value = data.donors;
+                                document.getElementById('fpEditGoal').value = data.goal;
+                                overlay.classList.add('active');
+                            });
+
+                            document.getElementById('fpEditCancel').addEventListener('click', function() {
+                                overlay.classList.remove('active');
+                            });
+
+                            overlay.addEventListener('click', function(e) {
+                                if (e.target === overlay) overlay.classList.remove('active');
+                            });
+
+                            document.getElementById('fpEditSave').addEventListener('click', function() {
+                                var raised = parseInt(document.getElementById('fpEditRaised').value) || 0;
+                                var donors = parseInt(document.getElementById('fpEditDonors').value) || 0;
+                                var goal = parseInt(document.getElementById('fpEditGoal').value) || 5000;
+                                save({ raised: raised, donors: donors, goal: goal });
+                                overlay.classList.remove('active');
+                                render();
+                            });
+                        })();
+                        </script>
+
+                        <div class="give-why">
+                            <h3>Why Your Support Matters</h3>
+                            <p>Our chapter is working to achieve the minimum membership requirements necessary to submit documentation for official recognition as a student chapter by both IEEE and ACM. Your donations will directly support:</p>
+                            <div class="give-impact-grid">
+                                <div class="give-impact-item">
+                                    <i class="fas fa-id-card-alt"></i>
+                                    <span>Official IEEE & ACM chapter status and membership fees</span>
+                                </div>
+                                <div class="give-impact-item">
+                                    <i class="fas fa-chalkboard-teacher"></i>
+                                    <span>Professional speakers sharing real-world industry insights</span>
+                                </div>
+                                <div class="give-impact-item">
+                                    <i class="fas fa-tools"></i>
+                                    <span>Hands-on workshops and technical events for students</span>
+                                </div>
+                                <div class="give-impact-item">
+                                    <i class="fas fa-handshake"></i>
+                                    <span>Networking events connecting students with tech professionals</span>
+                                </div>
+                                <div class="give-impact-item">
+                                    <i class="fas fa-graduation-cap"></i>
+                                    <span>Enhanced credibility and career opportunities for members</span>
+                                </div>
+                                <div class="give-impact-item">
+                                    <i class="fas fa-book-open"></i>
+                                    <span>Access to IEEE & ACM digital libraries and resources</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cta-buttons" style="margin-top: 2rem;">
+                            <a href="https://fly.monmouth.edu/project/49605?clid=p1jTA7XRhKgGffKQMhMnKm&utm_campaign=site_share&utm_medium=plain&utm_source=scalefunder" target="_blank" class="btn-primary btn-large">
+                                <i class="fas fa-heart"></i> Donate Now
+                            </a>
+                        </div>
+
+                        <!-- Giving Day Countdown -->
+                        <div class="giving-day-widget" id="givingDayWidget">
+                            <div class="giving-day-header">
+                                <div class="giving-day-badge"><i class="fas fa-calendar-star"></i> MONMOUTH GIVING DAYS 2026</div>
+                                <h3>48 Hours to Make a Difference</h3>
+                                <p>Support student-run clubs and organizations during Monmouth University's Giving Days — March 24-25, 2026</p>
+                            </div>
+                            <div class="giving-day-countdown" id="givingDayCountdown">
+                                <div class="countdown-unit">
+                                    <span class="countdown-number" id="cdDays">--</span>
+                                    <span class="countdown-label">Days</span>
+                                </div>
+                                <div class="countdown-separator">:</div>
+                                <div class="countdown-unit">
+                                    <span class="countdown-number" id="cdHours">--</span>
+                                    <span class="countdown-label">Hours</span>
+                                </div>
+                                <div class="countdown-separator">:</div>
+                                <div class="countdown-unit">
+                                    <span class="countdown-number" id="cdMinutes">--</span>
+                                    <span class="countdown-label">Minutes</span>
+                                </div>
+                                <div class="countdown-separator">:</div>
+                                <div class="countdown-unit">
+                                    <span class="countdown-number" id="cdSeconds">--</span>
+                                    <span class="countdown-label">Seconds</span>
+                                </div>
+                            </div>
+                            <div class="giving-day-status" id="givingDayStatus"></div>
+                            <div class="giving-day-details">
+                                <div class="giving-day-detail-item">
+                                    <i class="fas fa-gift"></i>
+                                    <span>Donate $33+ and receive custom Monmouth University socks</span>
+                                </div>
+                                <div class="giving-day-detail-item">
+                                    <i class="fas fa-users"></i>
+                                    <span>139 student clubs & organizations participating</span>
+                                </div>
+                                <div class="giving-day-detail-item">
+                                    <i class="fas fa-bullhorn"></i>
+                                    <span>"I'm Helping Provide All Access on Monmouth Giving Days!"</span>
+                                </div>
+                            </div>
+                            <a href="https://givingday.monmouth.edu/giving-day/111077/set/8321" target="_blank" class="giving-day-cta">
+                                <i class="fas fa-external-link-alt"></i> Visit Giving Day Page
+                            </a>
+                        </div>
+                        <script>
+                        (function() {
+                            var START = new Date('2026-03-24T00:00:00-04:00').getTime();
+                            var END = new Date('2026-03-25T23:59:59-04:00').getTime();
+
+                            function update() {
+                                var now = Date.now();
+                                var widget = document.getElementById('givingDayWidget');
+                                var status = document.getElementById('givingDayStatus');
+                                var target, diff;
+
+                                if (now < START) {
+                                    target = START;
+                                    diff = target - now;
+                                    status.innerHTML = '<span class="status-upcoming"><i class="fas fa-clock"></i> Countdown to Giving Days</span>';
+                                } else if (now >= START && now <= END) {
+                                    target = END;
+                                    diff = target - now;
+                                    status.innerHTML = '<span class="status-live"><i class="fas fa-circle"></i> GIVING DAYS ARE LIVE NOW!</span>';
+                                    widget.classList.add('live');
+                                } else {
+                                    document.getElementById('givingDayCountdown').style.display = 'none';
+                                    status.innerHTML = '<span class="status-ended">Giving Days 2026 have ended. Thank you for your support!</span>';
+                                    return;
+                                }
+
+                                var days = Math.floor(diff / 86400000);
+                                var hours = Math.floor((diff % 86400000) / 3600000);
+                                var minutes = Math.floor((diff % 3600000) / 60000);
+                                var seconds = Math.floor((diff % 60000) / 1000);
+
+                                document.getElementById('cdDays').textContent = days < 10 ? '0' + days : days;
+                                document.getElementById('cdHours').textContent = hours < 10 ? '0' + hours : hours;
+                                document.getElementById('cdMinutes').textContent = minutes < 10 ? '0' + minutes : minutes;
+                                document.getElementById('cdSeconds').textContent = seconds < 10 ? '0' + seconds : seconds;
+                            }
+
+                            update();
+                            setInterval(update, 1000);
+                        })();
+                        </script>
+
+                    </section>
+
                 </main>
             </div>
         </div>
@@ -297,9 +641,10 @@
                     <ul>
                         <li><a href="#about">About</a></li>
                         <li><a href="ai-workshops.html">AI Workshops</a></li>
-                        <li><a href="#events">Events</a></li>
+                        <li><a href="events.html">Events Calendar</a></li>
                         <li><a href="#team">Team</a></li>
                         <li><a href="#join">Join</a></li>
+                        <li><a href="#give">Give</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">

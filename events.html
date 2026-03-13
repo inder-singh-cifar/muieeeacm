@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events Calendar | IEEE/ACM Student Chapter | Monmouth University</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="monmouth-ai-workshops-v2.css">
+    <link rel="stylesheet" href="events-calendar.css">
+    <link rel="icon" type="image/png" href="ieeeacm-logo-transparent.png">
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="wrapper">
+            <div class="header-inner">
+                <div class="logo">
+                    <a href="https://www.monmouth.edu" style="color: #fff; font-size: 1.5rem; font-weight: 400; text-decoration: none; font-family: 'Utopia Std', 'Georgia', serif;">
+                        Monmouth University
+                    </a>
+                </div>
+                <nav class="main-nav">
+                    <ul class="nav-menu">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="https://www.monmouth.edu/academics/">Academics</a></li>
+                        <li><a href="https://www.monmouth.edu/department-of-csse/">CSSE Department</a></li>
+                        <li><a href="index.html#about">About</a></li>
+                        <li><a href="ai-workshops.html">AI Workshops</a></li>
+                        <li><a href="events.html" style="color: var(--monmouth-orange);">Events</a></li>
+                        <li><a href="index.html#join">Join</a></li>
+                        <li><a href="index.html#give">Give</a></li>
+                    </ul>
+                    <button class="mobile-toggle" aria-label="Toggle mobile menu">
+                        <span></span><span></span><span></span>
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs">
+        <div class="wrapper">
+            <nav aria-label="Breadcrumb">
+                <ol>
+                    <li><a href="https://www.monmouth.edu">Home</a></li>
+                    <li><a href="https://www.monmouth.edu/academics/">Academics</a></li>
+                    <li><a href="https://www.monmouth.edu/school-of-science/">School of Science</a></li>
+                    <li><a href="https://www.monmouth.edu/department-of-csse/">Department of CSSE</a></li>
+                    <li><a href="index.html">IEEE/ACM Student Chapter</a></li>
+                    <li aria-current="page">Events Calendar</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <div class="calendar-page-hero">
+        <div class="wrapper">
+            <div class="hero-inner">
+                <img src="IEEEACM MU LOGO Transparent.png" alt="IEEE/ACM Monmouth University Logo" class="hero-logo">
+                <div class="hero-text-content">
+                    <h1>Events Calendar</h1>
+                    <p>Stay up to date with all IEEE/ACM chapter meetings, workshops, and events. Add events directly to your personal calendar.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-holder">
+        <div class="wrapper">
+
+            <!-- Admin Toggle -->
+            <div class="admin-toggle-bar" id="adminBar">
+                <span><i class="fas fa-shield-alt"></i> Admin Mode</span>
+                <label class="admin-switch">
+                    <input type="checkbox" id="adminToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <!-- Controls -->
+            <div class="calendar-controls">
+                <div class="controls-row-top">
+                    <div class="controls-left">
+                        <button class="today-btn" id="btnToday">Today</button>
+                        <div class="nav-arrows">
+                            <button id="btnPrevMonth" title="Previous"><i class="fas fa-chevron-left"></i></button>
+                            <button id="btnNextMonth" title="Next"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                        <span class="current-month" id="currentMonth"></span>
+                    </div>
+                    <div class="controls-right">
+                        <input type="date" class="date-picker" id="datePicker" title="Jump to date">
+                        <div class="view-toggle">
+                            <button id="btnWeekView" title="Week View">
+                                <i class="fas fa-calendar-week"></i> <span class="view-label">Week</span>
+                            </button>
+                            <button id="btnCalendarView" class="active" title="Month View">
+                                <i class="fas fa-calendar-alt"></i> <span class="view-label">Month</span>
+                            </button>
+                            <button id="btnYearView" title="Year View">
+                                <i class="fas fa-calendar"></i> <span class="view-label">Year</span>
+                            </button>
+                            <button id="btnListView" title="List View">
+                                <i class="fas fa-list"></i> <span class="view-label">List</span>
+                            </button>
+                        </div>
+                        <div class="admin-actions" id="adminActions">
+                            <button class="btn-admin" id="btnAddEvent"><i class="fas fa-plus"></i> Add Event</button>
+                            <button class="btn-admin" id="btnManageCategories"><i class="fas fa-tags"></i> Categories</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Filters (dynamically populated) -->
+            <div class="category-filters" id="categoryFilters"></div>
+
+            <!-- Week View -->
+            <div class="week-view-wrapper" id="weekViewWrapper">
+                <div class="week-view" id="weekView"></div>
+            </div>
+
+            <!-- Calendar Grid View (Month) -->
+            <div class="calendar-grid-wrapper active" id="calendarGridWrapper">
+                <div class="calendar-grid" id="calendarGrid"></div>
+            </div>
+
+            <!-- Year View -->
+            <div class="year-view-wrapper" id="yearViewWrapper">
+                <div class="year-view" id="yearView"></div>
+            </div>
+
+            <!-- List View -->
+            <div class="list-view" id="listView"></div>
+
+            <!-- Legend (dynamically populated) -->
+            <div class="calendar-legend" id="calendarLegend"></div>
+
+        </div>
+    </div>
+
+    <!-- Event Detail Modal -->
+    <div class="event-modal-overlay" id="eventModal">
+        <div class="event-modal">
+            <div class="event-modal-header">
+                <div>
+                    <span class="list-event-category" id="modalCategory"></span>
+                    <h3 id="modalTitle"></h3>
+                </div>
+                <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="event-modal-body">
+                <div class="event-detail-row">
+                    <i class="fas fa-calendar-day"></i>
+                    <span id="modalDate"></span>
+                </div>
+                <div class="event-detail-row">
+                    <i class="fas fa-clock"></i>
+                    <span id="modalTime"></span>
+                </div>
+                <div class="event-detail-row">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span id="modalLocation"></span>
+                </div>
+                <div class="event-detail-row" id="modalRecurrenceRow" style="display: none;">
+                    <i class="fas fa-redo"></i>
+                    <span id="modalRecurrence"></span>
+                </div>
+                <div class="event-description" id="modalDescription"></div>
+                <div class="admin-actions" id="modalAdminActions">
+                    <button class="btn-admin" id="btnEditEvent"><i class="fas fa-edit"></i> Edit</button>
+                    <button class="btn-admin btn-danger" id="btnDeleteEvent"><i class="fas fa-trash"></i> Delete</button>
+                </div>
+            </div>
+            <div class="event-modal-footer">
+                <button class="btn-add-calendar btn-ical" id="btnIcal">
+                    <i class="fas fa-download"></i> Download .ics
+                </button>
+                <a class="btn-add-calendar btn-gcal" id="btnGcal" href="#" target="_blank" rel="noopener">
+                    <i class="fab fa-google"></i> Google Calendar
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recurrence Action Chooser Modal -->
+    <div class="recurrence-chooser-overlay" id="recurrenceChooser">
+        <div class="recurrence-chooser-box">
+            <h3 id="recurrenceChooserTitle">Edit recurring event</h3>
+            <div class="recurrence-chooser-options">
+                <button class="recurrence-option" data-action="single">
+                    <i class="fas fa-calendar-day"></i>
+                    <div>
+                        <strong>This event</strong>
+                        <span>Only this occurrence</span>
+                    </div>
+                </button>
+                <button class="recurrence-option" data-action="following">
+                    <i class="fas fa-calendar-week"></i>
+                    <div>
+                        <strong>This and following events</strong>
+                        <span>This and all future occurrences</span>
+                    </div>
+                </button>
+                <button class="recurrence-option" data-action="all">
+                    <i class="fas fa-calendar-alt"></i>
+                    <div>
+                        <strong>All events</strong>
+                        <span>Every occurrence in the series</span>
+                    </div>
+                </button>
+            </div>
+            <button class="btn-cancel recurrence-chooser-cancel" id="recurrenceChooserCancel" style="width:100%;margin-top:0.75rem;">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Admin Password Modal -->
+    <div class="admin-password-modal" id="adminPasswordModal">
+        <div class="admin-password-box">
+            <h3><i class="fas fa-lock" style="color: var(--monmouth-orange);"></i> Admin Access</h3>
+            <p>Enter the admin password to manage events.</p>
+            <input type="password" id="adminPasswordInput" placeholder="Enter password">
+            <div class="error-msg" id="adminError">Incorrect password. Please try again.</div>
+            <div class="admin-password-btns">
+                <button class="btn-cancel" id="adminPasswordCancel">Cancel</button>
+                <button class="btn-save" id="adminPasswordSubmit">Unlock</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Event Editor Modal -->
+    <div class="event-editor-overlay" id="eventEditorOverlay">
+        <div class="event-editor">
+            <div class="event-editor-header">
+                <h3 id="editorTitle">Add Event</h3>
+                <button class="modal-close" id="editorClose"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="event-editor-body">
+                <input type="hidden" id="editEventId">
+
+                <div class="form-group">
+                    <label for="editTitle">Event Title</label>
+                    <input type="text" id="editTitle" placeholder="e.g., General Body Meeting">
+                </div>
+
+                <div class="form-group">
+                    <label for="editDescription">Description</label>
+                    <textarea id="editDescription" placeholder="What is this event about?"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="editCategory">Category</label>
+                    <select id="editCategory">
+                        <!-- Dynamically populated from categories -->
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="editLocation">Location</label>
+                    <input type="text" id="editLocation" placeholder="e.g., Howard Hall, Room 221">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editStartTime">Start Time</label>
+                        <input type="time" id="editStartTime">
+                    </div>
+                    <div class="form-group">
+                        <label for="editEndTime">End Time</label>
+                        <input type="time" id="editEndTime">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="editRecurrenceType">Recurrence</label>
+                    <select id="editRecurrenceType">
+                        <option value="once">One-time Event</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="biweekly">Biweekly</option>
+                        <option value="monthly">Monthly</option>
+                    </select>
+                </div>
+
+                <div class="recurrence-fields" id="recurrenceFields">
+                    <!-- Once fields -->
+                    <div class="form-group recurrence-once">
+                        <label for="editOnceDate">Date</label>
+                        <input type="date" id="editOnceDate">
+                    </div>
+
+                    <!-- Weekly / Biweekly fields -->
+                    <div class="form-group recurrence-weekly" style="display:none;">
+                        <label for="editWeekday">Day of Week</label>
+                        <select id="editWeekday">
+                            <option value="0">Sunday</option>
+                            <option value="1">Monday</option>
+                            <option value="2">Tuesday</option>
+                            <option value="3">Wednesday</option>
+                            <option value="4">Thursday</option>
+                            <option value="5">Friday</option>
+                            <option value="6">Saturday</option>
+                        </select>
+                    </div>
+
+                    <!-- Monthly fields -->
+                    <div class="form-group recurrence-monthly" style="display:none;">
+                        <label for="editDayOfMonth">Day of Month</label>
+                        <input type="number" id="editDayOfMonth" min="1" max="31" placeholder="15">
+                    </div>
+
+                    <!-- Date range for recurring events -->
+                    <div class="form-row recurrence-range" style="display:none;">
+                        <div class="form-group">
+                            <label for="editStartDate">Start Date</label>
+                            <input type="date" id="editStartDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="editEndDate">End Date</label>
+                            <input type="date" id="editEndDate">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="event-editor-footer">
+                <button class="btn-cancel" id="editorCancel">Cancel</button>
+                <button class="btn-save" id="editorSave"><i class="fas fa-check"></i> Save Event</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Category Manager Modal -->
+    <div class="event-editor-overlay" id="categoryManagerOverlay">
+        <div class="event-editor" style="max-width: 480px;">
+            <div class="event-editor-header">
+                <h3><i class="fas fa-tags" style="color: var(--monmouth-orange);"></i> Manage Categories</h3>
+                <button class="modal-close" id="categoryManagerClose"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="event-editor-body">
+                <div id="categoryList"></div>
+                <div class="category-add-form">
+                    <label style="font-weight:600;color:var(--monmouth-blue);font-size:0.9rem;margin-bottom:0.35rem;display:block;">Add New Category</label>
+                    <div class="category-add-row">
+                        <input type="text" id="newCategoryName" placeholder="Category name" maxlength="30">
+                        <button class="btn-save" id="btnAddCategory" style="padding:0.5rem 1rem;"><i class="fas fa-plus"></i> Add</button>
+                    </div>
+                    <div class="color-presets" id="colorPresets">
+                        <span class="color-swatch active" data-color="#002855" style="background:#002855;" title="Navy"></span>
+                        <span class="color-swatch" data-color="#0d64b2" style="background:#0d64b2;" title="Blue"></span>
+                        <span class="color-swatch" data-color="#E57200" style="background:#E57200;" title="Orange"></span>
+                        <span class="color-swatch" data-color="#2e7d32" style="background:#2e7d32;" title="Green"></span>
+                        <span class="color-swatch" data-color="#c62828" style="background:#c62828;" title="Red"></span>
+                        <span class="color-swatch" data-color="#6a1b9a" style="background:#6a1b9a;" title="Purple"></span>
+                        <span class="color-swatch" data-color="#00838f" style="background:#00838f;" title="Teal"></span>
+                        <span class="color-swatch" data-color="#ef6c00" style="background:#ef6c00;" title="Amber"></span>
+                        <span class="color-swatch" data-color="#ad1457" style="background:#ad1457;" title="Pink"></span>
+                        <span class="color-swatch" data-color="#4e342e" style="background:#4e342e;" title="Brown"></span>
+                        <span class="color-swatch" data-color="#37474f" style="background:#37474f;" title="Slate"></span>
+                        <span class="color-swatch custom-swatch" title="Custom color">
+                            <i class="fas fa-plus"></i>
+                            <input type="color" id="newCategoryColor" value="#5B6770">
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="wrapper">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>IEEE/ACM Monmouth</h3>
+                    <p>Student Chapter<br>Department of Computer Science<br>and Software Engineering</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html#about">About</a></li>
+                        <li><a href="ai-workshops.html">AI Workshops</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="index.html#team">Team</a></li>
+                        <li><a href="index.html#join">Join</a></li>
+                        <li><a href="index.html#give">Give</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <ul>
+                        <li><a href="https://www.instagram.com/monmouth_ieeeacm/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li><a href="mailto:s1358017@monmouth.edu"><i class="fas fa-envelope"></i> Email</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>University Links</h3>
+                    <ul>
+                        <li><a href="https://www.monmouth.edu">Monmouth Home</a></li>
+                        <li><a href="https://www.monmouth.edu/department-of-csse/">CSSE Department</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 IEEE/ACM Monmouth University Chapter. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="monmouth-ai-workshops-v2.js"></script>
+    <script src="events-calendar.js"></script>
+</body>
+</html>
