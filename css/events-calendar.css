@@ -245,7 +245,7 @@
 
 .calendar-grid {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(7, minmax(0, 1fr));
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     overflow: hidden;
@@ -265,12 +265,14 @@
 
 .calendar-day {
     min-height: 100px;
+    min-width: 0;
     border: 1px solid #e8e8e8;
     padding: 0.4rem;
     background: #fff;
     position: relative;
     cursor: default;
     transition: background 0.15s ease;
+    overflow: hidden;
 }
 
 @media (min-width: 768px) {
@@ -332,6 +334,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 100%;
     transition: opacity 0.15s ease;
     line-height: 1.4;
 }
