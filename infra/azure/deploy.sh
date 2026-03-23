@@ -17,7 +17,11 @@ bash "$(dirname "$0")/../../../../azure-login.sh"
 RESOURCE_GROUP="muieee"
 TEMPLATE_FILE="$(pwd)/main.bicep"
 
-az group create --name "$RESOURCE_GROUP" --location "$LOCATION" >/dev/null
+# Check if resource group exists. Do not attempt to create it.
+if ! az group exists --name "$RESOURCE_GROUP" | grep -q true; then
+  echo "Resource group '$RESOURCE_GROUP' does not exist. Please create it or choose an existing one." >&2
+  exit 2
+fi
 
 az deployment group create \
   --resource-group "$RESOURCE_GROUP" \

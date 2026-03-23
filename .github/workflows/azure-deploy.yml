@@ -1,0 +1,47 @@
+name: Azure CI/CD - Bicep + Zip Deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Archive app
+        run: |
+          zip -r app.zip . -x .git/** -x infra/** -x node_modules/** -x .github/**
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy Bicep (ensure App Service exists)
+        run: |
+          az deployment group create \
+            --resource-group "${{ secrets.AZURE_RESOURCE_GROUP }}" \
+            --template-file infra/azure/main.bicep \
+            --parameters siteName="${{ secrets.AZURE_WEBAPP_NAME }}" location="${{ secrets.AZURE_LOCATION }}"
+
+      - name: Deploy app via zip
+        run: |
+          az webapp deployment source config-zip \
+            --resource-group "${{ secrets.AZURE_RESOURCE_GROUP }}" \
+            --name "${{ secrets.AZURE_WEBAPP_NAME }}" \
+            --src app.zip
+
+      - name: Post-deploy: show URL
+        run: echo "App deployed: https://${{ secrets.AZURE_WEBAPP_NAME }}.azurewebsites.net"
