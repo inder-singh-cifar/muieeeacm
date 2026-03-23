@@ -22,8 +22,6 @@
                 <nav class="main-nav">
                     <ul class="nav-menu">
                         <li><a href="index.html">Home</a></li>
-                        <li><a href="https://www.monmouth.edu/academics/">Academics</a></li>
-                        <li><a href="https://www.monmouth.edu/department-of-csse/">CSSE Department</a></li>
                         <li><a href="#about">About</a></li>
                         <li><a href="ai-workshops.html">AI Workshops</a></li>
                         <li><a href="events.html">Events</a></li>
@@ -53,19 +51,48 @@
         </div>
     </div>
 
-    <!-- Hero Section -->
+    <!-- Hero Section with Slideshow -->
     <div class="wp-block-mu-hero has-featured-image">
-        <div class="hero-media"><div class="hero-overlay"></div></div>
+        <div class="hero-slideshow">
+            <div class="hero-slide active" style="background-image: url('images/slideshow-group.jpg');"></div>
+            <div class="hero-slide" style="background-image: url('images/slideshow-speaker.jpg');"></div>
+            <div class="hero-slide" style="background-image: url('images/slideshow-networking.jpg');"></div>
+            <div class="hero-slide" style="background-image: url('images/slideshow-research.jpg');"></div>
+            <div class="hero-slide" style="background-image: url('images/slideshow-lab.jpg');"></div>
+            <div class="hero-slide" style="background-image: url('images/slideshow-members.jpg');"></div>
+            <div class="hero-slide" style="background-image: url('images/slideshow-checkin.jpg');"></div>
+            <div class="hero-slide" style="background-image: url('images/slideshow-workshop.jpg');"></div>
+            <div class="hero-slide" style="background-image: url('images/slideshow-team.jpg'); background-position: center 30%;"></div>
+            <div class="hero-slide" style="background-image: url('images/slideshow-coding.jpg');"></div>
+            <div class="hero-slide" style="background-image: url('images/slideshow-organizing.jpg');"></div>
+        </div>
+        <div class="hero-overlay"></div>
         <div class="hero-content-wrapper">
-            <div style="display: flex; align-items: center; justify-content: center; gap: 40px; flex-wrap: wrap;">
-                <img src="images/ieeeacm-logo-transparent.png" alt="IEEE/ACM Monmouth University Logo" style="width: 200px; height: auto;">
-                <div style="text-align: left;">
-                    <h1 class="hero-title" style="margin: 0;">IEEE/ACM Student Chapter</h1>
-                    <div class="hero-text">
-                        <p>Empowering the next generation of engineers and computer scientists through innovation, collaboration, and professional development.</p>
-                    </div>
+            <div class="brackets"></div>
+            <div class="hero-inner">
+                <img src="images/ieeeacm-logo-transparent.png" alt="IEEE/ACM Monmouth University Logo" class="hero-logo">
+                <h1 class="hero-title">Monmouth University<br>IEEE/ACM Chapter</h1>
+                <div class="hero-text">
+                    <p>Empowering the next generation of engineers and computer scientists through innovation, collaboration, and professional development.</p>
+                </div>
+                <div class="hero-buttons">
+                    <a href="#join" class="btn-hero-primary"><i class="fas fa-user-plus"></i> Join Our Chapter</a>
+                    <a href="events.html" class="btn-hero-secondary"><i class="fas fa-calendar-alt"></i> View Events</a>
                 </div>
             </div>
+        </div>
+        <div class="hero-slide-indicators">
+            <button class="slide-indicator active" data-slide="0" aria-label="Slide 1"></button>
+            <button class="slide-indicator" data-slide="1" aria-label="Slide 2"></button>
+            <button class="slide-indicator" data-slide="2" aria-label="Slide 3"></button>
+            <button class="slide-indicator" data-slide="3" aria-label="Slide 4"></button>
+            <button class="slide-indicator" data-slide="4" aria-label="Slide 5"></button>
+            <button class="slide-indicator" data-slide="5" aria-label="Slide 6"></button>
+            <button class="slide-indicator" data-slide="6" aria-label="Slide 7"></button>
+            <button class="slide-indicator" data-slide="7" aria-label="Slide 8"></button>
+            <button class="slide-indicator" data-slide="8" aria-label="Slide 9"></button>
+            <button class="slide-indicator" data-slide="9" aria-label="Slide 10"></button>
+            <button class="slide-indicator" data-slide="10" aria-label="Slide 11"></button>
         </div>
     </div>
 
@@ -78,11 +105,13 @@
                     <nav class="supernav" aria-label="Section Navigation">
                         <ul>
                             <li><a href="#about">About Our Chapter</a></li>
+                            <li><a href="#happenings">Happenings</a></li>
                             <li><a href="#activities">Activities</a></li>
                             <li><a href="ai-workshops.html">AI Workshops</a></li>
                             <li><a href="events.html">Events Calendar</a></li>
                             <li><a href="#events">Upcoming Events</a></li>
                             <li><a href="#team">Leadership Team</a></li>
+                            <li><a href="#team" style="padding-left: 2rem; font-size: 0.9rem;">Committee Chairs</a></li>
                             <li><a href="#join">Join Us</a></li>
                             <li><a href="#give">Support & Give</a></li>
                             <li class="divider"></li>
@@ -107,6 +136,34 @@
                                 <h3>What is ACM?</h3>
                                 <p>The Association for Computing Machinery (ACM) is the world's largest educational and scientific computing society. ACM delivers resources that advance computing as a science and profession, enabling members to be leaders in the field.</p>
                             </div>
+                        </div>
+                    </section>
+
+                    <!-- Happenings Section -->
+                    <section id="happenings" class="content-section">
+                        <h2>Happenings</h2>
+                        <div class="happenings-grid">
+                            <a href="ai-workshops.html" class="happening-card">
+                                <div class="happening-image">
+                                    <img src="images/slideshow-speaker.jpg" alt="Guest speaker presenting ParkShark at IEEE/ACM meeting">
+                                </div>
+                                <h3>Guest Speaker: ParkShark</h3>
+                                <p>Andrew McGovern, Co-Founder & CEO, presents to IEEE/ACM members about revolutionizing the commuter parking experience.</p>
+                            </a>
+                            <a href="events.html" class="happening-card">
+                                <div class="happening-image">
+                                    <img src="images/slideshow-networking.jpg" alt="Students networking at IEEE/ACM event">
+                                </div>
+                                <h3>Networking & Community</h3>
+                                <p>Members connect with peers and industry professionals at our chapter events and mixers.</p>
+                            </a>
+                            <a href="events.html" class="happening-card">
+                                <div class="happening-image">
+                                    <img src="images/slideshow-lab.jpg" alt="Student in computer lab giving thumbs up">
+                                </div>
+                                <h3>Hands-On Learning</h3>
+                                <p>Students gain real-world experience through workshops, coding sessions, and collaborative projects.</p>
+                            </a>
                         </div>
                     </section>
 
@@ -298,6 +355,35 @@
                                 <p class="team-contact"><i class="fas fa-envelope"></i> <a href="mailto:s1369554@monmouth.edu">s1369554@monmouth.edu</a></p>
                             </div>
                         </div>
+
+                        <h3 style="margin-top: 2.5rem; margin-bottom: 1.5rem; color: var(--monmouth-blue); font-family: 'Crimson Text', Georgia, serif; font-size: 1.6rem; border-bottom: 2px solid var(--monmouth-orange); padding-bottom: 0.5rem;">Committee Chairs</h3>
+                        <div class="team-grid team-grid-chairs">
+                            <div class="team-card">
+                                <div class="team-photo-placeholder"><i class="fas fa-calendar-check"></i></div>
+                                <h3>Satvik Dhiman</h3>
+                                <p class="team-role">Events & Programming</p>
+                            </div>
+                            <div class="team-card">
+                                <div class="team-photo-placeholder"><i class="fas fa-bullhorn"></i></div>
+                                <h3>Melissa Blanc Doblas</h3>
+                                <p class="team-role">Marketing & Media</p>
+                            </div>
+                            <div class="team-card">
+                                <div class="team-photo-placeholder"><i class="fas fa-handshake"></i></div>
+                                <h3>George Khalil</h3>
+                                <p class="team-role">Outreach & Ambassadors</p>
+                            </div>
+                            <div class="team-card">
+                                <div class="team-photo-placeholder"><i class="fas fa-chart-line"></i></div>
+                                <h3>Lynda Levy</h3>
+                                <p class="team-role">Finance & Sponsorship</p>
+                            </div>
+                            <div class="team-card">
+                                <div class="team-photo-placeholder"><i class="fas fa-university"></i></div>
+                                <h3>Daniel-John Diala</h3>
+                                <p class="team-role">University & External Relations</p>
+                            </div>
+                        </div>
                     </section>
 
                     <!-- Join Section -->
@@ -420,7 +506,9 @@
                         (function() {
                             var STORAGE_KEY = 'ieeeacm_fundraise';
                             var CAMPAIGN_END = new Date('2026-04-28T23:59:59-04:00');
-                            var defaults = { raised: 62, donors: 2, goal: 5000 };
+                            var defaults = { raised: 234, donors: 5, goal: 5000 };
+                            var currentData = null;
+                            var hasAnimated = false;
 
                             function load() {
                                 try {
@@ -434,31 +522,116 @@
                                 localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
                             }
 
-                            function render() {
-                                var data = load();
-                                var pct = Math.min(100, Math.round((data.raised / data.goal) * 100));
-                                var daysLeft = Math.max(0, Math.ceil((CAMPAIGN_END - Date.now()) / 86400000));
-
-                                document.getElementById('fpRaised').textContent = '$' + data.raised.toLocaleString();
-                                document.getElementById('fpDonors').textContent = data.donors.toLocaleString();
-                                document.getElementById('fpGoal').textContent = '$' + data.goal.toLocaleString();
-                                document.getElementById('fpDaysLeft').textContent = daysLeft;
-                                document.getElementById('fpPercent').textContent = pct + '%';
-
-                                var bar = document.getElementById('fpBarFill');
-                                // Animate the bar after a short delay
-                                setTimeout(function() {
-                                    bar.style.width = pct + '%';
-                                }, 200);
+                            function formatNumber(n) {
+                                return n.toLocaleString();
                             }
 
-                            render();
+                            function animateCount(el, target, duration, prefix, suffix) {
+                                prefix = prefix || '';
+                                suffix = suffix || '';
+                                var start = 0;
+                                var startTime = null;
+
+                                function step(timestamp) {
+                                    if (!startTime) startTime = timestamp;
+                                    var progress = Math.min((timestamp - startTime) / duration, 1);
+                                    // Ease-out curve for a satisfying deceleration
+                                    var eased = 1 - Math.pow(1 - progress, 3);
+                                    var current = Math.round(eased * target);
+                                    el.textContent = prefix + formatNumber(current) + suffix;
+                                    if (progress < 1) {
+                                        requestAnimationFrame(step);
+                                    }
+                                }
+
+                                el.textContent = prefix + '0' + suffix;
+                                requestAnimationFrame(step);
+                            }
+
+                            function animateBar(bar, targetPct, duration) {
+                                bar.style.width = '0%';
+                                var startTime = null;
+                                function step(timestamp) {
+                                    if (!startTime) startTime = timestamp;
+                                    var progress = Math.min((timestamp - startTime) / duration, 1);
+                                    var eased = 1 - Math.pow(1 - progress, 3);
+                                    bar.style.width = (eased * targetPct) + '%';
+                                    if (progress < 1) requestAnimationFrame(step);
+                                }
+                                requestAnimationFrame(step);
+                            }
+
+                            function renderData(data, animate) {
+                                currentData = data;
+                                var pct = Math.min(100, Math.round((data.raised / data.goal) * 100));
+                                var daysLeft = Math.max(0, Math.ceil((CAMPAIGN_END - Date.now()) / 86400000));
+                                var bar = document.getElementById('fpBarFill');
+
+                                if (animate) {
+                                    var duration = 1800;
+                                    animateCount(document.getElementById('fpRaised'), data.raised, duration, '$');
+                                    animateCount(document.getElementById('fpDonors'), data.donors, duration);
+                                    animateCount(document.getElementById('fpGoal'), data.goal, duration, '$');
+                                    animateCount(document.getElementById('fpDaysLeft'), daysLeft, duration);
+                                    animateCount(document.getElementById('fpPercent'), pct, duration, '', '%');
+                                    animateBar(bar, pct, duration);
+                                } else {
+                                    document.getElementById('fpRaised').textContent = '$' + formatNumber(data.raised);
+                                    document.getElementById('fpDonors').textContent = formatNumber(data.donors);
+                                    document.getElementById('fpGoal').textContent = '$' + formatNumber(data.goal);
+                                    document.getElementById('fpDaysLeft').textContent = daysLeft;
+                                    document.getElementById('fpPercent').textContent = pct + '%';
+                                    bar.style.width = pct + '%';
+                                }
+                            }
+
+                            // Initially show zeros — animation will fill them in
+                            document.getElementById('fpRaised').textContent = '$0';
+                            document.getElementById('fpDonors').textContent = '0';
+                            document.getElementById('fpGoal').textContent = '$0';
+                            document.getElementById('fpDaysLeft').textContent = '0';
+                            document.getElementById('fpPercent').textContent = '0%';
+                            document.getElementById('fpBarFill').style.width = '0%';
+
+                            // Load data (show zeros until scroll triggers animation)
+                            currentData = load();
+
+                            // Intersection Observer — animate when section scrolls into view
+                            var container = document.getElementById('fundraiseProgress');
+                            var observer = new IntersectionObserver(function(entries) {
+                                entries.forEach(function(entry) {
+                                    if (entry.isIntersecting && !hasAnimated && currentData) {
+                                        hasAnimated = true;
+                                        renderData(currentData, true);
+                                    }
+                                });
+                            }, { threshold: 0.2 });
+                            observer.observe(container);
+
+                            // Fetch live stats from server (scrapes campaign page)
+                            function fetchLiveStats() {
+                                fetch('/api/fundraise-stats')
+                                    .then(function(r) { return r.json(); })
+                                    .then(function(data) {
+                                        if (data.success && data.raised != null) {
+                                            var stats = { raised: data.raised, donors: data.donors, goal: data.goal };
+                                            save(stats);
+                                            currentData = stats;
+                                            // If already visible, update immediately (no re-animation)
+                                            if (hasAnimated) renderData(stats, false);
+                                        }
+                                    })
+                                    .catch(function() { /* use cached data */ });
+                            }
+
+                            fetchLiveStats();
+                            // Refresh every 10 minutes
+                            setInterval(fetchLiveStats, 10 * 60 * 1000);
 
                             // Admin button - show when admin toggle exists and is checked
                             var adminBtn = document.getElementById('fpAdminBtn');
                             var overlay = document.getElementById('fundraiseAdminOverlay');
 
-                            // Check periodically if admin mode is active (simple approach for main page)
                             setInterval(function() {
                                 var adminToggle = document.getElementById('adminToggle');
                                 if (adminToggle && adminToggle.checked) {
@@ -490,7 +663,7 @@
                                 var goal = parseInt(document.getElementById('fpEditGoal').value) || 5000;
                                 save({ raised: raised, donors: donors, goal: goal });
                                 overlay.classList.remove('active');
-                                render();
+                                renderData({ raised: raised, donors: donors, goal: goal });
                             });
                         })();
                         </script>
@@ -670,5 +843,48 @@
 
     <script src="js/monmouth-ai-workshops-v2.js"></script>
     <script src="js/chatbot.js"></script>
+    <script>
+    // Hero Slideshow
+    (function() {
+        var slides = document.querySelectorAll('.hero-slide');
+        var indicators = document.querySelectorAll('.slide-indicator');
+        if (!slides.length) return;
+
+        var current = 0;
+        var total = slides.length;
+        var interval = 5000;
+        var timer;
+
+        function goTo(index) {
+            slides[current].classList.remove('active');
+            indicators[current].classList.remove('active');
+            current = (index + total) % total;
+            slides[current].classList.add('active');
+            indicators[current].classList.add('active');
+        }
+
+        function next() {
+            goTo(current + 1);
+        }
+
+        function startAutoplay() {
+            timer = setInterval(next, interval);
+        }
+
+        function resetAutoplay() {
+            clearInterval(timer);
+            startAutoplay();
+        }
+
+        indicators.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                goTo(parseInt(this.dataset.slide));
+                resetAutoplay();
+            });
+        });
+
+        startAutoplay();
+    })();
+    </script>
 </body>
 </html>

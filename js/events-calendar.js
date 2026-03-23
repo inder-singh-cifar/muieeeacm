@@ -888,9 +888,11 @@
                 const id = btn.dataset.id;
                 const cat = categories.find(c => c.id === id);
                 const inUse = events.some(e => e.category === cat.name);
-                if (inUse) {
-                    if (!confirm('"' + cat.name + '" is used by existing events. Events will keep their category label but it won\'t appear in filters. Continue?')) return;
-                }
+                const msg = inUse
+                    ? '"' + cat.name + '" is used by existing events. Events will keep their category label but it won\'t appear in filters.'
+                    : 'Are you sure you want to remove the "' + cat.name + '" category?';
+                const ok = await showDeleteConfirm('Remove Category', msg, { icon: 'tags', buttonText: 'Remove', mode: 'warning' });
+                if (!ok) return;
                 await deleteCategory(id);
             });
         });
@@ -1161,6 +1163,48 @@
         return event.recurrence && event.recurrence.type !== 'once';
     }
 
+    // ---------- Delete Confirmation Modal ----------
+
+    function showDeleteConfirm(title, message, opts) {
+        opts = opts || {};
+        return new Promise((resolve) => {
+            const overlay = document.getElementById('deleteConfirmModal');
+            const titleEl = document.getElementById('deleteConfirmTitle');
+            const msgEl = document.getElementById('deleteConfirmMessage');
+            const iconWrap = document.getElementById('deleteConfirmIcon');
+            const cancelBtn = document.getElementById('deleteConfirmCancel');
+            const okBtn = document.getElementById('deleteConfirmOk');
+
+            titleEl.textContent = title;
+            msgEl.textContent = message;
+            iconWrap.innerHTML = '<i class="fas fa-' + (opts.icon || 'trash-alt') + '"></i>';
+            okBtn.textContent = opts.buttonText || 'Delete';
+
+            // Apply mode class for different color schemes
+            var box = overlay.querySelector('.delete-confirm-box');
+            box.classList.toggle('mode-warning', opts.mode === 'warning');
+            iconWrap.classList.toggle('mode-warning', opts.mode === 'warning');
+            okBtn.classList.toggle('mode-warning', opts.mode === 'warning');
+
+            overlay.classList.add('active');
+
+            function cleanup() {
+                overlay.classList.remove('active');
+                cancelBtn.removeEventListener('click', onCancel);
+                okBtn.removeEventListener('click', onConfirm);
+                overlay.removeEventListener('click', onOverlay);
+            }
+
+            function onConfirm() { cleanup(); resolve(true); }
+            function onCancel() { cleanup(); resolve(false); }
+            function onOverlay(e) { if (e.target === overlay) { cleanup(); resolve(false); } }
+
+            cancelBtn.addEventListener('click', onCancel);
+            okBtn.addEventListener('click', onConfirm);
+            overlay.addEventListener('click', onOverlay);
+        });
+    }
+
     // ---------- Delete Logic ----------
 
     async function handleDelete() {
@@ -1168,7 +1212,8 @@
         const { event, date } = selectedEvent;
 
         if (!isRecurring(event)) {
-            if (!confirm('Delete "' + event.title + '"?')) return;
+            const ok = await showDeleteConfirm('Delete Event', 'Are you sure you want to delete "' + event.title + '"? This action cannot be undone.');
+            if (!ok) return;
             deleteEventAll(event.id);
             return;
         }

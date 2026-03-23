@@ -1,13 +1,9 @@
 /**
  * IEEE/ACM AI Assistant Widget
- * Powered by Google Gemini AI (Free API)
+ * Powered by Groq AI (via server proxy)
  */
 
-// Configuration - ADD YOUR GEMINI API KEY
 const ASSISTANT_CONFIG = {
-    // Get your free API key from: https://makersuite.google.com/app/apikey
-    geminiApiKey: 'AIzaSyB_nreDQ851JbjiM4vuaSl61Vv9QOkTj4g',
-
     botName: 'IEEE/ACM Assistant',
     welcomeMessage: 'Hi! I\'m the IEEE/ACM assistant. Ask me about our chapter, events, membership, or anything tech-related!',
     placeholderText: 'Ask me anything...',
@@ -22,41 +18,71 @@ RESPONSE RULES:
 - Never write paragraphs longer than 3 sentences.
 - When listing events, show: title, date/day, time, and location.
 - Be friendly and conversational, not formal.
+- If you don't know something, say so honestly rather than guessing.
 
 Chapter Info:
 - IEEE: Institute of Electrical and Electronics Engineers - world's largest technical professional organization
 - ACM: Association for Computing Machinery - world's largest computing society
-- This is a student chapter at Monmouth University
+- This is a student chapter at Monmouth University, Department of Computer Science & Software Engineering (CSSE)
+- Located in Howard Hall, Room 221, Monmouth University, West Long Branch, NJ 07764
 - President: Kiumbura Githinji (s1358017@monmouth.edu)
-- Vice President: Miriam Abecasis
-- Treasurer: Lynda Levy
-- Secretary: Anna Pitera
+- Vice President: Miriam Abecasis (s1354404@monmouth.edu)
+- Treasurer: Lynda Levy (s1354589@monmouth.edu)
+- Secretary: Anna Pitera (s1369554@monmouth.edu)
+
+Committee Chairs:
+- Events & Programming: Satvik Dhiman
+- Marketing & Media: Melissa Blanc Doblas
+- Outreach & Ambassadors: George Khalil
+- Finance & Sponsorship: Lynda Levy
+- University & External Relations: Daniel-John Diala
+
+AI Workshops & Research Lab:
+- The AI Research Lab is an IEEE/ACM chapter initiative
+- AI Lab Coordinator: Kiumbura Githinji
+- Faculty Advisor: Dr. Ling Zheng (lzheng@monmouth.edu), Department Chair of CSSE
+- Co-Investigator: Dr. Weihao Qu (wqu@monmouth.edu) — leads the research study "Improving Efficiency in Higher Education through Customized AI Training"
+- Research Areas: Machine Learning, Natural Language Processing (NLP), Computer Vision, Robotics & AI
+- Active Projects:
+  * UleAIrn — AI-powered personalized learning platform (https://www.uleairn.com/)
+  * Gamified Learning with AI — integrating game mechanics with AI for interactive education
+  * Hawk Hack — Monmouth University's annual hackathon
+- Workshop series: "AI Site Lab: Your Portfolio Your Way" — hands-on workshop to build portfolio websites using AI tools
+- Workshop PDF slides available on the AI Workshops page
+- Resources include: FileZilla Cheat Sheet, PyTorch, TensorFlow, Scikit-learn tutorials
+- Online course recommendations: Coursera Machine Learning, Fast.ai, DeepLearning.AI
 
 Activities:
 - AI Workshops & Research (machine learning, NLP, computer vision)
 - Technical workshops (Python, web development, cybersecurity)
-- Guest speakers from industry
-- Networking, career development, resume reviews
+- Guest speakers from industry (e.g., ParkShark CEO Andrew McGovern)
+- Networking events, career development, resume reviews
 - Hackathons and programming competitions
 
-Membership Benefits:
-- IEEE and ACM digital library access
-- Professional development resources
-- Networking with industry leaders
-- Scholarship and leadership opportunities
+Membership:
+- Open to ALL Monmouth University students — no prior experience required
+- Benefits: IEEE/ACM digital library access, professional development resources, networking with industry leaders, scholarship and leadership opportunities, career fair and internship opportunities
+- Join at: https://forms.office.com/r/qm0mq5jU4W
 
 Support & Give:
 - The chapter has a crowdfunding campaign to re-establish official IEEE and ACM affiliation
 - Goal: $5,000 | Deadline: April 28, 2026
+- Monmouth Giving Days: March 24-25, 2026 (donate $33+ for custom MU socks)
 - Donations support: official chapter status fees, professional speakers, workshops, networking events, and digital library access
 - Donate at: https://fly.monmouth.edu/project/49605
-- Every gift helps pave the way for student success in tech
+- Giving Day page: https://givingday.monmouth.edu/giving-day/111077/set/8321
+
+Website Pages:
+- Home: index.html
+- AI Workshops & Research: ai-workshops.html
+- Events Calendar: events.html (full interactive calendar with admin mode)
+- Instagram: https://www.instagram.com/monmouth_ieeeacm/
 
 Contact:
-- Email: s1358017@monmouth.edu
-- Instagram: @monmouth_ieeeacm
-- Join: https://forms.office.com/r/qm0mq5jU4W
-- Events Calendar: events.html`
+- Email: s1358017@monmouth.edu (Kiumbura Githinji, President)
+- Faculty: lzheng@monmouth.edu (Dr. Ling Zheng, CSSE Department Chair)
+- Phone: (732) 571-3400 (Monmouth University)
+- Instagram: @monmouth_ieeeacm`
 };
 
 function buildEventsContext() {
@@ -594,7 +620,7 @@ class IEEEACMAssistant {
                 <div class="assistant-messages" id="assistant-messages"></div>
 
                 <div class="assistant-powered-by">
-                    Powered by Google Gemini AI
+                    Powered by Llama AI
                 </div>
 
                 <div class="assistant-input-container">
@@ -716,12 +742,6 @@ class IEEEACMAssistant {
 
         if (!message) return;
 
-        // Check if API key is configured
-        if (ASSISTANT_CONFIG.geminiApiKey === 'YOUR_GEMINI_API_KEY_HERE') {
-            this.showError('Please configure your Gemini API key in chatbot.js');
-            return;
-        }
-
         // Disable input while processing
         input.disabled = true;
         sendBtn.disabled = true;
@@ -730,10 +750,10 @@ class IEEEACMAssistant {
         this.addMessage(message, 'user');
         input.value = '';
 
-        // Add to conversation history
+        // Add to conversation history (Claude format: role user/assistant)
         this.conversationHistory.push({
             role: 'user',
-            parts: [{ text: message }]
+            content: message
         });
 
         // Show typing indicator
@@ -743,34 +763,22 @@ class IEEEACMAssistant {
         this.systemContext = ASSISTANT_CONFIG.systemContextBase + buildEventsContext();
 
         try {
-            // Call Gemini API
-            const response = await fetch(
-                `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${ASSISTANT_CONFIG.geminiApiKey}`,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        contents: [
-                            {
-                                role: 'user',
-                                parts: [{ text: this.systemContext }]
-                            },
-                            ...this.conversationHistory
-                        ],
-                        generationConfig: {
-                            temperature: 0.7,
-                            topK: 40,
-                            topP: 0.95,
-                            maxOutputTokens: 500,
-                        }
-                    })
-                }
-            );
+            // Call server proxy (which calls Claude API)
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    systemContext: this.systemContext,
+                    messages: this.conversationHistory
+                })
+            });
 
             if (!response.ok) {
-                throw new Error(`API error: ${response.status}`);
+                const errBody = await response.json().catch(() => ({}));
+                console.error('Chat API error:', response.status, errBody);
+                throw new Error(errBody?.message || 'API error');
             }
 
             const data = await response.json();
@@ -778,15 +786,13 @@ class IEEEACMAssistant {
             // Hide typing indicator
             this.hideTyping();
 
-            // Extract and display response
-            if (data.candidates && data.candidates[0] && data.candidates[0].content) {
-                const botReply = data.candidates[0].content.parts[0].text;
-                this.addMessage(botReply, 'bot');
+            if (data.success && data.reply) {
+                this.addMessage(data.reply, 'bot');
 
                 // Add to conversation history
                 this.conversationHistory.push({
-                    role: 'model',
-                    parts: [{ text: botReply }]
+                    role: 'assistant',
+                    content: data.reply
                 });
 
                 // Keep conversation history manageable (last 10 exchanges)

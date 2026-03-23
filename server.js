@@ -1,6 +1,8 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
+const Groq = require('groq-sdk');
 const fs = require('fs').promises;
 const path = require('path');
 
@@ -204,7 +206,106 @@ async function sendConfirmationEmail(registration) {
     }
 }
 
+// Fundraising stats cache (scrape at most every 10 minutes)
+let fundraiseCache = { data: null, fetchedAt: 0 };
+const FUNDRAISE_URL = 'https://fly.monmouth.edu/project/49605/wall';
+const FUNDRAISE_CACHE_MS = 10 * 60 * 1000; // 10 minutes
+
+async function scrapeFundraiseStats() {
+    const now = Date.now();
+    if (fundraiseCache.data && (now - fundraiseCache.fetchedAt) < FUNDRAISE_CACHE_MS) {
+        return fundraiseCache.data;
+    }
+
+    try {
+        const res = await fetch(FUNDRAISE_URL);
+        const html = await res.text();
+
+        // Extract amount raised: look for dollar amount like "$234"
+        const raisedMatch = html.match(/\$([0-9,]+)\s*<\/?\w[^>]*>\s*(?:<[^>]*>\s*)*\d+%/s)
+            || html.match(/\$([0-9,]+)/);
+        const raised = raisedMatch ? parseInt(raisedMatch[1].replace(/,/g, '')) : null;
+
+        // Extract percentage
+        const pctMatch = html.match(/(\d+)%/);
+        const percent = pctMatch ? parseInt(pctMatch[1]) : null;
+
+        // Extract donors count
+        const donorsMatch = html.match(/(\d+)\s*Donor/i);
+        const donors = donorsMatch ? parseInt(donorsMatch[1]) : null;
+
+        // Extract goal
+        const goalMatch = html.match(/\$([0-9,]+)\s*Goal/i);
+        const goal = goalMatch ? parseInt(goalMatch[1].replace(/,/g, '')) : 5000;
+
+        if (raised !== null) {
+            fundraiseCache.data = { raised, donors: donors || 0, goal, percent: percent || 0 };
+            fundraiseCache.fetchedAt = now;
+        }
+
+        return fundraiseCache.data || { raised: 0, donors: 0, goal: 5000, percent: 0 };
+    } catch (error) {
+        console.error('Fundraise scrape error:', error.message);
+        return fundraiseCache.data || { raised: 0, donors: 0, goal: 5000, percent: 0 };
+    }
+}
+
+// Groq AI client
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+
 // API Routes
+
+// AI Chat proxy endpoint
+app.post('/api/chat', async (req, res) => {
+    try {
+        const { systemContext, messages } = req.body;
+
+        if (!messages || !Array.isArray(messages) || messages.length === 0) {
+            return res.status(400).json({
+                success: false,
+                message: 'Messages array is required'
+            });
+        }
+
+        if (!process.env.GROQ_API_KEY) {
+            console.error('GROQ_API_KEY is not set');
+            return res.status(500).json({
+                success: false,
+                message: 'AI service is not configured'
+            });
+        }
+
+        const response = await groq.chat.completions.create({
+            model: 'llama-3.1-8b-instant',
+            max_tokens: 500,
+            messages: [
+                { role: 'system', content: systemContext || '' },
+                ...messages
+            ]
+        });
+
+        const reply = response.choices[0].message.content;
+        res.json({ success: true, reply });
+
+    } catch (error) {
+        console.error('Groq API error:', error.message);
+        res.status(500).json({
+            success: false,
+            message: 'AI service error. Please try again.'
+        });
+    }
+});
+
+// Live fundraising stats endpoint
+app.get('/api/fundraise-stats', async (req, res) => {
+    try {
+        const stats = await scrapeFundraiseStats();
+        res.json({ success: true, ...stats });
+    } catch (error) {
+        console.error('Fundraise stats error:', error.message);
+        res.status(500).json({ success: false, message: 'Failed to fetch stats' });
+    }
+});
 
 // Register for workshop
 app.post('/api/register', async (req, res) => {
