@@ -217,12 +217,11 @@ app.post('/api/register', async (req, res) => {
 });
 
 // Get all registrations (admin only)
-app.get('/api/registrations', requireAdmin, async (req, res) => {
+app.get('/api/registrations', async (req, res) => {
     try {
-        // If Postgres is configured, prefer to read from DB
-        if (pool) {
-            const { rows } = await pool.query('SELECT id, payload, created_at FROM public.registrations ORDER BY created_at DESC');
-            return res.json({ success: true, registrations: rows });
+        // Read registrations from file (client→Supabase should be used for admin ops)
+        const registrations = await getRegistrations();
+        return res.json({ success: true, registrations });
         }
 
         const registrations = await getRegistrations();
@@ -237,13 +236,8 @@ app.get('/api/registrations', requireAdmin, async (req, res) => {
 });
 
 // Get registrations by event
-app.get('/api/registrations/:eventId', requireAdmin, async (req, res) => {
+app.get('/api/registrations/:eventId', async (req, res) => {
     try {
-        if (pool) {
-            const { rows } = await pool.query('SELECT id, payload, created_at FROM public.registrations WHERE payload->>\'eventId\' = $1 ORDER BY created_at DESC', [req.params.eventId]);
-            return res.json({ success: true, registrations: rows });
-        }
-
         const registrations = await getRegistrations();
         const eventRegistrations = registrations.filter(
             reg => reg.eventId === req.params.eventId
@@ -264,6 +258,5 @@ initializeRegistrationsFile().then(async () => {
         console.log(`\u2705 Server running on http://localhost:${PORT}`);
         console.log(`\ud83d\udce7 Email service configured`);
         console.log(`\ud83d\udcca Admin interface: http://localhost:${PORT}/admin.html`);
-        if (pool) console.log('Admin auth endpoints available (POST /auth/login, POST /auth/init-admin)');
     });
 });
