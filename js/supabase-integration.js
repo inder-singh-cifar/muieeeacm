@@ -1,10 +1,31 @@
 (function(){
   // Minimal Supabase client integration for seeding events into existing calendar app.
-  if (!window.SUPABASE_URL || !window.SUPABASE_ANON_KEY) return;
+  // Normalize runtime placeholders and fail gracefully with helpful logs.
+  let _url = (window.SUPABASE_URL || '').trim();
+  let _anon = (window.SUPABASE_ANON_KEY || '').trim();
 
-  // Create client if UMD 'supabase' is available
-  if (window.supabase) {
-    try { window.supabaseClient = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY); } catch(e) { console.error('supabase client create failed', e); }
+  if (!_url || !_anon) {
+    console.warn('supabase-integration: SUPABASE_URL or SUPABASE_ANON_KEY not set; skipping Supabase initialization.');
+  } else {
+    // Ensure protocol and strip trailing slashes
+    if (!/^https?:\/\//i.test(_url)) _url = 'https://' + _url;
+    _url = _url.replace(/\/+$/,'');
+
+    // Validate URL
+    try { new URL(_url); } catch (e) {
+      console.error('supabase client create failed: invalid SUPABASE_URL ->', _url);
+    }
+
+    // Persist normalized values back to window so the rest of the script can use them
+    window.SUPABASE_URL = _url;
+    window.SUPABASE_ANON_KEY = _anon;
+
+    // Create client if UMD 'supabase' is available
+    if (window.supabase) {
+      try { window.supabaseClient = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY); console.log('supabase client created'); } catch(e) { console.error('supabase client create failed', e); }
+    } else {
+      console.warn('supabase-integration: supabase UMD not found; ensure the supabase script is loaded before this integration script.');
+    }
   }
 
   async function fetchAndSeed(accessToken) {
