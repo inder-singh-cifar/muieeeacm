@@ -4,7 +4,7 @@
   // Publishable key: sb_publishable_yfQJ8i1XldTUePghSPobeQ_V9UhqGO
   try {
     window.SUPABASE_URL = 'https://enpjddbytfqykqywaqcc.supabase.co';
-    window.SUPABASE_ANON_KEY = 'sb_publishable_yfQJ8i1XldTUePghSPobeQ_V9UhqGO';
+    window.SUPABASE_ANON_KEY = 'sb_publishable_yfQJ8i1XldTUePghSPobeQ_V9UhqGOs';
   } catch(e) { /* ignore in non-browser contexts */ }
 
   // Minimal Supabase client integration for seeding events into existing calendar app.
