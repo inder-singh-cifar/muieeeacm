@@ -3,7 +3,7 @@
   // Supplied by user: https://enpjddbytfqykqywaqcc.supabase.co
   // Publishable key: sb_publishable_yfQJ8i1XldTUePghSPobeQ_V9UhqGO
   try {
-    window.SUPABASE_URL = 'https://enpjddbytfqykqywaqcc.supabase.cos';
+    window.SUPABASE_URL = 'https://enpjddbytfqykqywaqcc.supabase.co';
     window.SUPABASE_ANON_KEY = 'sb_publishable_yfQJ8i1XldTUePghSPobeQ_V9UhqGO';
   } catch(e) { /* ignore in non-browser contexts */ }
 
