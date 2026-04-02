@@ -3,9 +3,14 @@
   // Supplied by user: https://enpjddbytfqykqywaqcc.supabase.co
   // Publishable key: sb_publishable_yfQJ8i1XldTUePghSPobeQ_V9UhqGOs
   try {
+<<<<<<< HEAD
     // Only set defaults if hosting hasn't already provided them (index.html sets these on deploy)
     if (!window.SUPABASE_URL) window.SUPABASE_URL = 'https://enpjddbytfqykqywaqcc.supabase.co';
     if (!window.SUPABASE_ANON_KEY) window.SUPABASE_ANON_KEY = 'sb_publishable_yfQJ8i1XldTUePghSPobeQ_V9UhqGOs';
+=======
+    window.SUPABASE_URL = 'https://enpjddbytfqykqywaqcc.supabase.co';
+    window.SUPABASE_ANON_KEY = 'sb_publishable_yfQJ8i1XldTUePghSPobeQ_V9UhqGOs';
+>>>>>>> origin/main
   } catch(e) { /* ignore in non-browser contexts */ }
 
   // Minimal Supabase client integration for seeding events into existing calendar app.
