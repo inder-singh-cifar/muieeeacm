@@ -1539,9 +1539,8 @@
         // Admin toggle
         dom.adminToggle.addEventListener('change', async () => {
             if (dom.adminToggle.checked) {
-                const ok = await promptAdminPassword();
-                if (ok) {
-                    setAdminMode(true);
+                if (typeof window.openAdminLoginModal === 'function') {
+                    window.openAdminLoginModal();
                 } else {
                     dom.adminToggle.checked = false;
                 }
