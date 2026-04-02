@@ -792,27 +792,109 @@
 
     function promptAdminPassword() {
         return new Promise((resolve) => {
+            const useSupabase = !!(window.supabaseClient && window.supabaseClient.auth);
+            const emailInput = document.getElementById('adminEmailInput');
+
             dom.adminPasswordModal.classList.add('active');
             dom.adminPasswordInput.value = '';
             dom.adminError.style.display = 'none';
-            dom.adminPasswordInput.focus();
+            dom.adminError.textContent = 'Incorrect password. Please try again.';
+
+            // Show/hide email field based on auth mode
+            if (emailInput) {
+                emailInput.style.display = useSupabase ? '' : 'none';
+                emailInput.value = '';
+            }
+
+            if (useSupabase && emailInput) {
+                emailInput.focus();
+            } else {
+                dom.adminPasswordInput.focus();
+            }
 
             function cleanup() {
                 dom.adminPasswordModal.classList.remove('active');
                 dom.adminPasswordSubmit.removeEventListener('click', onSubmit);
                 dom.adminPasswordCancel.removeEventListener('click', onCancel);
                 dom.adminPasswordInput.removeEventListener('keydown', onKey);
+                if (emailInput) emailInput.removeEventListener('keydown', onKey);
             }
 
             async function onSubmit() {
-                const hash = await sha256(dom.adminPasswordInput.value);
-                if (hash === ADMIN_HASH) {
-                    cleanup();
-                    resolve(true);
+                if (useSupabase) {
+                    // --- Supabase auth flow ---
+                    const email = emailInput ? emailInput.value.trim() : '';
+                    const password = dom.adminPasswordInput.value;
+
+                    if (!email || !password) {
+                        dom.adminError.textContent = 'Enter email and password.';
+                        dom.adminError.style.display = 'block';
+                        return;
+                    }
+
+                    dom.adminPasswordSubmit.disabled = true;
+                    try {
+                        const res = await window.supabaseClient.auth.signInWithPassword({ email, password });
+                        if (res.error) {
+                            dom.adminError.textContent = res.error.message || 'Sign-in failed.';
+                            dom.adminError.style.display = 'block';
+                            dom.adminPasswordInput.value = '';
+                            dom.adminPasswordInput.focus();
+                            dom.adminPasswordSubmit.disabled = false;
+                            return;
+                        }
+
+                        // Check if user is in the admins table
+                        const uid = res.data.user && res.data.user.id;
+                        const token = res.data.session && res.data.session.access_token;
+                        if (uid && token) {
+                            const adminUrl = window.SUPABASE_URL.replace(/\/+$/, '') +
+                                '/rest/v1/admins?select=user_id&user_id=eq.' + uid;
+                            const adminResp = await fetch(adminUrl, {
+                                headers: {
+                                    'apikey': window.SUPABASE_ANON_KEY,
+                                    'Authorization': 'Bearer ' + token
+                                }
+                            });
+                            if (adminResp.ok) {
+                                const arr = await adminResp.json();
+                                if (!arr || !arr.length) {
+                                    // Signed in but not an admin
+                                    dom.adminError.textContent = 'You are not an admin.';
+                                    dom.adminError.style.display = 'block';
+                                    await window.supabaseClient.auth.signOut();
+                                    dom.adminPasswordSubmit.disabled = false;
+                                    return;
+                                }
+                            } else {
+                                dom.adminError.textContent = 'Could not verify admin status.';
+                                dom.adminError.style.display = 'block';
+                                await window.supabaseClient.auth.signOut();
+                                dom.adminPasswordSubmit.disabled = false;
+                                return;
+                            }
+                        }
+
+                        dom.adminPasswordSubmit.disabled = false;
+                        cleanup();
+                        resolve(true);
+                    } catch (e) {
+                        console.error('Supabase admin auth error', e);
+                        dom.adminError.textContent = 'Sign-in failed. Try again.';
+                        dom.adminError.style.display = 'block';
+                        dom.adminPasswordSubmit.disabled = false;
+                    }
                 } else {
-                    dom.adminError.style.display = 'block';
-                    dom.adminPasswordInput.value = '';
-                    dom.adminPasswordInput.focus();
+                    // --- Fallback: SHA256 hash check ---
+                    const hash = await sha256(dom.adminPasswordInput.value);
+                    if (hash === ADMIN_HASH) {
+                        cleanup();
+                        resolve(true);
+                    } else {
+                        dom.adminError.style.display = 'block';
+                        dom.adminPasswordInput.value = '';
+                        dom.adminPasswordInput.focus();
+                    }
                 }
             }
 
@@ -829,6 +911,7 @@
             dom.adminPasswordSubmit.addEventListener('click', onSubmit);
             dom.adminPasswordCancel.addEventListener('click', onCancel);
             dom.adminPasswordInput.addEventListener('keydown', onKey);
+            if (emailInput) emailInput.addEventListener('keydown', onKey);
         });
     }
 
@@ -844,6 +927,9 @@
             showToast('Admin mode disabled', 'info');
         }
     }
+
+    // Expose setAdminMode so supabase-integration.js can auto-restore admin sessions
+    window.setAdminMode = setAdminMode;
 
     // ---------- Category Manager ----------
 
@@ -1539,12 +1625,17 @@
         // Admin toggle
         dom.adminToggle.addEventListener('change', async () => {
             if (dom.adminToggle.checked) {
-                if (typeof window.openAdminLoginModal === 'function') {
-                    window.openAdminLoginModal();
+                const granted = await promptAdminPassword();
+                if (granted) {
+                    setAdminMode(true);
                 } else {
                     dom.adminToggle.checked = false;
                 }
             } else {
+                // Sign out of Supabase if active
+                if (window.supabaseClient && window.supabaseClient.auth) {
+                    try { await window.supabaseClient.auth.signOut(); } catch (e) { /* ignore */ }
+                }
                 setAdminMode(false);
             }
         });

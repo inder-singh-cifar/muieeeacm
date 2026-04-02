@@ -83,11 +83,10 @@
     } catch (e) { return { error: e.message || String(e) }; }
   };
 
-  // If admin password modal exists, add an email input above the password field so users can sign in with Supabase credentials.
+  // Inject email input into admin password modal for Supabase auth
   document.addEventListener('DOMContentLoaded', function() {
     const adminModal = document.getElementById('adminPasswordModal');
     if (adminModal) {
-      const box = adminModal.querySelector('.admin-password-box');
       const pw = document.getElementById('adminPasswordInput');
       if (pw && !document.getElementById('adminEmailInput')) {
         const emailInput = document.createElement('input');
@@ -97,61 +96,34 @@
         emailInput.style.marginBottom = '0.5rem';
         pw.parentNode.insertBefore(emailInput, pw);
       }
-
-      const submitBtn = document.getElementById('adminPasswordSubmit');
-      if (submitBtn) {
-        submitBtn.addEventListener('click', async function onClick(e) {
-          if (!window.supabaseClient) return; // fallback to existing behaviour
-          const emailEl = document.getElementById('adminEmailInput');
-          const email = emailEl ? emailEl.value.trim() : '';
-          const pwEl = document.getElementById('adminPasswordInput');
-          const password = pwEl ? pwEl.value : '';
-          if (!email || !password) {
-            const err = document.getElementById('adminError'); if (err) { err.style.display = 'block'; err.textContent = 'Enter email and password.'; }
-            return;
-          }
-          submitBtn.disabled = true;
-          const res = await window.supabaseSignIn(email, password);
-          submitBtn.disabled = false;
-          if (res.error) {
-            const err = document.getElementById('adminError'); if (err) { err.style.display = 'block'; err.textContent = 'Sign-in failed.'; }
-            console.error('supabase sign-in error', res.error);
-            return;
-          }
-          // success: close modal, mark admin UI on page
-          try { adminModal.classList.remove('active'); } catch(e){}
-          try { document.getElementById('adminToggle').checked = true; } catch(e){}
-          localStorage.setItem('ieeeacm_is_admin','true');
-          try {
-            const adminBar = document.getElementById('adminBar'); if (adminBar) adminBar.classList.add('admin-active');
-            const adminActions = document.getElementById('adminActions'); if (adminActions) adminActions.style.display = 'flex';
-          } catch(e){}
-          if (typeof showToast === 'function') showToast('Signed in (Supabase). Admin mode enabled.', 'success');
-        });
-      }
     }
 
-    // If a session already exists, seed silently
-    (async function() {
+    // If a Supabase session already exists, auto-restore admin mode.
+    // Use a short delay to ensure events-calendar.js has exposed window.setAdminMode.
+    setTimeout(async function() {
       try {
         if (!window.supabaseClient || !window.supabaseClient.auth) return;
         const { data } = await window.supabaseClient.auth.getSession();
         const session = data && data.session;
         if (session && session.access_token) {
-          await fetchAndSeed(session.access_token);
-          // check admin
-          try {
-            const uid = session.user && session.user.id;
-            if (uid) {
-              const adminUrl = window.SUPABASE_URL.replace(/\/+$/,'') + '/rest/v1/admins?select=user_id&user_id=eq.' + uid;
-              const adminResp = await fetch(adminUrl, { headers: { 'apikey': window.SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + session.access_token } });
-              if (adminResp.ok) {
-                const arr = await adminResp.json(); if (arr && arr.length) localStorage.setItem('ieeeacm_is_admin','true');
+          const uid = session.user && session.user.id;
+          if (uid) {
+            const adminUrl = window.SUPABASE_URL.replace(/\/+$/,'') + '/rest/v1/admins?select=user_id&user_id=eq.' + uid;
+            const adminResp = await fetch(adminUrl, {
+              headers: { 'apikey': window.SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + session.access_token }
+            });
+            if (adminResp.ok) {
+              const arr = await adminResp.json();
+              if (arr && arr.length) {
+                // Auto-enable admin mode if user has an active admin session
+                const toggle = document.getElementById('adminToggle');
+                if (toggle) toggle.checked = true;
+                if (typeof window.setAdminMode === 'function') window.setAdminMode(true);
               }
             }
-          } catch(e){}
+          }
         }
       } catch(e) { console.error('supabase session check failed', e); }
-    })();
+    }, 0);
   });
 })();
