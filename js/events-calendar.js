@@ -793,26 +793,79 @@
     function promptAdminPassword() {
         return new Promise((resolve) => {
             dom.adminPasswordModal.classList.add('active');
+            const emailInput = document.getElementById('adminEmailInput');
+            if (emailInput) emailInput.value = '';
             dom.adminPasswordInput.value = '';
             dom.adminError.style.display = 'none';
-            dom.adminPasswordInput.focus();
+            if (emailInput) emailInput.focus();
+            else dom.adminPasswordInput.focus();
 
             function cleanup() {
                 dom.adminPasswordModal.classList.remove('active');
                 dom.adminPasswordSubmit.removeEventListener('click', onSubmit);
                 dom.adminPasswordCancel.removeEventListener('click', onCancel);
                 dom.adminPasswordInput.removeEventListener('keydown', onKey);
+                if (emailInput) emailInput.removeEventListener('keydown', onKey);
             }
 
             async function onSubmit() {
-                const hash = await sha256(dom.adminPasswordInput.value);
-                if (hash === ADMIN_HASH) {
-                    cleanup();
-                    resolve(true);
-                } else {
+                const email = emailInput ? emailInput.value.trim() : '';
+                const password = dom.adminPasswordInput.value;
+
+                if (!email) {
+                    dom.adminError.textContent = 'Email is required.';
+                    dom.adminError.style.display = 'block';
+                    if (emailInput) emailInput.focus();
+                    return;
+                }
+
+                if (!password) {
+                    dom.adminError.textContent = 'Password is required.';
+                    dom.adminError.style.display = 'block';
+                    dom.adminPasswordInput.focus();
+                    return;
+                }
+
+                if (typeof window.supabaseSignIn !== 'function') {
+                    dom.adminError.textContent = 'Admin sign-in is unavailable.';
+                    dom.adminError.style.display = 'block';
+                    return;
+                }
+
+                dom.adminPasswordSubmit.disabled = true;
+                dom.adminError.style.display = 'none';
+
+                try {
+                    const res = await window.supabaseSignIn(email, password);
+                    const hasSession = !!(res && res.data && res.data.session);
+                    const isAdmin = localStorage.getItem('ieeeacm_is_admin') === 'true';
+
+                    if (res && !res.error && hasSession && isAdmin) {
+                        dom.adminError.textContent = '';
+                        cleanup();
+                        resolve(true);
+                        return;
+                    }
+
+                    if (hasSession && !isAdmin && window.supabaseClient && window.supabaseClient.auth) {
+                        try { await window.supabaseClient.auth.signOut(); } catch (e) {}
+                        localStorage.removeItem('ieeeacm_is_admin');
+                        dom.adminError.textContent = 'You do not have admin access.';
+                    } else {
+                        const msg = (res && (res.error && (res.error.message || res.error) || res.message)) || 'Sign-in failed.';
+                        dom.adminError.textContent = String(msg);
+                    }
+
                     dom.adminError.style.display = 'block';
                     dom.adminPasswordInput.value = '';
                     dom.adminPasswordInput.focus();
+                } catch (err) {
+                    dom.adminError.textContent = err && err.message ? err.message : 'Sign-in failed.';
+                    dom.adminError.style.display = 'block';
+                    dom.adminPasswordInput.value = '';
+                    dom.adminPasswordInput.focus();
+                } finally {
+                    dom.adminPasswordSubmit.disabled = false;
                 }
             }
 
@@ -829,6 +882,7 @@
             dom.adminPasswordSubmit.addEventListener('click', onSubmit);
             dom.adminPasswordCancel.addEventListener('click', onCancel);
             dom.adminPasswordInput.addEventListener('keydown', onKey);
+            if (emailInput) emailInput.addEventListener('keydown', onKey);
         });
     }
 
