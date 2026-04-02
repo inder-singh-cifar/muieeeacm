@@ -1,7 +1,7 @@
 (function(){
   // TEMPORARY: Hard-coded Supabase publishable key and URL for testing (remove before production)
   // Supplied by user: https://enpjddbytfqykqywaqcc.supabase.co
-  // Publishable key: sb_publishable_yfQJ8i1XldTUePghSPobeQ_V9UhqGOs
+  // Publishable key: sb_publishable_yfQJ8i1XldTUePghSPobeQ_V9UhqGO
   try {
     window.SUPABASE_URL = 'https://enpjddbytfqykqywaqcc.supabase.co';
     window.SUPABASE_ANON_KEY = 'sb_publishable_yfQJ8i1XldTUePghSPobeQ_V9UhqGOs';
@@ -53,15 +53,8 @@
       localStorage.setItem('ieeeacm_categories', JSON.stringify(cats));
 
       localStorage.setItem('ieeeacm_seeded', 'true');
-      // Avoid an infinite reload loop: only reload once per browser session
-      try {
-        if (!sessionStorage.getItem('ieeeacm_reloaded_once')) {
-          sessionStorage.setItem('ieeeacm_reloaded_once', '1');
-          location.reload();
-        } else {
-          console.log('supabase-integration: already reloaded once this session; skipping additional reload.');
-        }
-      } catch(e) { console.log('reload failed', e); }
+      // reload to let the calendar app load from localStorage
+      try { location.reload(); } catch(e) { console.log('reload failed', e); }
     } catch (e) {
       console.error('supabase fetchAndSeed error', e);
     }
@@ -90,11 +83,11 @@
     } catch (e) { return { error: e.message || String(e) }; }
   };
 
-  // If admin password modal exists, add an email input above the password field for Supabase login.
-  // The click handling remains owned by the original page script.
+  // If admin password modal exists, add an email input above the password field so users can sign in with Supabase credentials.
   document.addEventListener('DOMContentLoaded', function() {
     const adminModal = document.getElementById('adminPasswordModal');
     if (adminModal) {
+      const box = adminModal.querySelector('.admin-password-box');
       const pw = document.getElementById('adminPasswordInput');
       if (pw && !document.getElementById('adminEmailInput')) {
         const emailInput = document.createElement('input');
@@ -103,6 +96,38 @@
         emailInput.placeholder = 'Admin email';
         emailInput.style.marginBottom = '0.5rem';
         pw.parentNode.insertBefore(emailInput, pw);
+      }
+
+      const submitBtn = document.getElementById('adminPasswordSubmit');
+      if (submitBtn) {
+        submitBtn.addEventListener('click', async function onClick(e) {
+          if (!window.supabaseClient) return; // fallback to existing behaviour
+          const emailEl = document.getElementById('adminEmailInput');
+          const email = emailEl ? emailEl.value.trim() : '';
+          const pwEl = document.getElementById('adminPasswordInput');
+          const password = pwEl ? pwEl.value : '';
+          if (!email || !password) {
+            const err = document.getElementById('adminError'); if (err) { err.style.display = 'block'; err.textContent = 'Enter email and password.'; }
+            return;
+          }
+          submitBtn.disabled = true;
+          const res = await window.supabaseSignIn(email, password);
+          submitBtn.disabled = false;
+          if (res.error) {
+            const err = document.getElementById('adminError'); if (err) { err.style.display = 'block'; err.textContent = 'Sign-in failed.'; }
+            console.error('supabase sign-in error', res.error);
+            return;
+          }
+          // success: close modal, mark admin UI on page
+          try { adminModal.classList.remove('active'); } catch(e){}
+          try { document.getElementById('adminToggle').checked = true; } catch(e){}
+          localStorage.setItem('ieeeacm_is_admin','true');
+          try {
+            const adminBar = document.getElementById('adminBar'); if (adminBar) adminBar.classList.add('admin-active');
+            const adminActions = document.getElementById('adminActions'); if (adminActions) adminActions.style.display = 'flex';
+          } catch(e){}
+          if (typeof showToast === 'function') showToast('Signed in (Supabase). Admin mode enabled.', 'success');
+        });
       }
     }
 

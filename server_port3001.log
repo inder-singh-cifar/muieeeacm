@@ -1,6 +1,0 @@
-Admins table ready
-Registrations table ready
-✅ Server running on http://localhost:3001
-📧 Email service configured
-📊 Admin interface: http://localhost:3001/admin.html
-Admin auth endpoints available (POST /auth/login, POST /auth/init-admin)
