@@ -83,20 +83,7 @@
     } catch (e) { return { error: e.message || String(e) }; }
   };
 
-  // Inject email input into admin password modal for Supabase auth
   document.addEventListener('DOMContentLoaded', function() {
-    const adminModal = document.getElementById('adminPasswordModal');
-    if (adminModal) {
-      const pw = document.getElementById('adminPasswordInput');
-      if (pw && !document.getElementById('adminEmailInput')) {
-        const emailInput = document.createElement('input');
-        emailInput.type = 'email';
-        emailInput.id = 'adminEmailInput';
-        emailInput.placeholder = 'Admin email';
-        emailInput.style.marginBottom = '0.5rem';
-        pw.parentNode.insertBefore(emailInput, pw);
-      }
-    }
 
     // If a Supabase session already exists, auto-restore admin mode.
     // Use a short delay to ensure events-calendar.js has exposed window.setAdminMode.

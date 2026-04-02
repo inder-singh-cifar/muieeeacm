@@ -792,49 +792,38 @@
 
     function promptAdminPassword() {
         return new Promise((resolve) => {
-            const useSupabase = !!(window.supabaseClient && window.supabaseClient.auth);
-            const emailInput = document.getElementById('adminEmailInput');
+            const useSupabase = !!(window.supabaseClient && window.supabaseClient.auth && window.ADMIN_EMAIL);
 
             dom.adminPasswordModal.classList.add('active');
             dom.adminPasswordInput.value = '';
             dom.adminError.style.display = 'none';
             dom.adminError.textContent = 'Incorrect password. Please try again.';
-
-            // Show/hide email field based on auth mode
-            if (emailInput) {
-                emailInput.style.display = useSupabase ? '' : 'none';
-                emailInput.value = '';
-            }
-
-            if (useSupabase && emailInput) {
-                emailInput.focus();
-            } else {
-                dom.adminPasswordInput.focus();
-            }
+            dom.adminPasswordInput.focus();
 
             function cleanup() {
                 dom.adminPasswordModal.classList.remove('active');
                 dom.adminPasswordSubmit.removeEventListener('click', onSubmit);
                 dom.adminPasswordCancel.removeEventListener('click', onCancel);
                 dom.adminPasswordInput.removeEventListener('keydown', onKey);
-                if (emailInput) emailInput.removeEventListener('keydown', onKey);
             }
 
             async function onSubmit() {
+                const password = dom.adminPasswordInput.value;
+
+                if (!password) {
+                    dom.adminError.textContent = 'Enter the admin password.';
+                    dom.adminError.style.display = 'block';
+                    return;
+                }
+
                 if (useSupabase) {
-                    // --- Supabase auth flow ---
-                    const email = emailInput ? emailInput.value.trim() : '';
-                    const password = dom.adminPasswordInput.value;
-
-                    if (!email || !password) {
-                        dom.adminError.textContent = 'Enter email and password.';
-                        dom.adminError.style.display = 'block';
-                        return;
-                    }
-
+                    // --- Supabase auth flow (email embedded) ---
                     dom.adminPasswordSubmit.disabled = true;
                     try {
-                        const res = await window.supabaseClient.auth.signInWithPassword({ email, password });
+                        const res = await window.supabaseClient.auth.signInWithPassword({
+                            email: window.ADMIN_EMAIL,
+                            password: password
+                        });
                         if (res.error) {
                             dom.adminError.textContent = res.error.message || 'Sign-in failed.';
                             dom.adminError.style.display = 'block';
@@ -859,7 +848,6 @@
                             if (adminResp.ok) {
                                 const arr = await adminResp.json();
                                 if (!arr || !arr.length) {
-                                    // Signed in but not an admin
                                     dom.adminError.textContent = 'You are not an admin.';
                                     dom.adminError.style.display = 'block';
                                     await window.supabaseClient.auth.signOut();
@@ -886,7 +874,7 @@
                     }
                 } else {
                     // --- Fallback: SHA256 hash check ---
-                    const hash = await sha256(dom.adminPasswordInput.value);
+                    const hash = await sha256(password);
                     if (hash === ADMIN_HASH) {
                         cleanup();
                         resolve(true);
@@ -911,7 +899,6 @@
             dom.adminPasswordSubmit.addEventListener('click', onSubmit);
             dom.adminPasswordCancel.addEventListener('click', onCancel);
             dom.adminPasswordInput.addEventListener('keydown', onKey);
-            if (emailInput) emailInput.addEventListener('keydown', onKey);
         });
     }
 
