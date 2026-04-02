@@ -1121,7 +1121,68 @@
         return { title, description, category, location, startTime, endTime, recurrence };
     }
 
-    // ---------- API Calls ----------
+    // ---------- Supabase Helpers ----------
+
+    function supabaseHeaders() {
+        const h = { 'apikey': window.SUPABASE_ANON_KEY, 'Content-Type': 'application/json' };
+        if (window.supabaseClient && window.supabaseClient.auth) {
+            try {
+                // Use the current session token if available
+                const session = window.supabaseClient.auth.session && window.supabaseClient.auth.session();
+                const token = session && session.access_token;
+                if (token) h['Authorization'] = 'Bearer ' + token;
+            } catch (e) { /* ignore */ }
+        }
+        return h;
+    }
+
+    async function getSupabaseToken() {
+        if (!window.supabaseClient || !window.supabaseClient.auth) return null;
+        try {
+            const { data } = await window.supabaseClient.auth.getSession();
+            return data && data.session && data.session.access_token;
+        } catch (e) { return null; }
+    }
+
+    function supabaseRestUrl(path) {
+        return window.SUPABASE_URL.replace(/\/+$/, '') + '/rest/v1/' + path;
+    }
+
+    // Convert a Supabase row to the calendar event format
+    function rowToEvent(row) {
+        return {
+            id: row.id,
+            title: row.title,
+            description: row.description || '',
+            location: row.location || '',
+            category: row.category || 'Meeting',
+            startTime: row.start_time_local || '',
+            endTime: row.end_time_local || '',
+            recurrence: row.recurrence || { type: 'once' },
+            excludedDates: row.excluded_dates || [],
+            createdAt: row.created_at,
+            updatedAt: row.updated_at
+        };
+    }
+
+    // Convert a calendar event to a Supabase row
+    function eventToRow(evt) {
+        return {
+            title: evt.title,
+            description: evt.description || '',
+            location: evt.location || '',
+            category: evt.category || 'Meeting',
+            start_time_local: evt.startTime || '',
+            end_time_local: evt.endTime || '',
+            recurrence: evt.recurrence || { type: 'once' },
+            excluded_dates: evt.excludedDates || [],
+            is_published: true
+        };
+    }
+
+    function hasSupabase() {
+        return !!(window.supabaseClient && window.SUPABASE_URL && window.SUPABASE_ANON_KEY);
+    }
 
     // ---------- localStorage Persistence ----------
 
@@ -1135,16 +1196,43 @@
     }
 
     async function loadEvents() {
+        // Try loading from Supabase first
+        if (hasSupabase()) {
+            try {
+                const token = await getSupabaseToken();
+                const headers = { 'apikey': window.SUPABASE_ANON_KEY, 'Content-Type': 'application/json' };
+                if (token) headers['Authorization'] = 'Bearer ' + token;
+
+                const resp = await fetch(supabaseRestUrl('events?select=*&order=created_at.desc'), { headers });
+                if (resp.ok) {
+                    const rows = await resp.json();
+                    if (rows && rows.length > 0) {
+                        events = rows.map(rowToEvent);
+                        // Derive categories from events
+                        const catNames = [...new Set(events.map(e => e.category || 'Meeting'))];
+                        categories = catNames.map(name => {
+                            const existing = DEFAULT_CATEGORIES.find(c => c.name.toLowerCase() === name.toLowerCase());
+                            return existing || { id: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'), name, color: DEFAULT_COLOR };
+                        });
+                        saveToStorage();
+                        render();
+                        return;
+                    }
+                }
+            } catch (e) {
+                console.warn('Failed to load events from Supabase, falling back to local:', e);
+            }
+        }
+
+        // Fallback: localStorage or static seed
         const seeded = localStorage.getItem(STORAGE_KEY_SEEDED);
         const storedEvents = localStorage.getItem(STORAGE_KEY_EVENTS);
         const storedCategories = localStorage.getItem(STORAGE_KEY_CATEGORIES);
 
         if (seeded && storedEvents) {
-            // Load from localStorage
             events = JSON.parse(storedEvents) || [];
             categories = JSON.parse(storedCategories) || [];
         } else {
-            // First visit: seed from events.json then save to localStorage
             await seedFromStatic();
             localStorage.setItem(STORAGE_KEY_SEEDED, 'true');
             saveToStorage();
@@ -1305,6 +1393,7 @@
 
     function deleteEventAll(id) {
         events = events.filter(e => e.id !== id);
+        supabaseDeleteEvent(id);
         saveToStorage();
         showToast('All occurrences deleted.', 'success');
         render();
@@ -1315,6 +1404,7 @@
         const dateStr = toDateString(date);
         if (!event.excludedDates) event.excludedDates = [];
         event.excludedDates.push(dateStr);
+        supabaseUpdateEvent(event.id, event);
         saveToStorage();
         showToast('This occurrence deleted.', 'success');
         render();
@@ -1339,6 +1429,7 @@
         if (event.excludedDates) {
             event.excludedDates = event.excludedDates.filter(d => d <= newEndDate);
         }
+        supabaseUpdateEvent(event.id, event);
         saveToStorage();
         showToast('This and following occurrences deleted.', 'success');
         render();
@@ -1395,6 +1486,58 @@
         updateRecurrenceFields();
     }
 
+    // --- Supabase CRUD helpers (called when admin is signed in) ---
+
+    async function supabaseInsertEvent(eventData) {
+        if (!hasSupabase() || !isAdmin) return null;
+        try {
+            const token = await getSupabaseToken();
+            if (!token) return null;
+            const row = eventToRow(eventData);
+            const resp = await fetch(supabaseRestUrl('events'), {
+                method: 'POST',
+                headers: { 'apikey': window.SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
+                body: JSON.stringify(row)
+            });
+            if (resp.ok) {
+                const arr = await resp.json();
+                return arr && arr[0] ? arr[0].id : null;
+            }
+            console.error('Supabase insert failed:', resp.status, await resp.text());
+        } catch (e) { console.error('Supabase insert error:', e); }
+        return null;
+    }
+
+    async function supabaseUpdateEvent(id, eventData) {
+        if (!hasSupabase() || !isAdmin) return;
+        try {
+            const token = await getSupabaseToken();
+            if (!token) return;
+            const row = eventToRow(eventData);
+            row.updated_at = new Date().toISOString();
+            if (eventData.excludedDates) row.excluded_dates = eventData.excludedDates;
+            await fetch(supabaseRestUrl('events?id=eq.' + id), {
+                method: 'PATCH',
+                headers: { 'apikey': window.SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+                body: JSON.stringify(row)
+            });
+        } catch (e) { console.error('Supabase update error:', e); }
+    }
+
+    async function supabaseDeleteEvent(id) {
+        if (!hasSupabase() || !isAdmin) return;
+        try {
+            const token = await getSupabaseToken();
+            if (!token) return;
+            await fetch(supabaseRestUrl('events?id=eq.' + id), {
+                method: 'DELETE',
+                headers: { 'apikey': window.SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' }
+            });
+        } catch (e) { console.error('Supabase delete error:', e); }
+    }
+
+    // --- End Supabase CRUD ---
+
     async function saveEvent(eventData) {
         const id = dom.editEventId.value;
         const now = new Date().toISOString();
@@ -1403,17 +1546,20 @@
         const singleSource = dom.editEventId.dataset.editSingleSource;
         const singleDate = dom.editEventId.dataset.editSingleDate;
         if (singleSource && singleDate) {
-            // Exclude this date from the original recurring event
             const original = events.find(e => e.id === singleSource);
             if (original) {
                 if (!original.excludedDates) original.excludedDates = [];
                 original.excludedDates.push(singleDate);
+                supabaseUpdateEvent(singleSource, original);
             }
-            // Create a new one-off event
             eventData.id = 'evt-' + Date.now();
             eventData.createdAt = now;
             eventData.updatedAt = now;
             events.push(eventData);
+
+            // Insert new one-off event to Supabase
+            const newId = await supabaseInsertEvent(eventData);
+            if (newId) eventData.id = newId;
 
             delete dom.editEventId.dataset.editSingleSource;
             delete dom.editEventId.dataset.editSingleDate;
@@ -1430,27 +1576,29 @@
         const followingSource = dom.editEventId.dataset.editFollowingSource;
         const followingDate = dom.editEventId.dataset.editFollowingDate;
         if (followingSource && followingDate) {
-            // End the original event before this date
             const original = events.find(e => e.id === followingSource);
             if (original && original.recurrence) {
                 const prev = new Date(followingDate + 'T00:00:00');
                 prev.setDate(prev.getDate() - 1);
                 const newEnd = toDateString(prev);
                 if (newEnd < original.recurrence.startDate) {
-                    // Remove original entirely
                     events = events.filter(e => e.id !== followingSource);
+                    supabaseDeleteEvent(followingSource);
                 } else {
                     original.recurrence.endDate = newEnd;
                     if (original.excludedDates) {
                         original.excludedDates = original.excludedDates.filter(d => d <= newEnd);
                     }
+                    supabaseUpdateEvent(followingSource, original);
                 }
             }
-            // Create the new recurring event from this date forward
             eventData.id = 'evt-' + Date.now();
             eventData.createdAt = now;
             eventData.updatedAt = now;
             events.push(eventData);
+
+            const newId = await supabaseInsertEvent(eventData);
+            if (newId) eventData.id = newId;
 
             delete dom.editEventId.dataset.editFollowingSource;
             delete dom.editEventId.dataset.editFollowingDate;
@@ -1472,11 +1620,13 @@
                 eventData.excludedDates = events[idx].excludedDates || [];
                 events[idx] = { ...events[idx], ...eventData };
             }
+            supabaseUpdateEvent(id, eventData);
             showToast('Event updated!', 'success');
         } else {
-            eventData.id = 'evt-' + Date.now();
             eventData.createdAt = now;
             eventData.updatedAt = now;
+            const newId = await supabaseInsertEvent(eventData);
+            eventData.id = newId || ('evt-' + Date.now());
             events.push(eventData);
             showToast('Event created!', 'success');
         }
@@ -1489,6 +1639,7 @@
 
     async function deleteEvent(id) {
         events = events.filter(e => e.id !== id);
+        supabaseDeleteEvent(id);
         saveToStorage();
         showToast('Event deleted.', 'success');
         render();
