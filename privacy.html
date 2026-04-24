@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy &mdash; gmail-mcp-server</title>
+    <meta name="description" content="Privacy policy for gmail-mcp-server, an OAuth client that connects AI agents to the operator's own Gmail accounts.">
+    <meta name="robots" content="index,follow">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/monmouth-ai-workshops-v2.css">
+    <link rel="icon" type="image/png" href="images/ieeeacm-logo-transparent.png">
+    <style>
+        .privacy-main {
+            max-width: 820px;
+            margin: 3rem auto 4rem;
+            padding: 0 var(--spacing-unit, 1.25rem);
+            line-height: 1.7;
+        }
+        .privacy-main h1 { margin-bottom: 0.25rem; }
+        .privacy-main .subtitle {
+            color: var(--monmouth-gray, #555);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+        .privacy-main h2 {
+            font-size: 1.5rem;
+            margin-top: 2.25rem;
+            margin-bottom: 0.75rem;
+        }
+        .privacy-main ul {
+            margin: 0 0 1.25em 1.5rem;
+        }
+        .privacy-main li { margin-bottom: 0.4em; }
+        .privacy-main .meta {
+            margin-top: 3rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid #e0e0e0;
+            font-size: 0.92rem;
+            color: var(--monmouth-gray, #555);
+        }
+        .privacy-main code {
+            background: #f3f3f3;
+            padding: 0.15em 0.4em;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <main class="privacy-main">
+        <h1>Privacy Policy</h1>
+        <p class="subtitle">For <strong>gmail-mcp-server</strong> &mdash; an OAuth client that connects AI agents to the operator's own Gmail accounts.</p>
+
+        <h2>1. Who this policy applies to</h2>
+        <p>This policy covers <strong>gmail-mcp-server</strong>, a Model Context Protocol (MCP) server operated by Inder Singh. The server is a single-operator tool: the only Gmail accounts it connects to are those authorized directly by the operator via Google OAuth. It is not a product offered to third parties.</p>
+
+        <h2>2. What data we access</h2>
+        <p>When you (the operator) grant gmail-mcp-server access to a Gmail account, Google issues an OAuth refresh token scoped to <code>https://www.googleapis.com/auth/gmail.modify</code>. Using that token, the server may:</p>
+        <ul>
+            <li>Read message metadata, subjects, bodies, and attachments in the authorized account.</li>
+            <li>List and modify labels, mark messages as read/unread, and archive messages.</li>
+            <li>Send new messages and create drafts from the authorized account.</li>
+        </ul>
+        <p>The server does not access contacts, calendar, Drive, photos, or any non-Gmail Google service.</p>
+
+        <h2>3. How we use that data</h2>
+        <p>Access is used exclusively to fulfil tool calls made by AI agents authenticated to the server via Microsoft Entra ID. For example, an agent might call <code>search_emails</code>, <code>read_email</code>, or <code>send_email</code> on behalf of the operator. The server does not analyse, aggregate, profile, or monetise message content.</p>
+
+        <h2>4. How we store data</h2>
+        <ul>
+            <li><strong>OAuth credentials.</strong> Google client_id, client_secret, and refresh tokens are stored as Azure Container Apps secrets (encrypted at rest, not exposed in plaintext environment variables or logs).</li>
+            <li><strong>Message content.</strong> Message data fetched from Gmail is returned to the calling agent for the duration of the tool call and is not persisted by the server. The server keeps no database, cache, or log of message content.</li>
+            <li><strong>Request logs.</strong> The server logs tool-call metadata (timestamp, caller identity, tool name) for diagnostic purposes only. Logs do not contain message content.</li>
+        </ul>
+
+        <h2>5. How we share data</h2>
+        <p>We do not share Gmail data with any third party. Data leaves the server only:</p>
+        <ul>
+            <li>Back to Google (via the Gmail API) when fulfilling a request.</li>
+            <li>To the authenticated AI agent that made the tool call, over a TLS-secured MCP session.</li>
+        </ul>
+
+        <h2>6. How to revoke access</h2>
+        <p>You can revoke the server's access to any Gmail account at any time:</p>
+        <ul>
+            <li>Go to <a href="https://myaccount.google.com/permissions" rel="noopener">myaccount.google.com/permissions</a>.</li>
+            <li>Find <strong>gmail-mcp-server</strong> (or the OAuth client name) under "Third-party apps with account access."</li>
+            <li>Click <strong>Remove Access</strong>.</li>
+        </ul>
+        <p>Revocation takes effect immediately. Any subsequent tool call from the server will fail with an <code>invalid_grant</code> error until the account is re-authorized.</p>
+
+        <h2>7. Security</h2>
+        <p>The server is deployed as a private Azure Container App protected by Entra ID OAuth 2.1 (client-credentials flow with an <code>access_as_agent</code> application role). Each calling agent has its own Entra identity and credentials; there is no shared long-lived password. Credentials and secrets are stored in Azure's managed secret store.</p>
+
+        <h2>8. Children</h2>
+        <p>gmail-mcp-server is not directed at children and is not used by anyone other than the operator.</p>
+
+        <h2>9. Changes to this policy</h2>
+        <p>If this policy changes, the "Last updated" date below will change. Because this server has a single operator, there is no notification mechanism beyond the date.</p>
+
+        <h2>10. Contact</h2>
+        <p>Questions about this policy or the server's data practices can be directed to the operator at <a href="mailto:inder.singh@cifar.tech">inder.singh@cifar.tech</a>.</p>
+
+        <p class="meta"><strong>Last updated:</strong> April 24, 2026</p>
+    </main>
+</body>
+</html>
